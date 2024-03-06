@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+  }
+  header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding: 20px;
+  }
+  .container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    max-width: 80%;
+    max-height: 80vh; /* Adjusts to 80% of the viewport height */
+    border: 3px solid #333; /* Optional: adds a border around the image */
+    border-radius: 10px; /* Optional: rounds the corners of the border */
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Your Name</h1>
+  <p>Phone Number: +1234567890</p>
+</header>
+
+<div class="container">
+  <img src="path/to/your/image.png" alt="Your Portfolio Image">
+</div>
+
+</body>
+</html>
