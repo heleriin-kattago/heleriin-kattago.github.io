@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     font-family: Palatino Linotype, serif;
-    background-color: #502a40; /* Set background color to pink */
+    background-color: #502c57; /* Set background color to pink */
     text-emphasis-color: rgb(86, 86, 164);
   }
   header {
@@ -25,7 +25,7 @@
     transform: translateX(-50%);
     text-align: center;
     padding: 20px;
-    color: white; /* Set text color to white */
+    color: #D6B257; /* Set text color to white */
   }
   .container {
     position: relative; /* Added position: relative */
@@ -35,11 +35,13 @@
     justify-content: center;
   }
   img {
-    max-width: 80%;
-    max-height: 80vh; /* Adjusts to 80% of the viewport height */
+    max-width: 40%; /* Adjusted to 40% */
+    max-height: 40%; /* Adjusted to 40% */
     border: 3px solid #33333300; /* Optional: adds a border around the image */
     border-radius: 10px; /* Optional: rounds the corners of the border */
     animation: spin 10s linear infinite; /* Add animation for spinning */
+    display: block; /* Ensures image is treated as a block element */
+    margin: auto; /* Centers the image horizontally */
   }
   
   @keyframes spin {
@@ -56,8 +58,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
-    color: white;
+    font-size: 12px;
+    color: #D6B257;
     text-align: center;
     cursor: pointer;
   }
@@ -72,7 +74,7 @@
 <header>
   <h1>Heleriin Kattago</h1>
   <h2>hihi:)</h2>
- <p1>Gmail: heleriin.kattago@gmail.com</p1> 
+
 </header>
 
 <div class="container">
