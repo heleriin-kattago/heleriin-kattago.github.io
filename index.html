@@ -28,6 +28,7 @@
     color: white; /* Set text color to white */
   }
   .container {
+    position: relative; /* Added position: relative */
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -49,6 +50,21 @@
       transform: rotate(360deg);
     }
   }
+
+  .sun-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .sun-text:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
@@ -56,13 +72,16 @@
 <header>
   <h1>Heleriin Kattago</h1>
   <h2>hihi:)</h2>
-  <p1>Phone Number: +372 56966300</p1>  <p1>Gmail: heleriin.kattago@gmail.com</p1> 
-  <p2> Behance:https://www.behance.net/helekattago</p2>
+ <p1>Gmail: heleriin.kattago@gmail.com</p1> 
 </header>
 
 <div class="container">
-  <img src="pictures\Sun.png" alt="Your Portfolio Image">
+  <a href="https://www.behance.net/helekattago" target="_blank" rel="noopener noreferrer">
+    <img src="pictures\Sun.png" alt="Your Portfolio Image">
+    <span class="sun-text">Check Me</span>
+  </a>
 </div>
 
 </body>
 </html>
+
