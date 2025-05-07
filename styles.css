@@ -1,12 +1,188 @@
-.sun-spin {
-  animation: spin 10s linear infinite;
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slides-container {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.slide {
+    display: none;
+    height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Slide 1 Styles */
+#slide1 {
+    background-color: #ffffff;
+}
+
+#slide1 h1 {
+    font-size: 4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #222;
+}
+
+#slide1 h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #555;
+}
+
+/* Slide 2 Styles */
+#slide2 {
+    background-color: #f0f0f0;
+}
+
+#slide2 .content {
+    max-width: 600px;
+}
+
+#slide2 .intro {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+#slide2 .email-text {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+    color: #555;
+}
+
+#slide2 .invitation {
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    color: #777;
+}
+
+/* Slide 3 Styles */
+#slide3 {
+    background-color: #e8e8e8;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+}
+
+.skill-item {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Slide 4 Styles */
+#slide4 {
+    background-color: #e0e0e0;
+}
+
+.contact-content {
+    max-width: 600px;
+}
+
+.contact-content h3 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contact-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.contact-content a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.contact-content a:hover {
+    text-decoration: underline;
+}
+
+/* Slide 5 Styles */
+#slide5 {
+    background-color: #d8d8d8;
+}
+
+.closing-content {
+    max-width: 500px;
+}
+
+.closing-content p {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.slide-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.slide-nav button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #999;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slide-nav button:hover {
+    background: #ddd;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #slide1 h1 {
+        font-size: 3rem;
+    }
+    
+    #slide1 h2 {
+        font-size: 2rem;
+    }
+    
+    #slide2 .intro {
+        font-size: 1.5rem;
+    }
 }
