@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heleriin Kattago | Portfolio</title>
-    <link rel="icon" href="favicongreen.png" type="image/png">
+    <!-- Favicon with multiple formats for better browser support -->
+    <link rel="icon" href="pics/favicongreen.png" type="image/png">
+    <link rel="icon" href="pics/favicongreen.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="pics/favicongreen.ico">
+    <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <!-- Cursor style in head -->
+    <style>
+        html {
+            cursor: url('pics/cursor.svg'), auto;
+        }
+        a, button, .project-card, #contact a {
+            cursor: url('pics/cursor.svg'), pointer;
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
 </head>
-{
- cursor: url("pics/cursor.svg"), pointer;
-      }
 <body>
     <!-- Page 1 - Title -->
     <section id="title">
@@ -22,14 +32,14 @@
     <section id="intro">
         <p>Hi! My name is Heleriin and I have an eye for creative solutions.</p>
         <p>My heart beats for art and everything beautiful in this life.</p>
-        <p>Thank you for being here, take a look around</p>
+        <p>Thank you for being here, take a look around.</p>
     </section>
     
     <!-- Page 3 - Projects -->
     <section id="projects">
         <div class="project-grid">
             <a href="#" class="project-card">Drawings & paintings</a>
-            <a href="#" class="project-card">Logos and graphs</a>
+            <a href="#" class="project-card">Logos</a>
             <a href="#" class="project-card">Product and packaging design</a>
             <a href="#" class="project-card">Photography</a>
             <a href="#" class="project-card">More fun stuff</a>
