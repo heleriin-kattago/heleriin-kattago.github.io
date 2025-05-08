@@ -25,69 +25,56 @@
             background-color: var(--white);
             color: var(--dark-green);
             padding: 2rem;
+            text-align: center;
         }
         
         h1 {
             font-size: 64px;
-            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .photo-info {
+            font-size: 24px;
             margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .photo-gallery {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .photo-row {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        
         .photo-item {
-            flex: 1;
-            min-width: 300px;
-            max-width: 400px;
             position: relative;
-            border: 3px solid var(--dark-green);
-            border-radius: 8px;
             overflow: hidden;
         }
         
         .photo-item img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             display: block;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
         }
         
-        .photo-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(16, 26, 4, 0.8);
-            color: var(--white);
-            padding: 1rem;
-            text-align: center;
-            font-size: 18px;
+        .photo-item:hover img {
+            transform: scale(1.03);
         }
         
         .back-link {
-            display: block;
-            margin: 3rem auto 0;
-            text-align: center;
+            display: inline-block;
+            margin-top: 3rem;
             font-size: 24px;
             color: var(--medium-green);
             text-decoration: none;
             border: 2px solid var(--medium-green);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 4px;
-            max-width: 200px;
             transition: all 0.3s ease;
         }
         
@@ -101,70 +88,51 @@
                 font-size: 48px;
             }
             
-            .photo-row {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .photo-item {
-                min-width: 100%;
+            .photo-info {
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
     <h1>Photography</h1>
+    <p class="photo-info">Welcome to my mini photowall! All (except first 2 pictures -taken by Viktoria Kovalenko) are taken by me, I have edited all the pictures, I am also the model on these.</p>
     
     <div class="photo-gallery">
         <!-- First Row -->
-        <div class="photo-row">
-            <div class="photo-item">
-                <img src="photography/scarf.png" alt="Scarf Photo">
-                <div class="photo-caption">I'm the model. Taken by Viktoria Kovalenko, edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/bnw.JPG" alt="Black and White Photo">
-                <div class="photo-caption">I'm the model. Taken by Viktoria Kovalenko, edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/dream.JPG" alt="Dream Photo">
-                <div class="photo-caption">I'm the model. Taken and edited by me</div>
-            </div>
+        <div class="photo-item">
+            <img src="photography/scarf.png" alt="Scarf Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/bnw.JPG" alt="Black and White Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/dream.JPG" alt="Dream Photo">
         </div>
         
         <!-- Second Row -->
-        <div class="photo-row">
-            <div class="photo-item">
-                <img src="photography/concert.JPG" alt="Concert Photo">
-                <div class="photo-caption">Taken and edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/jarv.JPG" alt="Järv Photo">
-                <div class="photo-caption">Taken and edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/tea.JPG" alt="Tea Photo">
-                <div class="photo-caption">Taken and edited by me</div>
-            </div>
+        <div class="photo-item">
+            <img src="photography/concert.JPG" alt="Concert Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/jarv.JPG" alt="Järv Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/tea.JPG" alt="Tea Photo">
         </div>
         
         <!-- Third Row -->
-        <div class="photo-row">
-            <div class="photo-item">
-                <img src="photography/face.JPG" alt="Face Photo">
-                <div class="photo-caption">I'm the model. Taken and edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/theatre.JPG" alt="Theatre Photo">
-                <div class="photo-caption">I'm the model. Taken and edited by me</div>
-            </div>
-            <div class="photo-item">
-                <img src="photography/amsterdam.JPG" alt="Amsterdam Photo">
-                <div class="photo-caption">I'm the model. Taken and edited by me</div>
-            </div>
+        <div class="photo-item">
+            <img src="photography/face.JPG" alt="Face Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/theatre.JPG" alt="Theatre Photo">
+        </div>
+        <div class="photo-item">
+            <img src="photography/amsterdam.JPG" alt="Amsterdam Photo">
         </div>
     </div>
     
-    <a href="index.html" class="back-link">← Back</a>
+    <a href="index.html" class="back-link">← Back to Portfolio</a>
 </body>
 </html>
