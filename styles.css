@@ -8,7 +8,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: url('pictures/cursor.svg'), auto;
+    cursor: url('cursor.svg'), auto;
 }
 
 html {
@@ -21,10 +21,11 @@ body {
     background-color: var(--white);
     color: var(--dark-green);
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
 section {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     padding: 2rem;
     display: flex;
@@ -42,14 +43,14 @@ section {
 
 #title h1 {
     font-family: 'Inknut Antiqua', serif;
-    font-size: 200px;
+    font-size: clamp(80px, 15vw, 200px);
     color: var(--dark-green);
-    margin-bottom: 40px;
+    margin-bottom: 0.5em;
     line-height: 0.9;
 }
 
 #title h2 {
-    font-size: 130px;
+    font-size: clamp(40px, 8vw, 130px);
     color: var(--medium-green);
 }
 
@@ -59,8 +60,8 @@ section {
 }
 
 #intro p {
-    font-size: 40px;
-    margin-bottom: 30px;
+    font-size: clamp(24px, 5vw, 40px);
+    margin-bottom: 1em;
     line-height: 1.3;
 }
 
@@ -68,27 +69,29 @@ section {
 #projects {
     background-color: var(--white);
     justify-content: flex-start;
-    padding-top: 80px;
+    padding-top: 2rem;
 }
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
     max-width: 1200px;
-    margin-top: 80px;
+    padding: 1rem;
 }
 
 .project-card {
-    font-size: 40px;
+    font-size: clamp(20px, 3vw, 32px);
+    color: var(--dark-green);
     border: 3px solid var(--dark-green);
-    padding: 60px 40px;
-    width: 100%;
-    height: 100%;
+    padding: 2rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    text-decoration: none;
+    min-height: 150px;
 }
 
 .project-card:hover {
@@ -103,20 +106,28 @@ section {
 }
 
 #contact h3 {
-    font-size: 64px;
-    margin-bottom: 60px;
+    font-size: clamp(32px, 6vw, 64px);
+    margin-bottom: 1.5rem;
+    text-transform: lowercase;
 }
 
 #contact p {
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
 }
 
 #contact .main-text {
-    font-size: 40px;
+    font-size: clamp(20px, 4vw, 40px);
 }
 
 #contact .small-text {
-    font-size: 24px;
+    font-size: clamp(16px, 3vw, 24px);
+    font-style: italic;
+}
+
+#contact a {
+    color: var(--dark-green);
+    text-decoration: none;
+    font-weight: bold;
 }
 
 /* Page 5 - Footer */
@@ -125,35 +136,28 @@ section {
 }
 
 #footer p {
-    font-size: 40px;
-    margin-bottom: 30px;
+    font-size: clamp(20px, 4vw, 40px);
+    margin-bottom: 0.5em;
     line-height: 1.3;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1200px) {
-    #title h1 { font-size: 150px; }
-    #title h2 { font-size: 100px; }
-    .project-card { font-size: 32px; padding: 40px 30px; }
-}
-
-@media (max-width: 768px) {
-    #title h1 { font-size: 100px; }
-    #title h2 { font-size: 70px; }
-    #intro p { font-size: 32px; margin-bottom: 20px; }
-    .project-grid { grid-template-columns: 1fr; gap: 20px; }
-    .project-card { font-size: 28px; padding: 30px 20px; }
-    #contact h3 { font-size: 48px; }
-    #contact .main-text { font-size: 32px; }
-    #footer p { font-size: 32px; }
-}
-
+/* Mobile-specific adjustments */
 @media (max-width: 480px) {
-    #title h1 { font-size: 80px; }
-    #title h2 { font-size: 50px; }
-    #intro p { font-size: 24px; }
-    #contact h3 { font-size: 36px; }
-    #contact .main-text { font-size: 24px; }
-    #contact .small-text { font-size: 18px; }
-    #footer p { font-size: 24px; }
+    section {
+        padding: 1.5rem;
+    }
+    
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .project-card {
+        min-height: 100px;
+        padding: 1.5rem 1rem;
+    }
+    
+    #intro p {
+        margin-bottom: 0.8em;
+    }
 }
