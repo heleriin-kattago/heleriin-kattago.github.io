@@ -141,7 +141,7 @@ section {
 }
 
 /* Mobile adjustments */
-@media (max-width: 480px) {
+@media (max-width: 460px) {
     section {
         padding: 1.5rem;
     }
