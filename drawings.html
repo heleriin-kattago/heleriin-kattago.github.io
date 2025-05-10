@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heleriin Kattago | Drawings & Paintings</title>
+    <title>Heleriin Kattago | Paintings & Drawings</title>
     <link rel="icon" type="image/png" href="pics/favicongreen.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
@@ -52,22 +52,27 @@
         }
         
         /* Carousel Styles */
-        .main-carousel {
+        .main-carousel, .cards-carousel {
             margin: 3rem auto;
             max-width: 1200px;
-            height: 500px; /* Larger for paintings */
-        }
-        
-        .cards-carousel {
-            margin: 3rem auto;
-            max-width: 1200px;
-            height: 400px; /* Slightly smaller than main */
+            height: 500px;
+            perspective: 1000px; /* For 3D effect */
         }
         
         .carousel-cell {
-            width: 50%;
+            width: 40%;
             height: 100%;
-            margin-right: 30px;
+            margin-right: 20px;
+            opacity: 0.5;
+            filter: blur(3px);
+            transform: scale(0.8) rotateY(45deg);
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-cell.is-selected {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1) rotateY(0deg);
         }
         
         .carousel-cell img {
@@ -84,60 +89,29 @@
             font-size: 18px;
         }
         
-        /* Collage Gallery */
-        .collage-gallery {
+        /* Digital Art Section - Grid Layout */
+        .digital-gallery {
             max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
+            padding: 1rem;
         }
         
-        .collage-row {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        
-        .collage-item {
+        .digital-item {
             display: flex;
             flex-direction: column;
         }
         
-        .collage-item img {
+        .digital-item img {
+            width: 100%;
             height: auto;
-            width: auto;
-            max-height: 100%;
+            max-height: 350px;
+            object-fit: contain;
             display: block;
             border-radius: 4px;
         }
-        
-        /* Specific row layouts */
-        .row-1 {
-            height: 409px;
-        }
-        
-        .row-2 {
-            height: 354px;
-        }
-        
-        .row-3 {
-            height: 305px;
-        }
-        
-        /* Individual image sizing */
-        .mermie { height: 409px; }
-        .vikatigirl { height: 296px; }
-        .lambie { height: 408px; }
-        .fashiongirls { height: 354px; }
-        .guardian { height: 223px; }
-        .fishes { height: 222px; }
-        .birdgirl { height: 358px; }
-        .pixel-art { height: 305px; }
-        .lilbat { height: 305px; }
-        .cup { height: 305px; }
-        .ske { height: 265px; }
         
         .back-link {
             display: inline-block;
@@ -169,22 +143,25 @@
                 font-size: 18px;
             }
             
-            .main-carousel {
+            .main-carousel, .cards-carousel {
                 height: 400px;
             }
             
-            .cards-carousel {
-                height: 300px;
+            .carousel-cell {
+                width: 60%;
+                transform: scale(0.7) rotateY(30deg);
             }
             
-            .collage-row {
-                flex-direction: column;
-                height: auto !important;
+            .carousel-cell.is-selected {
+                transform: scale(1) rotateY(0deg);
             }
             
-            .collage-item img {
-                width: 100%;
-                height: auto !important;
+            .digital-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .digital-item img {
+                max-height: 300px;
             }
         }
     </style>
@@ -198,7 +175,8 @@
         "autoPlay": 3000, 
         "wrapAround": true,
         "prevNextButtons": true,
-        "pageDots": false
+        "pageDots": false,
+        "cellAlign": "center"
     }'>
         <div class="carousel-cell">
             <img src="artwork/paintingB.jpg" alt="Little Bat - Full Painting">
@@ -220,7 +198,8 @@
         "autoPlay": 3500, 
         "wrapAround": true,
         "prevNextButtons": true,
-        "pageDots": false
+        "pageDots": false,
+        "cellAlign": "center"
     }'>
         <div class="carousel-cell">
             <img src="artwork/xmas2024frontcard.png" alt="2024 Christmas Card Front">
@@ -252,52 +231,43 @@
     <div class="section-title">Digital Drawings & Paintings</div>
     <div class="artwork-info">Digital drawings and paintings made in Procreate, 2022-2025</div>
     
-    <div class="collage-gallery">
-        <!-- First Row -->
-        <div class="collage-row row-1">
-            <div class="collage-item">
-                <img src="artwork/mermie.png" alt="" class="mermie">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/vikatigirl.png" alt="" class="vikatigirl">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/lambie.png" alt="" class="lambie">
-            </div>
+    <div class="digital-gallery">
+        <div class="digital-item">
+            <img src="artwork/mermie.png" alt="Mermie">
         </div>
-        
-        <!-- Second Row -->
-        <div class="collage-row row-2">
-            <div class="collage-item">
-                <img src="artwork/fashiongirls.png" alt="" class="fashiongirls">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/guardian.png" alt="" class="guardian">
-                <img src="artwork/fishes.png" alt="" class="fishes">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/birdgirl.png" alt="" class="birdgirl">
-            </div>
+        <div class="digital-item">
+            <img src="artwork/vikatigirl.png" alt="Vikati Girl">
         </div>
-        
-        <!-- Third Row -->
-        <div class="collage-row row-3">
-            <div class="collage-item">
-                <img src="artwork/pixel art.png" alt="" class="pixel-art">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/lilbat.png" alt="" class="lilbat">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/cup.png" alt="" class="cup">
-            </div>
-            <div class="collage-item">
-                <img src="artwork/ske.jpg" alt="" class="ske">
-            </div>
+        <div class="digital-item">
+            <img src="artwork/lambie.png" alt="Lambie">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/fashiongirls.png" alt="Fashion Girls">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/guardian.png" alt="Guardian">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/fishes.png" alt="Fishes">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/birdgirl.png" alt="Bird Girl">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/pixel art.png" alt="Pixel Art">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/lilbat.png" alt="Little Bat">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/cup.png" alt="Cup">
+        </div>
+        <div class="digital-item">
+            <img src="artwork/ske.jpg" alt="Ske">
         </div>
     </div>
     
-    <a href="index.html" class="back-link">Back to</a>
+    <a href="index.html" class="back-link">Back</a>
 
     <!-- Flickity Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
