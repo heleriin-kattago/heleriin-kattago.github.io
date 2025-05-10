@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heleriin Kattago | Drawings & Paintings</title>
+    <link rel="icon" type="image/png" href="pics/favicongreen.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
+    <style>
+        :root {
+            --white: #F6F6F6;
+            --dark-green: #101A04;
+            --medium-green: #536340;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('pics/cursor.svg'), auto;
+        }
+        
+        body {
+            font-family: 'Mansalva', cursive;
+            background-color: var(--white);
+            color: var(--dark-green);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 64px;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            margin: 3rem 0 1rem;
+            text-align: left;
+            padding-left: 1rem;
+            border-left: 4px solid var(--medium-green);
+        }
+        
+        .artwork-info {
+            font-size: 20px;
+            margin: 1rem 0 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        /* Carousel */
+        .carousel {
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        
+        .carousel-cell {
+            width: 100%;
+            margin-right: 20px;
+            text-align: center;
+        }
+        
+        .carousel-cell img {
+            max-height: 70vh;
+            width: auto;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .carousel-caption {
+            margin-top: 0.5rem;
+            font-size: 18px;
+        }
+        
+        /* Gallery Grid */
+        .art-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .art-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .art-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .art-item:hover img {
+            transform: scale(1.03);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            font-size: 24px;
+            color: var(--medium-green);
+            text-decoration: none;
+            border: 2px solid var(--medium-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background-color: var(--medium-green);
+            color: var(--white);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .artwork-info {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Drawings & Paintings</h1>
+    
+    <!-- Oil Paintings Carousel -->
+    <div class="section-title">Oil Paintings</div>
+    <div class="carousel" data-flickity='{ "autoPlay": 3000, "wrapAround": true }'>
+        <div class="carousel-cell">
+            <img src="artwork/paintingB.jpg" alt="Little Bat - Full Painting">
+            <div class="carousel-caption">Little Bat, oil painting 2024</div>
+        </div>
+        <div class="carousel-cell">
+            <img src="artwork/paintingS.jpg" alt="Little Bat - Detail">
+            <div class="carousel-caption">Little Bat, oil painting 2024</div>
+        </div>
+        <div class="carousel-cell">
+            <img src="artwork/Springpainting.png" alt="Spring Painting">
+            <div class="carousel-caption">Spring, acrylic painting, 2025</div>
+        </div>
+    </div>
+    
+    <!-- Christmas Cards Carousel -->
+    <div class="section-title">Christmas Cards</div>
+    <div class="carousel" data-flickity='{ "autoPlay": 3500, "wrapAround": true }'>
+        <div class="carousel-cell">
+            <img src="artwork/xmas2024frontcard.png" alt="2024 Christmas Card Front">
+            <div class="carousel-caption">2024 Christmas Card (Front)</div>
+        </div>
+        <div class="carousel-cell">
+            <img src="artwork/xmas2024backcard.png" alt="2024 Christmas Card Back">
+            <div class="carousel-caption">2024 Christmas Card (Back)</div>
+        </div>
+        <div class="carousel-cell">
+            <img src="artwork/xmasfront2023card.PNG" alt="2023 Christmas Card Front">
+            <div class="carousel-caption">2023 Christmas Card (Front)</div>
+        </div>
+        <div class="carousel-cell">
+            <img src="artwork/xmas2023backcard.PNG" alt="2023 Christmas Card Back">
+            <div class="carousel-caption">2023 Christmas Card (Back)</div>
+        </div>
+    </div>
+    
+    <!-- Digital Art Section -->
+    <div class="section-title">Digital Drawings & Paintings</div>
+    <div class="artwork-info">Digital drawings and paintings made in Procreate, 2022-2024</div>
+    
+    <div class="art-gallery">
+        <div class="art-item">
+            <img src="artwork/mermie.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/birdgirl.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/fashiongirls.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/vikatigirl.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/fishes.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/llibat.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/pixel art.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/sublm helerim.png" alt="">
+        </div>
+        <div class="art-item">
+            <img src="artwork/cards.jpg" alt="">
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-link">← Back to Portfolio</a>
+
+    <!-- Flickity Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
+</body>
+</html>
