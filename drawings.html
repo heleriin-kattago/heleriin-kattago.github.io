@@ -56,7 +56,7 @@
             margin: 3rem auto;
             max-width: 1200px;
             height: 500px;
-            perspective: 1000px; /* For 3D effect */
+            perspective: 1000px;
         }
         
         .carousel-cell {
@@ -89,29 +89,50 @@
             font-size: 18px;
         }
         
-        /* Digital Art Section - Grid Layout */
+        /* Digital Art Section - Collage Layout */
         .digital-gallery {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
             padding: 1rem;
         }
         
         .digital-item {
-            display: flex;
-            flex-direction: column;
+            position: relative;
+            margin: -20px;
         }
         
         .digital-item img {
-            width: 100%;
+            width: 300px;
             height: auto;
-            max-height: 350px;
             object-fit: contain;
             display: block;
             border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--medium-green);
+            background-color: var(--white);
+            padding: 8px;
+            transition: transform 0.3s ease;
         }
+        
+        .digital-item img:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+        }
+        
+        /* Specific image adjustments */
+        .mermie { transform: rotate(-5deg); }
+        .vikatigirl { transform: rotate(3deg); }
+        .lambie { transform: rotate(-2deg); }
+        .fashiongirls { width: 350px; transform: rotate(4deg); }
+        .guardian { width: 120px; transform: rotate(-3deg); } /* Reduced size */
+        .fishes { width: 120px; transform: rotate(5deg); } /* Reduced size */
+        .birdgirl { transform: rotate(-4deg); }
+        .pixel-art { transform: rotate(2deg); }
+        .lilbat { transform: rotate(-3deg); }
+        .cup { transform: rotate(5deg); }
+        .ske { transform: rotate(-2deg); }
         
         .back-link {
             display: inline-block;
@@ -157,12 +178,19 @@
             }
             
             .digital-gallery {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                padding: 0.5rem;
+            }
+            
+            .digital-item {
+                margin: -10px;
             }
             
             .digital-item img {
-                max-height: 300px;
+                width: 150px;
             }
+            
+            .fashiongirls { width: 180px; }
+            .guardian, .fishes { width: 80px; } /* Further reduced for mobile */
         }
     </style>
 </head>
@@ -233,37 +261,37 @@
     
     <div class="digital-gallery">
         <div class="digital-item">
-            <img src="artwork/mermie.png" alt="Mermie">
+            <img src="artwork/mermie.png" alt="Mermie" class="mermie">
         </div>
         <div class="digital-item">
-            <img src="artwork/vikatigirl.png" alt="Vikati Girl">
+            <img src="artwork/vikatigirl.png" alt="Vikati Girl" class="vikatigirl">
         </div>
         <div class="digital-item">
-            <img src="artwork/lambie.png" alt="Lambie">
+            <img src="artwork/lambie.png" alt="Lambie" class="lambie">
         </div>
         <div class="digital-item">
-            <img src="artwork/fashiongirls.png" alt="Fashion Girls">
+            <img src="artwork/fashiongirls.png" alt="Fashion Girls" class="fashiongirls">
         </div>
         <div class="digital-item">
-            <img src="artwork/guardian.png" alt="Guardian">
+            <img src="artwork/guardian.png" alt="Guardian" class="guardian">
         </div>
         <div class="digital-item">
-            <img src="artwork/fishes.png" alt="Fishes">
+            <img src="artwork/fishes.png" alt="Fishes" class="fishes">
         </div>
         <div class="digital-item">
-            <img src="artwork/birdgirl.png" alt="Bird Girl">
+            <img src="artwork/birdgirl.png" alt="Bird Girl" class="birdgirl">
         </div>
         <div class="digital-item">
-            <img src="artwork/pixel art.png" alt="Pixel Art">
+            <img src="artwork/pixel art.png" alt="Pixel Art" class="pixel-art">
         </div>
         <div class="digital-item">
-            <img src="artwork/lilbat.png" alt="Little Bat">
+            <img src="artwork/lilbat.png" alt="Little Bat" class="lilbat">
         </div>
         <div class="digital-item">
-            <img src="artwork/cup.png" alt="Cup">
+            <img src="artwork/cup.png" alt="Cup" class="cup">
         </div>
         <div class="digital-item">
-            <img src="artwork/ske.jpg" alt="Ske">
+            <img src="artwork/ske.jpg" alt="Ske" class="ske">
         </div>
     </div>
     
