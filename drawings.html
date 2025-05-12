@@ -67,6 +67,9 @@
             filter: blur(3px);
             transform: scale(0.8) rotateY(45deg);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .carousel-cell.is-selected {
@@ -77,16 +80,17 @@
         
         .carousel-cell img {
             width: auto;
-            height: 100%;
+            height: 80%; /* Adjusted to leave space for caption */
             max-width: 100%;
             object-fit: contain;
             display: block;
-            margin: 0 auto;
         }
         
         .carousel-caption {
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             font-size: 18px;
+            text-align: center;
+            width: 100%;
         }
         
         /* Digital Art Section - Collage Layout */
@@ -115,6 +119,7 @@
             background-color: var(--white);
             padding: 8px;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
         .digital-item img:hover {
@@ -126,13 +131,44 @@
         .vikatigirl { transform: rotate(3deg); }
         .lambie { transform: rotate(-2deg); }
         .fashiongirls { width: 350px; transform: rotate(4deg); }
-        .guardian { width: 120px; transform: rotate(-3deg); } /* Reduced size */
-        .fishes { width: 120px; transform: rotate(5deg); } /* Reduced size */
+        .guardian { width: 80px; transform: rotate(-3deg); }
+        .fishes { width: 80px; transform: rotate(5deg); }
         .birdgirl { transform: rotate(-4deg); }
         .pixel-art { transform: rotate(2deg); }
         .lilbat { transform: rotate(-3deg); }
         .cup { transform: rotate(5deg); }
         .ske { transform: rotate(-2deg); }
+        
+        /* Modal for Enlarged Image */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--white);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
         
         .back-link {
             display: inline-block;
@@ -177,6 +213,10 @@
                 transform: scale(1) rotateY(0deg);
             }
             
+            .carousel-cell img {
+                height: 70%; /* Adjusted for mobile */
+            }
+            
             .digital-gallery {
                 padding: 0.5rem;
             }
@@ -190,7 +230,7 @@
             }
             
             .fashiongirls { width: 210px; }
-            .guardian, .fishes { width: 50px; } /* Further reduced for mobile */
+            .guardian, .fishes { width: 40px; }
         }
     </style>
 </head>
@@ -198,7 +238,7 @@
     <h1>Drawings & Paintings</h1>
     
     <!-- Oil Paintings Carousel -->
-    <div class="section-title">Oil Paintings</div>
+    <div class="section-title">Paintings</div>
     <div class="main-carousel" data-flickity='{ 
         "autoPlay": 3000, 
         "wrapAround": true,
@@ -288,16 +328,46 @@
             <img src="artwork/lilbat.png" alt="Little Bat" class="lilbat">
         </div>
         <div class="digital-item">
-            <img src="artwork/cup.png" alt="Cup" class="cup">
+            <img src="artwork/Cup.png" alt="Cup" class="cup">
         </div>
         <div class="digital-item">
             <img src="artwork/ske.jpg" alt="Ske" class="ske">
         </div>
     </div>
     
+    <!-- Modal for Enlarged Image -->
+    <div class="modal" id="imageModal">
+        <span class="modal-close" id="modalClose">×</span>
+        <img id="modalImage" src="" alt="Enlarged Image">
+    </div>
+    
     <a href="index.html" class="back-link">Back</a>
 
     <!-- Flickity Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
+    <!-- JavaScript for Modal -->
+    <script>
+        const images = document.querySelectorAll('.digital-item img');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                modalImage.src = image.src;
+                modal.style.display = 'flex';
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
