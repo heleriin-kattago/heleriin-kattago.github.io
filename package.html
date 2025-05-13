@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heleriin Kattago | Package an product designs</title>
+    <link rel="icon" type="image/png" href="pics/favicongreen.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <style>
+        :root {
+            --white: #F6F6F6;
+            --dark-green: #101A04;
+            --medium-green: #536340;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('pics/cursor.svg'), auto;
+        }
+        
+        body {
+            font-family: 'Mansalva', cursive;
+            background-color: var(--white);
+            color: var(--dark-green);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 64px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--medium-green);
+        }
+        
+        .product-gallery {
+            margin-bottom: 4rem;
+        }
+        
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-bottom: 1rem;
+            background-color: var(--white);
+            border: 2px solid var(--medium-green);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .main-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            padding: 20px;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--medium-green) var(--white);
+        }
+        
+        .thumbnail-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-track {
+            background: var(--white);
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background-color: var(--medium-green);
+            border-radius: 3px;
+        }
+        
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            min-width: 100px;
+            background-color: var(--white);
+            border: 2px solid var(--medium-green);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .thumbnail:hover {
+            border-color: var(--dark-green);
+            transform: scale(1.05);
+        }
+        
+        .thumbnail.active {
+            border-color: var(--dark-green);
+            border-width: 3px;
+        }
+        
+        .thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-caption {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px solid var(--medium-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+            color: var(--dark-green);
+            user-select: none;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--medium-green);
+            color: var(--white);
+        }
+        
+        .prev {
+            left: 15px;
+        }
+        
+        .next {
+            right: 15px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            font-size: 24px;
+            color: var(--medium-green);
+            text-decoration: none;
+            border: 2px solid var(--medium-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background-color: var(--medium-green);
+            color: var(--white);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .main-image-container {
+                height: 350px;
+            }
+            
+            .thumbnail {
+                width: 80px;
+                height: 80px;
+                min-width: 80px;
+            }
+            
+            .nav-button {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 36px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 24px;
+                margin: 2rem 0 1rem;
+            }
+            
+            .main-image-container {
+                height: 280px;
+            }
+            
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+                min-width: 70px;
+            }
+            
+            .image-caption {
+                font-size: 16px;
+            }
+            
+            .back-link {
+                font-size: 20px;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Package Designs</h1>
+    
+    <!-- Heart of the Lamb playing cards deck -->
+    <div class="section-title">Heart of the Lamb playing cards deck</div>
+    <div class="product-gallery" id="cards-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="package/cards.jpg" alt="Heart of the Lamb playing cards">
+            <div class="nav-button prev" onclick="prevImage('cards')">❮</div>
+            <div class="nav-button next" onclick="nextImage('cards')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('cards', 0)">
+                <img src="package/cards.jpg" alt="Cards">
+            </div>
+            <div class="thumbnail" onclick="changeImage('cards', 1)">
+                <img src="package/kaardipakk.png" alt="Card Pack">
+            </div>
+            <div class="thumbnail" onclick="changeImage('cards', 2)">
+                <img src="package/cardsblender.png" alt="Cards Blender">
+            </div>
+        </div>
+        <div class="image-caption">Heart of the Lamb playing cards</div>
+    </div>
+    
+    <!-- Kiikaboo bread -->
+    <div class="section-title">Kiikaboo bread</div>
+    <div class="product-gallery" id="kiikaboo-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="package/kiikaboo white.png" alt="Kiikaboo bread packaging">
+            <div class="nav-button prev" onclick="prevImage('kiikaboo')">❮</div>
+            <div class="nav-button next" onclick="nextImage('kiikaboo')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('kiikaboo', 0)">
+                <img src="package/kiikaboo white.png" alt="Kiikaboo White">
+            </div>
+            <div class="thumbnail" onclick="changeImage('kiikaboo', 1)">
+                <img src="package/kiikaboo green.png" alt="Kiikaboo Green">
+            </div>
+            <div class="thumbnail" onclick="changeImage('kiikaboo', 2)">
+                <img src="package/peeekaboo.png" alt="Peekaboo">
+            </div>
+        </div>
+        <div class="image-caption">Kiikaboo bread packaging</div>
+    </div>
+    
+    <!-- Theoremaly Serum -->
+    <div class="section-title">Theoremaly Serum</div>
+    <div class="product-gallery" id="serum-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="package/serumblender.png" alt="Theoremaly Serum packaging">
+            <div class="nav-button prev" onclick="prevImage('serum')">❮</div>
+            <div class="nav-button next" onclick="nextImage('serum')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('serum', 0)">
+                <img src="package/serumblender.png" alt="Serum Blender">
+            </div>
+            <div class="thumbnail" onclick="changeImage('serum', 1)">
+                <img src="package/full lilla.png" alt="Full Lilla">
+            </div>
+        </div>
+        <div class="image-caption">Theoremaly Serum packaging</div>
+    </div>
+    
+    <!-- Little Dragon Chocolate Box -->
+    <div class="section-title">Little Dragon Chocolate Box</div>
+    <div class="product-gallery" id="dragon-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="package/lil dragon box.png" alt="Little Dragon Chocolate Box">
+            <div class="nav-button prev" onclick="prevImage('dragon')">❮</div>
+            <div class="nav-button next" onclick="nextImage('dragon')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('dragon', 0)">
+                <img src="package/lil dragon box.png" alt="Lil Dragon Box">
+            </div>
+            <div class="thumbnail" onclick="changeImage('dragon', 1)">
+                <img src="package/box lil dragon out.png" alt="Lil Dragon Out">
+            </div>
+            <div class="thumbnail" onclick="changeImage('dragon', 2)">
+                <img src="package/box lil dragon inside.png" alt="Lil Dragon Inside">
+            </div>
+        </div>
+        <div class="image-caption">Little Dragon Chocolate Box</div>
+    </div>
+    
+    <!-- Dark Chocolate package design -->
+    <div class="section-title">Dark Chocolate package design</div>
+    <div class="product-gallery" id="coco-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="package/dark coco out.png" alt="Dark Chocolate package">
+            <div class="nav-button prev" onclick="prevImage('coco')">❮</div>
+            <div class="nav-button next" onclick="nextImage('coco')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('coco', 0)">
+                <img src="package/dark coco out.png" alt="Dark Coco Outside">
+            </div>
+            <div class="thumbnail" onclick="changeImage('coco', 1)">
+                <img src="package/dark coco inside.png" alt="Dark Coco Inside">
+            </div>
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-link">Back</a>
+
+    <script>
+        // Gallery data
+        const galleries = {
+            cards: {
+                images: [
+                    { src: "package/cards.jpg", alt: "Heart of the Lamb playing cards" },
+                    { src: "package/kaardipakk.png", alt: "Card Pack" },
+                    { src: "package/cardsblender.png", alt: "Cards Blender" }
+                ],
+                currentIndex: 0
+            },
+            kiikaboo: {
+                images: [
+                    { src: "package/kiikaboo white.png", alt: "Kiikaboo White" },
+                    { src: "package/kiikaboo green.png", alt: "Kiikaboo Green" },
+                    { src: "package/peeekaboo.png", alt: "Peekaboo" }
+                ],
+                currentIndex: 0
+            },
+            serum: {
+                images: [
+                    { src: "package/serumblender.png", alt: "Serum Blender" },
+                    { src: "package/full lilla.png", alt: "Full Lilla" }
+                ],
+                currentIndex: 0
+            },
+            dragon: {
+                images: [
+                    { src: "package/lil dragon box.png", alt: "Lil Dragon Box" },
+                    { src: "package/box lil dragon out.png", alt: "Lil Dragon Out" },
+                    { src: "package/box lil dragon inside.png", alt: "Lil Dragon Inside" }
+                ],
+                currentIndex: 0
+            },
+            coco: {
+                images: [
+                    { src: "package/dark coco out.png", alt: "Dark Coco Outside" },
+                    { src: "package/dark coco inside.png", alt: "Dark Coco Inside" }
+                ],
+                currentIndex: 0
+            }
+        };
+        
+        // Change image function
+        function changeImage(galleryId, index) {
+            const gallery = galleries[galleryId];
+            gallery.currentIndex = index;
+            
+            // Update main image
+            const mainImg = document.querySelector(`#${galleryId}-gallery .main-image`);
+            mainImg.src = gallery.images[index].src;
+            mainImg.alt = gallery.images[index].alt;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+        
+        // Navigation functions
+        function prevImage(galleryId) {
+            const gallery = galleries[galleryId];
+            let newIndex = gallery.currentIndex - 1;
+            if (newIndex < 0) newIndex = gallery.images.length - 1;
+            changeImage(galleryId, newIndex);
+        }
+        
+        function nextImage(galleryId) {
+            const gallery = galleries[galleryId];
+            let newIndex = gallery.currentIndex + 1;
+            if (newIndex >= gallery.images.length) newIndex = 0;
+            changeImage(galleryId, newIndex);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const activeGallery = document.querySelector('.thumbnail.active').closest('.product-gallery');
+            if (!activeGallery) return;
+            
+            const galleryId = activeGallery.id.replace('-gallery', '');
+            
+            if (e.key === 'ArrowLeft') {
+                prevImage(galleryId);
+            } else if (e.key === 'ArrowRight') {
+                nextImage(galleryId);
+            }
+        });
+    </script>
+</body>
+</html>
