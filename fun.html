@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heleriin Kattago | More fun stuff</title>
+    <link rel="icon" type="image/png" href="pics/favicongreen.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <style>
+        :root {
+            --white: #F6F6F6;
+            --dark-green: #101A04;
+            --medium-green: #536340;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('pics/cursor.svg'), auto;
+        }
+        
+        body {
+            font-family: 'Mansalva', cursive;
+            background-color: var(--white);
+            color: var(--dark-green);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 64px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--medium-green);
+        }
+        
+        .product-gallery {
+            margin-bottom: 4rem;
+        }
+        
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-bottom: 1rem;
+            background-color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .main-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--medium-green) var(--white);
+        }
+        
+        .thumbnail-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-track {
+            background: var(--white);
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background-color: var(--medium-green);
+            border-radius: 3px;
+        }
+        
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            min-width: 100px;
+            background-color: var(--white);
+            border: 2px solid var(--medium-green);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .thumbnail:hover {
+            border-color: var(--dark-green);
+            transform: scale(1.05);
+        }
+        
+        .thumbnail.active {
+            border-color: var(--dark-green);
+            border-width: 3px;
+        }
+        
+        .thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-caption {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px solid var(--medium-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+            color: var(--dark-green);
+            user-select: none;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--medium-green);
+            color: var(--white);
+        }
+        
+        .prev {
+            left: 15px;
+        }
+        
+        .next {
+            right: 15px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            font-size: 24px;
+            color: var(--medium-green);
+            text-decoration: none;
+            border: 2px solid var(--medium-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background-color: var(--medium-green);
+            color: var(--white);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .main-image-container {
+                height: 350px;
+            }
+            
+            .thumbnail {
+                width: 80px;
+                height: 80px;
+                min-width: 80px;
+            }
+            
+            .nav-button {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 36px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 24px;
+                margin: 2rem 0 1rem;
+            }
+            
+            .main-image-container {
+                height: 280px;
+            }
+            
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+                min-width: 70px;
+            }
+            
+            .back-link {
+                font-size: 20px;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Fun Stuff</h1>
+    
+    <!-- Lahustuvuse tabel -->
+    <div class="section-title">Lahustuvuse tabel - redesign for client</div>
+    <div class="product-gallery" id="table-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="fun stuff/lahustuvustabel.png" alt="Lahustuvuse tabel">
+            <div class="nav-button prev" onclick="prevImage('table')">❮</div>
+            <div class="nav-button next" onclick="nextImage('table')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('table', 0)">
+                <img src="fun stuff/lahustuvustabel.png" alt="Lahustuvuse tabel">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Birthday Hoodie -->
+    <div class="section-title">Birthday Hoodie</div>
+    <div class="product-gallery" id="hoodie-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="fun stuff/butterflyhoodie1.png" alt="Birthday Hoodie">
+            <div class="nav-button prev" onclick="prevImage('hoodie')">❮</div>
+            <div class="nav-button next" onclick="nextImage('hoodie')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('hoodie', 0)">
+                <img src="fun stuff/butterflyhoodie1.png" alt="Birthday Hoodie front">
+            </div>
+            <div class="thumbnail" onclick="changeImage('hoodie', 1)">
+                <img src="fun stuff/butterfly hoodie 2.png" alt="Birthday Hoodie back">
+            </div>
+            <div class="thumbnail" onclick="changeImage('hoodie', 2)">
+                <img src="fun stuff/butterfly.png" alt="Butterfly design">
+            </div>
+        </div>
+        <div class="image-caption">Designed it for myself as a birthday gift</div>
+    </div>
+    
+    <!-- Sword Hoodie -->
+    <div class="section-title">Sword Hoodie</div>
+    <div class="product-gallery" id="sword-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="fun stuff/sword hoodie.png" alt="Sword Hoodie">
+            <div class="nav-button prev" onclick="prevImage('sword')">❮</div>
+            <div class="nav-button next" onclick="nextImage('sword')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('sword', 0)">
+                <img src="fun stuff/sword hoodie.png" alt="Sword Hoodie">
+            </div>
+            <div class="thumbnail" onclick="changeImage('sword', 1)">
+                <img src="fun stuff/sword.PNG" alt="Sword design">
+            </div>
+        </div>
+        <div class="image-caption">Hoodie I designed as a gift</div>
+    </div>
+    
+    <!-- Tote Bags -->
+    <div class="section-title">Tote Bags</div>
+    <div class="product-gallery" id="tote-gallery">
+        <div class="main-image-container">
+            <img class="main-image" src="fun stuff/heartbag.png" alt="Heart Tote Bag">
+            <div class="nav-button prev" onclick="prevImage('tote')">❮</div>
+            <div class="nav-button next" onclick="nextImage('tote')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('tote', 0)">
+                <img src="fun stuff/heartbag.png" alt="Heart Tote Bag">
+            </div>
+            <div class="thumbnail" onclick="changeImage('tote', 1)">
+                <img src="fun stuff/jamaiica.png" alt="Jamaica Tote Bag">
+            </div>
+        </div>
+        <div class="image-caption">Some examples of my designs on tote bags</div>
+    </div>
+    
+    <a href="index.html" class="back-link">Back</a>
+
+    <script>
+        // Gallery data
+        const galleries = {
+            table: {
+                images: [
+                    { src: "fun stuff/lahustuvustabel.png", alt: "Lahustuvuse tabel" }
+                ],
+                currentIndex: 0
+            },
+            hoodie: {
+                images: [
+                    { src: "fun stuff/butterflyhoodie1.png", alt: "Birthday Hoodie front" },
+                    { src: "fun stuff/butterfly hoodie 2.png", alt: "Birthday Hoodie back" },
+                    { src: "fun stuff/butterfly.png", alt: "Butterfly design" }
+                ],
+                currentIndex: 0
+            },
+            sword: {
+                images: [
+                    { src: "fun stuff/sword hoodie.png", alt: "Sword Hoodie" },
+                    { src: "fun stuff/sword.PNG", alt: "Sword design" }
+                ],
+                currentIndex: 0
+            },
+            tote: {
+                images: [
+                    { src: "fun stuff/heartbag.png", alt: "Heart Tote Bag" },
+                    { src: "fun stuff/jamaica.png", alt: "Jamaica Tote Bag" }
+                ],
+                currentIndex: 0
+            }
+        };
+        
+        // Change image function
+        function changeImage(galleryId, index) {
+            const gallery = galleries[galleryId];
+            gallery.currentIndex = index;
+            
+            // Update main image
+            const mainImg = document.querySelector(`#${galleryId}-gallery .main-image`);
+            mainImg.src = gallery.images[index].src;
+            mainImg.alt = gallery.images[index].alt;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+        
+        // Navigation functions
+        function prevImage(galleryId) {
+            const gallery = galleries[galleryId];
+            let newIndex = gallery.currentIndex - 1;
+            if (newIndex < 0) newIndex = gallery.images.length - 1;
+            changeImage(galleryId, newIndex);
+        }
+        
+        function nextImage(galleryId) {
+            const gallery = galleries[galleryId];
+            let newIndex = gallery.currentIndex + 1;
+            if (newIndex >= gallery.images.length) newIndex = 0;
+            changeImage(galleryId, newIndex);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const activeGallery = document.querySelector('.thumbnail.active')?.closest('.product-gallery');
+            if (!activeGallery) return;
+            
+            const galleryId = activeGallery.id.replace('-gallery', '');
+            
+            if (e.key === 'ArrowLeft') {
+                prevImage(galleryId);
+            } else if (e.key === 'ArrowRight') {
+                nextImage(galleryId);
+            }
+        });
+    </script>
+</body>
+</html>
