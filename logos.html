@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heleriin Kattago | Logos</title>
     <link rel="icon" type="image/png" href="pics/favicongreen.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap">
     <style>
         :root {
             --white: #F6F6F6;
             --dark-green: #101A04;
             --medium-green: #536340;
+            --pink-bg: #F1E4E6;
+            --dark-pink: #3F0912;
         }
         
         * {
@@ -67,6 +69,75 @@
             margin-top: 0.5rem;
         }
         
+        /* Casa Granado Section */
+        .casa-section {
+            background-color: var(--pink-bg);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .casa-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .casa-title {
+            font-family: 'Jomolhari', serif;
+            font-size: 32px; /* Reduced from 48px */
+            color: var(--dark-pink);
+        }
+        
+        .casa-emoji {
+            width: 40px; /* Reduced from 60px */
+            height: auto;
+        }
+        
+        .casa-main-image {
+            max-width: 500px; /* Increased size */
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .casa-description {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-top: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Mamm Section - Now double height */
+        .mamm-section {
+            background-color: var(--dark-pink);
+            padding: 4rem 2rem; /* Increased padding */
+            border-radius: 12px;
+            margin: 3rem 0;
+            min-height: 300px; /* Double the height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mamm-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem; /* Increased gap */
+        }
+        
+        .mamm-row img {
+            max-height: 250px; /* Increased size */
+        }
+        
+        .mamm-small {
+            max-height: 125px !important; /* Half of others */
+        }
+        
         .back-link {
             display: inline-block;
             margin-top: 3rem;
@@ -97,6 +168,28 @@
             .logo-row img {
                 max-height: 100px;
             }
+            
+            .casa-title {
+                font-size: 28px;
+            }
+            
+            .casa-emoji {
+                width: 30px;
+            }
+            
+            .casa-main-image {
+                max-width: 100%;
+            }
+            
+            .mamm-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .mamm-section {
+                padding: 3rem 1rem;
+                min-height: 200px;
+            }
         }
     </style>
 </head>
@@ -106,14 +199,40 @@
     <img src="logos/star1.svg" alt="Star Logo" class="main-logo">
     
     <div class="logo-gallery">
+        <!-- Loovkaaren first -->
         <div class="logo-row">
             <img src="logos/loovkaaren.png" alt="Loovkaaren Logo">
             <div class="logo-caption">Logo and font for Loovkaaren</div>
         </div>
-        
         <div class="logo-row">
             <img src="logos/casagranado.png" alt="Casa Granado Logo">
             <div class="logo-caption">Logo for Casa Granado</div>
+        </div>
+    </div>
+    
+    <!-- Casa Granado Pink Section -->
+    <div class="casa-section">
+        <div class="casa-header">
+            <h2 class="casa-title">Casa Granado</h2>
+            <img src="logos/minimamm.png" alt="Mini Mamm" class="casa-emoji">
+        </div>
+        
+        <img src="logos/casa.png" alt="Casa H964" class="casa-main-image">
+        
+        <p class="logo-caption"></p>
+        
+        <p class="casa-description">
+            Casa Granado on maja Andaluusias, Hispaanias, mis on loodud spirituaalsete retriitide läbi viimiseks. 
+            Joonistatud Procreateis tellija visiooni ja soovide järgi.
+        </p>
+    </div>
+    
+    <!-- Expanded Dark Pink Mamm Section -->
+    <div class="mamm-section">
+        <div class="mamm-row">
+            <img src="logos/cB.png" alt="cB Logo">
+            <img src="logos/mamm.png" alt="Mamm Logo" class="mamm-small">
+            <img src="logos/cW.png" alt="cW Logo">
         </div>
     </div>
     
