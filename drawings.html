@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heleriin Kattago | Paintings & Drawings</title>
     <link rel="icon" type="image/png" href="pics/favicongreen.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
+    
+    <!-- Preload important resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css" as="style">
+    
+    <!-- Inline critical CSS -->
     <style>
         :root {
             --white: #F6F6F6;
@@ -80,7 +84,7 @@
         
         .carousel-cell img {
             width: auto;
-            height: 80%; /* Adjusted to leave space for caption */
+            height: 80%;
             max-width: 100%;
             object-fit: contain;
             display: block;
@@ -93,7 +97,7 @@
             width: 100%;
         }
         
-        /* Digital Art Section - Collage Layout */
+        /* Digital Art Section */
         .digital-gallery {
             max-width: 1200px;
             margin: 0 auto;
@@ -126,7 +130,7 @@
             transform: scale(1.05) rotate(0deg) !important;
         }
         
-        /* Specific image adjustments */
+        /* Image rotations */
         .mermie { transform: rotate(-5deg); }
         .vikatigirl { transform: rotate(3deg); }
         .lambie { transform: rotate(-2deg); }
@@ -139,7 +143,7 @@
         .cup { transform: rotate(5deg); }
         .ske { transform: rotate(-2deg); }
         
-        /* Modal for Enlarged Image */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -214,7 +218,7 @@
             }
             
             .carousel-cell img {
-                height: 70%; /* Adjusted for mobile */
+                height: 70%;
             }
             
             .digital-gallery {
@@ -233,6 +237,10 @@
             .guardian, .fishes { width: 40px; }
         }
     </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
 </head>
 <body>
     <h1>Drawings & Paintings</h1>
@@ -247,15 +255,15 @@
         "cellAlign": "center"
     }'>
         <div class="carousel-cell">
-            <img src="artwork/paintingB.jpg" alt="Little Bat - Full Painting">
+            <img src="artwork/paintingB.jpg" loading="lazy" alt="Little Bat - Full Painting" width="800" height="600">
             <div class="carousel-caption">Little Bat, oil painting 2024</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/paintingS.jpg" alt="Little Bat - Detail">
+            <img src="artwork/paintingS.jpg" loading="lazy" alt="Little Bat - Detail" width="800" height="600">
             <div class="carousel-caption">Little Bat, oil painting 2024</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/Springpainting.png" alt="Spring Painting">
+            <img src="artwork/Springpainting.png" loading="lazy" alt="Spring Painting" width="800" height="600">
             <div class="carousel-caption">Spring, acrylic painting, 2025</div>
         </div>
     </div>
@@ -270,27 +278,27 @@
         "cellAlign": "center"
     }'>
         <div class="carousel-cell">
-            <img src="artwork/xmas2024frontcard.png" alt="2024 Christmas Card Front">
+            <img src="artwork/xmas2024frontcard.png" loading="lazy" alt="2024 Christmas Card Front" width="600" height="800">
             <div class="carousel-caption">2024 Christmas Card (Front)</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/xmas2024backcard.png" alt="2024 Christmas Card Back">
+            <img src="artwork/xmas2024backcard.png" loading="lazy" alt="2024 Christmas Card Back" width="600" height="800">
             <div class="carousel-caption">2024 Christmas Card (Back)</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/xmasfront2023card.PNG" alt="2023 Christmas Card Front">
+            <img src="artwork/xmasfront2023card.PNG" loading="lazy" alt="2023 Christmas Card Front" width="600" height="800">
             <div class="carousel-caption">2023 Christmas Card (Front)</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/xmas2023backcard.PNG" alt="2023 Christmas Card Back">
+            <img src="artwork/xmas2023backcard.PNG" loading="lazy" alt="2023 Christmas Card Back" width="600" height="800">
             <div class="carousel-caption">2023 Christmas Card (Back)</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/coco.png" alt="Coco Illustration">
+            <img src="artwork/coco.png" loading="lazy" alt="Coco Illustration" width="600" height="800">
             <div class="carousel-caption">Card Illustration</div>
         </div>
         <div class="carousel-cell">
-            <img src="artwork/coco2.png" alt="Coco Illustration 2">
+            <img src="artwork/coco2.png" loading="lazy" alt="Coco Illustration 2" width="600" height="800">
             <div class="carousel-caption">Card Illustration</div>
         </div>
     </div>
@@ -301,37 +309,37 @@
     
     <div class="digital-gallery">
         <div class="digital-item">
-            <img src="artwork/mermie.png" alt="Mermie" class="mermie">
+            <img src="artwork/mermie.png" loading="lazy" alt="Mermie" class="mermie" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/vikatigirl.png" alt="Vikati Girl" class="vikatigirl">
+            <img src="artwork/vikatigirl.png" loading="lazy" alt="Vikati Girl" class="vikatigirl" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/lambie.png" alt="Lambie" class="lambie">
+            <img src="artwork/lambie.png" loading="lazy" alt="Lambie" class="lambie" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/fashiongirls.png" alt="Fashion Girls" class="fashiongirls">
+            <img src="artwork/fashiongirls.png" loading="lazy" alt="Fashion Girls" class="fashiongirls" width="350" height="450">
         </div>
         <div class="digital-item">
-            <img src="artwork/guardian.png" alt="Guardian" class="guardian">
+            <img src="artwork/guardian.png" loading="lazy" alt="Guardian" class="guardian" width="80" height="100">
         </div>
         <div class="digital-item">
-            <img src="artwork/fishes.png" alt="Fishes" class="fishes">
+            <img src="artwork/fishes.png" loading="lazy" alt="Fishes" class="fishes" width="80" height="100">
         </div>
         <div class="digital-item">
-            <img src="artwork/birdgirl.png" alt="Bird Girl" class="birdgirl">
+            <img src="artwork/birdgirl.png" loading="lazy" alt="Bird Girl" class="birdgirl" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/pixel art.png" alt="Pixel Art" class="pixel-art">
+            <img src="artwork/pixel art.png" loading="lazy" alt="Pixel Art" class="pixel-art" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/lilbat.png" alt="Little Bat" class="lilbat">
+            <img src="artwork/lilbat.png" loading="lazy" alt="Little Bat" class="lilbat" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/Cup.png" alt="Cup" class="cup">
+            <img src="artwork/Cup.png" loading="lazy" alt="Cup" class="cup" width="300" height="400">
         </div>
         <div class="digital-item">
-            <img src="artwork/ske.jpg" alt="Ske" class="ske">
+            <img src="artwork/ske.jpg" loading="lazy" alt="Ske" class="ske" width="300" height="400">
         </div>
     </div>
     
@@ -345,28 +353,43 @@
 
     <!-- Flickity Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
+    
     <!-- JavaScript for Modal -->
     <script>
-        const images = document.querySelectorAll('.digital-item img');
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalClose = document.getElementById('modalClose');
-
-        images.forEach(image => {
-            image.addEventListener('click', () => {
-                modalImage.src = image.src;
-                modal.style.display = 'flex';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeBtn = document.getElementById('modalClose');
+            
+            document.querySelectorAll('.digital-item img').forEach(img => {
+                img.addEventListener('click', () => {
+                    modalImg.src = img.src;
+                    modal.style.display = 'flex';
+                });
             });
-        });
-
-        modalClose.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
+            
+            closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
-            }
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Initialize carousels after images load
+            const carousels = document.querySelectorAll('.main-carousel, .cards-carousel');
+            carousels.forEach(carousel => {
+                new Flickity(carousel, {
+                    autoPlay: carousel.classList.contains('main-carousel') ? 3000 : 3500,
+                    wrapAround: true,
+                    prevNextButtons: true,
+                    pageDots: false,
+                    cellAlign: 'center'
+                });
+            });
         });
     </script>
 </body>
