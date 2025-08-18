@@ -64,6 +64,11 @@
             object-fit: contain;
         }
         
+        video.main-image {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        
         .thumbnail-container {
             display: flex;
             gap: 10px;
@@ -323,6 +328,12 @@
             <div class="thumbnail" onclick="changeImage('coco', 1)">
                 <img src="package/dark coco inside.png" alt="Dark Coco Inside">
             </div>
+            <div class="thumbnail" onclick="changeImage('coco', 2)">
+                <img src="package/coco.jpg" alt="Coco Design">
+            </div>
+            <div class="thumbnail" onclick="changeImage('coco', 3)">
+                <img src="package/coco-poster.jpg" alt="Coco Video Poster">
+            </div>
         </div>
     </div>
     
@@ -365,7 +376,14 @@
             coco: {
                 images: [
                     { src: "package/dark coco out.png", alt: "Dark Coco Outside" },
-                    { src: "package/dark coco inside.png", alt: "Dark Coco Inside" }
+                    { src: "package/dark coco inside.png", alt: "Dark Coco Inside" },
+                    { src: "package/coco.jpg", alt: "Coco Design" },
+                    { 
+                        type: "video",
+                        src: "package/coco.mp4",
+                        alt: "Coco Video",
+                        poster: "package/coco-poster.jpg"
+                    }
                 ],
                 currentIndex: 0
             }
@@ -377,9 +395,47 @@
             gallery.currentIndex = index;
             
             // Update main image
-            const mainImg = document.querySelector(`#${galleryId}-gallery .main-image`);
-            mainImg.src = gallery.images[index].src;
-            mainImg.alt = gallery.images[index].alt;
+            const mainContainer = document.querySelector(`#${galleryId}-gallery .main-image-container`);
+            const currentItem = gallery.images[index];
+            
+            // Clear previous content
+            while (mainContainer.firstChild) {
+                mainContainer.removeChild(mainContainer.firstChild);
+            }
+            
+            // Create new content based on type
+            let mediaElement;
+            if (currentItem.type === "video") {
+                mediaElement = document.createElement('video');
+                mediaElement.className = 'main-image';
+                mediaElement.src = currentItem.src;
+                mediaElement.alt = currentItem.alt;
+                mediaElement.poster = currentItem.poster;
+                mediaElement.controls = true;
+                mediaElement.autoplay = true;
+                mediaElement.loop = true;
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'main-image';
+                mediaElement.src = currentItem.src;
+                mediaElement.alt = currentItem.alt;
+            }
+            
+            // Add navigation buttons back
+            const prevBtn = document.createElement('div');
+            prevBtn.className = 'nav-button prev';
+            prevBtn.innerHTML = '❮';
+            prevBtn.onclick = function() { prevImage(galleryId); };
+            
+            const nextBtn = document.createElement('div');
+            nextBtn.className = 'nav-button next';
+            nextBtn.innerHTML = '❯';
+            nextBtn.onclick = function() { nextImage(galleryId); };
+            
+            // Append elements
+            mainContainer.appendChild(mediaElement);
+            mainContainer.appendChild(prevBtn);
+            mainContainer.appendChild(nextBtn);
             
             // Update active thumbnail
             const thumbnails = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
@@ -409,7 +465,7 @@
         
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
-            const activeGallery = document.querySelector('.thumbnail.active').closest('.product-gallery');
+            const activeGallery = document.querySelector('.thumbnail.active')?.closest('.product-gallery');
             if (!activeGallery) return;
             
             const galleryId = activeGallery.id.replace('-gallery', '');
