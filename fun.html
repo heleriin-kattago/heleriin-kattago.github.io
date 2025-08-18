@@ -233,19 +233,23 @@
 <body>
     <h1>Fun Stuff</h1>
     
-    <!-- Lahustuvuse tabel -->
-    <div class="section-title">Lahustuvuse tabel - redesign for client</div>
+    <!-- Solubility table -->
+    <div class="section-title">Solubility Table</div>
     <div class="product-gallery" id="table-gallery">
         <div class="main-image-container">
-            <img class="main-image" src="fun stuff/lahustuvustabel.png" alt="Lahustuvuse tabel">
+            <img class="main-image" src="fun stuff/LAHUSTUVUSTABEL.est.png" alt="Solubility Table">
             <div class="nav-button prev" onclick="prevImage('table')">❮</div>
             <div class="nav-button next" onclick="nextImage('table')">❯</div>
         </div>
         <div class="thumbnail-container">
             <div class="thumbnail active" onclick="changeImage('table', 0)">
-                <img src="fun stuff/lahustuvustabel.png" alt="Lahustuvuse tabel">
+                <img src="fun stuff/LAHUSTUVUSTABEL.est.png" alt="Solubility Table in Estonian">
+            </div>
+            <div class="thumbnail" onclick="changeImage('table', 1)">
+                <img src="fun stuff/LAHUSTUVUSTABEL.eng.png" alt="Solubility Table in English">
             </div>
         </div>
+        <div class="image-caption">Solubility table design for a client</div>
     </div>
     
     <!-- Birthday Hoodie -->
@@ -315,7 +319,8 @@
         const galleries = {
             table: {
                 images: [
-                    { src: "fun stuff/lahustuvustabel.png", alt: "Lahustuvuse tabel" }
+                    { src: "fun stuff/LAHUSTUVUSTABEL.est.png", alt: "Solubility Table in Estonian" },
+                    { src: "fun stuff/LAHUSTUVUSTABEL.eng.png", alt: "Solubility Table in English" }
                 ],
                 currentIndex: 0
             },
