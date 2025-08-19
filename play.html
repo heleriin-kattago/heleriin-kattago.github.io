@@ -14,6 +14,7 @@
       --card-h:110px;
       --gap:14px;
     }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Inknut Antiqua', serif;
       text-align: center;
@@ -23,10 +24,10 @@
     section { margin: 40px auto; max-width: 920px; padding: 20px; }
     h1,h2,h3 { font-family: 'Mansalva', cursive; }
 
-    /* Intro overlay */
+    /* Intro overlay (kept) */
     #introOverlay{
       position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
-      background:#f9f9f9; z-index: 50;
+      background:#f9f9f9; z-index: 50; text-align:center; padding: 0 16px;
       animation: introFade 2.6s ease 0.2s forwards;
     }
     #introText{
@@ -35,13 +36,12 @@
       line-height: 1.1;
       opacity: 0;
       animation: textIn 0.7s ease forwards, textOut 1.2s ease 1.2s forwards;
-      padding: 0 16px;
     }
     @keyframes introFade { 0%{opacity:1} 80%{opacity:1} 100%{opacity:0; visibility:hidden} }
     @keyframes textIn { from{opacity:0; transform: translateY(10px)} to{opacity:1; transform: translateY(0)} }
     @keyframes textOut { to{opacity:0; transform: translateY(-10px)} }
 
-    /* Scenario text: starts big, then compacts upward */
+    /* Scenario text */
     #scenarioWrap{ position: relative; min-height: 92px; }
     #scenario{
       margin: 10px 0 6px 0;
@@ -49,58 +49,49 @@
       transition: transform .5s ease, font-size .5s ease, opacity .5s ease;
     }
     #scenario.compact{
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       opacity: 0.95;
       font-size: clamp(18px, 2.4vw, 22px);
     }
 
-    /* Assets grid */
-    #assets{
-      display: flex; justify-content: center; flex-wrap: wrap; gap: var(--gap); margin-top: 10px;
+    /* One toast hint that fades away (instead of a permanent explanation) */
+    #toast{
+      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+      background: rgba(0,0,0,.8); color: #fff; padding: 10px 14px; border-radius: 10px;
+      font-size: 14px; z-index: 40; opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+      max-width: 92vw;
     }
-    .asset{
-      width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px; border: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,.22); cursor: pointer; transition: transform .15s ease;
-      background:#eee;
-    }
-    .asset:hover{ transform: scale(1.03); }
+    #toast.show { opacity: 1; }
+    #toast.hide { opacity: 0; }
 
-    /* Board: shows the cup game */
-    #board{ position: relative; height: 300px; margin-top: 14px; display:none; }
+    /* Board holds everything */
+    #board{ position: relative; height: 300px; margin-top: 14px; }
     #slots{ display:grid; gap: var(--gap); max-width: 920px; margin:0 auto; padding:0 10px; }
-    .slot{ height: var(--card-h); }
+    .slot{ height: var(--card-h); position: relative; }
 
-    /* Preview layer (items briefly visible before cover) */
-    #preItems, #underItems, #cupLayer{
-      position: absolute; left:0; right:0; top:0; height:100%; padding:0 10px;
+    /* Assets are the visible cards (no borders, no shadows, no bg) */
+    .asset{
+      position:absolute; left:50%; top:50%; transform: translate(-50%,-50%);
+      width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px;
+      border: none; outline: none; box-shadow: none; background: transparent;
+      cursor: pointer; transition: transform .12s ease;
+      image-rendering: auto;
     }
-    #preItems{ display:grid; gap: var(--gap); pointer-events:none; }
-    .pre-item{
-      width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px; margin: 0 auto;
-      box-shadow: 0 2px 5px rgba(0,0,0,.20);
-    }
+    .asset:hover{ transform: translate(-50%,-50%) scale(1.03); }
 
-    /* Items that travel with cups */
-    #underItems{ pointer-events:none; }
-    .under-item{
-      position:absolute; width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,.20);
-      left:0; top:0; transform: translate(-9999px,-9999px);
-    }
-
-    /* Cups */
-    #cupLayer{ pointer-events:none; }
+    /* Cups layer */
+    #cupLayer{ position:absolute; left:0; right:0; top:0; height:100%; pointer-events:none; }
     .cup{
       position:absolute; width: var(--card-w); height: var(--card-h); border-radius:12px;
-      transform: translateY(-140px);
+      transform: translate(-50%,-50%) translateY(-140px);
       transition: transform .45s ease, left .28s ease, top .28s ease;
       top:0; left:0;
     }
-    .cup.covered{ transform: translateY(0); }
-    .cup.revealed{ transform: translateY(-140px); }
+    .cup.covered{ transform: translate(-50%,-50%) translateY(0); }
+    .cup.revealed{ transform: translate(-50%,-50%) translateY(-140px); }
 
     #outcome{ font-size: 1.05rem; margin-top: 18px; min-height: 42px; }
-
     .btn{
       margin-top: 16px; padding: 8px 14px; border: 1px solid #333; background:#fff;
       border-radius: 8px; font-family: inherit; cursor: pointer; transition: .2s;
@@ -114,24 +105,23 @@
 </head>
 <body>
 
-  <!-- Intro overlay -->
+  <!-- Intro -->
   <div id="introOverlay">
-    <div id="introText">Welcome. Let’s play a game, shall we?</div>
+    <div id="introText">Welcome!
+        Let’s play, shall we?</div>
   </div>
+
+  <!-- Toast hint -->
+  <div id="toast">Pick one of the items. Cups will cover & shuffle. Find your choice.</div>
 
   <section id="game">
     <div id="scenarioWrap">
       <p id="scenario"></p>
     </div>
 
-    <!-- Assets render here per scenario -->
-    <div id="assets"></div>
-
-    <!-- Cup board -->
+    <!-- Board: assets always visible; cups drop to cover -->
     <div id="board">
       <div id="slots"></div>
-      <div id="preItems"></div>
-      <div id="underItems"></div>
       <div id="cupLayer"></div>
     </div>
 
@@ -156,12 +146,12 @@ const SRC = {
   sword:   "play/sword.jpg"
 };
 
-/* ---------- Scenarios (whimsical but coherent) ---------- */
+/* ---------- Scenarios ---------- */
 const SCENARIOS = [
   {
     name: "dragon",
     text: "A dragon sprawls across the road, hiccuping little smoke rings shaped like question marks.",
-    allowed: ["gun","heart","holywater","rose","socks","sword"], // uses all; shown in random order
+    allowed: ["gun","heart","holywater","rose","socks","sword"],
     outcomes: {
       gun: "Bullets ping off his scales like rain on a roof. He yawns.",
       heart: "Your steady heartbeat calms him. He curls up, purring like a thundercloud. Path clear.",
@@ -199,140 +189,106 @@ const SCENARIOS = [
 
 /* ---------- State ---------- */
 let currentScenario = null;
-let chosenItem = null;   // what user clicks in asset grid
-let cupState = [];       // [{cupEl, itemEl, itemKey, posIdx}]
+let chosenItem = null;
+let cupState = [];       // [{cupEl, itemKey, posIdx}]
 let slotCenters = [];    // [{x,y}]
 let isShuffling = false;
 
 /* ---------- Elements ---------- */
 const elScenario  = document.getElementById('scenario');
-const elAssets    = document.getElementById('assets');
 const elBoard     = document.getElementById('board');
 const elSlots     = document.getElementById('slots');
-const elPreItems  = document.getElementById('preItems');
-const elUnder     = document.getElementById('underItems');
 const elCups      = document.getElementById('cupLayer');
 const elOutcome   = document.getElementById('outcome');
 const elPlayAgain = document.getElementById('playAgain');
+const elToast     = document.getElementById('toast');
 
-/* ---------- Start after intro overlay finishes ---------- */
+/* ---------- Start after intro overlay fades ---------- */
 window.addEventListener('load', () => {
-  // When the overlay animation ends, initialize first round
-  setTimeout(startRound, 2700); // matches intro animation timing
+  setTimeout(() => {
+    showToast();
+    startRound();
+  }, 2700);
 });
+
+/* ---------- Toast helpers ---------- */
+let toastTimer = null;
+function showToast() {
+  clearTimeout(toastTimer);
+  elToast.className = 'show';
+  toastTimer = setTimeout(hideToast, 2600);
+}
+function hideToast() { elToast.className = 'hide'; }
 
 /* ---------- Round flow ---------- */
 function startRound(){
-  // Pick a scenario randomly
   currentScenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
   chosenItem = null;
   elOutcome.textContent = "";
   elPlayAgain.style.display = "none";
 
-  // Scenario text appears large first
+  // Scenario: big then compact
   elScenario.classList.remove('compact');
   elScenario.textContent = currentScenario.text;
-
-  // Build asset grid (random order)
-  elAssets.innerHTML = "";
-  const list = shuffle([...currentScenario.allowed]);
-  list.forEach(key=>{
-    const img = document.createElement('img');
-    img.className = 'asset';
-    img.src = SRC[key];         // ✅ correct play/ paths
-    img.alt = key;
-    img.dataset.item = key;
-    img.addEventListener('click', ()=>{
-      chosenItem = key;
-      // move scenario up/smaller on first interaction (if not already)
-      elScenario.classList.add('compact');
-      beginMemoryPhase(list);
-    });
-    elAssets.appendChild(img);
-  });
-
-  // After a short readable moment, compact the scenario to make room
   setTimeout(()=> elScenario.classList.add('compact'), 1400);
 
-  // Hide board until a pick is made
-  elBoard.style.display = 'none';
-}
-
-/* ---------- Memory phase: show items → cover → shuffle ---------- */
-function beginMemoryPhase(itemsForRound){
-  // Grid columns equal to number of items (max 6)
-  const cols = Math.min(itemsForRound.length, 6);
+  // Build slots from scenario's allowed items (random order)
+  const itemsThisRound = shuffle([...currentScenario.allowed]);
+  const cols = Math.min(itemsThisRound.length, 6);
   elSlots.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-  elPreItems.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-
-  // Build slots
   elSlots.innerHTML = '';
-  for(let i=0;i<itemsForRound.length;i++){
-    const d = document.createElement('div');
-    d.className = 'slot';
-    elSlots.appendChild(d);
-  }
 
-  // Show board, hide assets
-  elAssets.style.display = 'none';
-  elBoard.style.display = 'block';
+  itemsThisRound.forEach((key, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'slot';
 
-  // 1) Brief preview layer (so memory matters)
-  elPreItems.innerHTML = '';
-  itemsForRound.forEach(key=>{
     const img = document.createElement('img');
+    img.className = 'asset';
     img.src = SRC[key];
     img.alt = key;
-    img.className = 'pre-item';
-    elPreItems.appendChild(img);
+    img.dataset.item = key;
+
+    img.addEventListener('click', () => {
+      chosenItem = key;
+      hideToast();               // remove hint as soon as user acts
+      beginCupPhase(itemsThisRound);
+    });
+
+    slot.appendChild(img);
+    elSlots.appendChild(slot);
   });
 
-  // Compute slot centers
-  const slots = Array.from(document.querySelectorAll('#slots .slot'));
+  // Precompute slot centers for cup animation
   const boardRect = elBoard.getBoundingClientRect();
+  const slots = Array.from(document.querySelectorAll('#slots .slot'));
   slotCenters = slots.map(slot=>{
     const r = slot.getBoundingClientRect();
     return { x: r.left - boardRect.left + r.width/2, y: r.top - boardRect.top + r.height/2 };
   });
 
-  // 2) Create cups + under-items at slot centers
+  // Clear prior cups
   elCups.innerHTML = '';
-  elUnder.innerHTML = '';
-  cupState = itemsForRound.map((itemKey, i)=>{
-    // Under item
-    const under = document.createElement('img');
-    under.className = 'under-item';
-    under.src = SRC[itemKey];
-    under.alt = itemKey;
-    elUnder.appendChild(under);
+}
 
-    // Cup
+/* ---------- Cup phase: cover visible assets → shuffle → reveal ---------- */
+function beginCupPhase(itemsForRound){
+  // Place cups centered over assets (visible drop)
+  elCups.innerHTML = '';
+  cupState = itemsForRound.map((itemKey, i)=>{
     const cup = document.createElement('img');
     cup.className = 'cup';
     cup.src = SRC.cupDown;
+    cup.style.left = slotCenters[i].x + 'px';
+    cup.style.top  = slotCenters[i].y + 'px';
     elCups.appendChild(cup);
-
-    positionAt(cup, i);
-    positionAt(under, i);
-
-    return { cupEl: cup, itemEl: under, itemKey, posIdx: i };
+    return { cupEl: cup, itemKey, posIdx: i };
   });
 
-  // 3) Drop cups to cover
+  // Drop to cover
   requestAnimationFrame(()=> cupState.forEach(s=> s.cupEl.classList.add('covered')));
 
-  // 4) Hide preview then shuffle cups
-  setTimeout(()=>{
-    elPreItems.style.opacity = '0';
-    setTimeout(()=> shuffleCups(8), 160);
-  }, 800);
-}
-
-/* ---------- Position helper ---------- */
-function positionAt(el, posIdx){
-  const c = slotCenters[posIdx];
-  el.style.left = (c.x - 55) + 'px';
-  el.style.top  = (c.y - 55) + 'px';
+  // Shuffle after cover
+  setTimeout(()=> shuffleCups(8), 800);
 }
 
 /* ---------- Shuffle: swap two positions repeatedly ---------- */
@@ -351,21 +307,25 @@ function shuffleCups(swaps=8){
     let b = Math.floor(Math.random()*cupState.length);
     if(a===b) b = (b+1)%cupState.length;
 
+    // swap destination indices
     const posA = cupState[a].posIdx;
     const posB = cupState[b].posIdx;
     cupState[a].posIdx = posB;
     cupState[b].posIdx = posA;
 
-    // Animate cups + under-items to new slots
-    positionAt(cupState[a].cupEl, cupState[a].posIdx);
-    positionAt(cupState[b].cupEl, cupState[b].posIdx);
-    positionAt(cupState[a].itemEl, cupState[a].posIdx);
-    positionAt(cupState[b].itemEl, cupState[b].posIdx);
+    // animate cups to new centers
+    positionCup(cupState[a].cupEl, cupState[a].posIdx);
+    positionCup(cupState[b].cupEl, cupState[b].posIdx);
 
     count++;
     setTimeout(doSwap, 260);
   }
   doSwap();
+}
+
+function positionCup(cupEl, posIdx){
+  cupEl.style.left = slotCenters[posIdx].x + 'px';
+  cupEl.style.top  = slotCenters[posIdx].y + 'px';
 }
 
 /* ---------- Reveal ---------- */
@@ -381,7 +341,7 @@ function onReveal(e){
   const cupEl = e.currentTarget;
   const info = cupState.find(s=>s.cupEl===cupEl);
 
-  // Lift + flip image
+  // Lift + swap to UpCup
   cupEl.classList.add('revealed');
   cupEl.src = SRC.cupUp;
 
@@ -393,17 +353,17 @@ function onReveal(e){
     elOutcome.textContent = "Wrong cup! " + outcomeText;
   }
 
-  // Disable further clicks this round
+  // Stop further reveals and allow replay
   cupState.forEach(s=> s.cupEl.onclick = null);
+  document.activeElement && document.activeElement.blur && document.activeElement.blur();
   elPlayAgain.style.display = 'inline-block';
 }
 
 /* ---------- Play again ---------- */
 document.getElementById('playAgain').addEventListener('click', ()=>{
-  // Reset visuals
-  elPreItems.style.opacity = '1';
-  elAssets.style.display = 'flex';
-  elBoard.style.display = 'none';
+  elOutcome.textContent = '';
+  // Briefly show the toast again for clarity on new round
+  showToast();
   startRound();
 });
 
