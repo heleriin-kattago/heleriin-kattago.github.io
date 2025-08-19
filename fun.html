@@ -251,6 +251,31 @@
         </div>
         <div class="image-caption">Solubility table design, just because</div>
     </div>
+
+    <!-- Brochure -->
+    <div class="section-title">Brochure about Van der Waals forces and how Geckos Stick to Waals</div>
+    <div class="product-gallery" id="brochure-gallery">
+        <div class="main-image-container">
+            <a href="fun stuff/brosuurkeelevahetusega-EST-heleriin.pdf" target="_blank">
+                <img class="main-image" src="fun stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
+            </a>
+            <div class="nav-button prev" onclick="prevImage('brochure')">❮</div>
+            <div class="nav-button next" onclick="nextImage('brochure')">❯</div>
+        </div>
+        <div class="thumbnail-container">
+            <div class="thumbnail active" onclick="changeImage('brochure', 0)">
+                <a href="fun stuff/brosuurkeelevahetusega-EST-heleriin.pdf" target="_blank">
+                    <img src="fun stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
+                </a>
+            </div>
+            <div class="thumbnail" onclick="changeImage('brochure', 1)">
+                <a href="fun stuff/brosuurkeelevahetusega-ENG-heleriin.pdf" target="_blank">
+                    <img src="fun stuff/brosuurkeelevahetusega-ENG.png" alt="Brochure in English">
+                </a>
+            </div>
+        </div>
+        <div class="image-caption">Brochure design in Estonian & English (click image to open PDF)</div>
+    </div>
     
     <!-- Birthday Hoodie -->
     <div class="section-title">Birthday Hoodie</div>
@@ -321,6 +346,13 @@
                 images: [
                     { src: "fun stuff/LAHUSTUVUSTABEL.est.png", alt: "Solubility Table in Estonian" },
                     { src: "fun stuff/LAHUSTUVUSTABEL.eng.png", alt: "Solubility Table in English" }
+                ],
+                currentIndex: 0
+            },
+            brochure: {
+                images: [
+                    { src: "fun stuff/brosuurkeelevahetusega-EST.png", alt: "Brochure in Estonian" },
+                    { src: "fun stuff/brosuurkeelevahetusega-ENG.png", alt: "Brochure in English" }
                 ],
                 currentIndex: 0
             },
