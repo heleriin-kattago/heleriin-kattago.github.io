@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Heleriin Kattago | Fun Stuff</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Favicon & Fonts -->
+  <link rel="icon" type="image/svg" href="pics/starfav.svg" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+  <style>
+    html, body, a, button { cursor: url('pics/cursor.svg'), auto; }
+    :root{
+      --card-w:110px;
+      --card-h:110px;
+      --gap:14px;
+    }
+    body {
+      font-family: 'Inknut Antiqua', serif;
+      text-align: center;
+      background: #f9f9f9;
+      margin: 0; padding: 0;
+    }
+    section { margin: 40px auto; max-width: 920px; padding: 20px; }
+    h1,h2,h3 { font-family: 'Mansalva', cursive; }
+
+    /* Intro overlay */
+    #introOverlay{
+      position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
+      background:#f9f9f9; z-index: 50;
+      animation: introFade 2.6s ease 0.2s forwards;
+    }
+    #introText{
+      font-family: 'Mansalva', cursive;
+      font-size: clamp(28px, 6vw, 64px);
+      line-height: 1.1;
+      opacity: 0;
+      animation: textIn 0.7s ease forwards, textOut 1.2s ease 1.2s forwards;
+      padding: 0 16px;
+    }
+    @keyframes introFade { 0%{opacity:1} 80%{opacity:1} 100%{opacity:0; visibility:hidden} }
+    @keyframes textIn { from{opacity:0; transform: translateY(10px)} to{opacity:1; transform: translateY(0)} }
+    @keyframes textOut { to{opacity:0; transform: translateY(-10px)} }
+
+    /* Scenario text: starts big, then compacts upward */
+    #scenarioWrap{ position: relative; min-height: 92px; }
+    #scenario{
+      margin: 10px 0 6px 0;
+      font-size: clamp(22px, 3.2vw, 28px);
+      transition: transform .5s ease, font-size .5s ease, opacity .5s ease;
+    }
+    #scenario.compact{
+      transform: translateY(-10px);
+      opacity: 0.95;
+      font-size: clamp(18px, 2.4vw, 22px);
+    }
+
+    /* Assets grid */
+    #assets{
+      display: flex; justify-content: center; flex-wrap: wrap; gap: var(--gap); margin-top: 10px;
+    }
+    .asset{
+      width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px; border: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,.22); cursor: pointer; transition: transform .15s ease;
+      background:#eee;
+    }
+    .asset:hover{ transform: scale(1.03); }
+
+    /* Board: shows the cup game */
+    #board{ position: relative; height: 300px; margin-top: 14px; display:none; }
+    #slots{ display:grid; gap: var(--gap); max-width: 920px; margin:0 auto; padding:0 10px; }
+    .slot{ height: var(--card-h); }
+
+    /* Preview layer (items briefly visible before cover) */
+    #preItems, #underItems, #cupLayer{
+      position: absolute; left:0; right:0; top:0; height:100%; padding:0 10px;
+    }
+    #preItems{ display:grid; gap: var(--gap); pointer-events:none; }
+    .pre-item{
+      width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px; margin: 0 auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,.20);
+    }
+
+    /* Items that travel with cups */
+    #underItems{ pointer-events:none; }
+    .under-item{
+      position:absolute; width: var(--card-w); height: var(--card-h); object-fit: cover; border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.20);
+      left:0; top:0; transform: translate(-9999px,-9999px);
+    }
+
+    /* Cups */
+    #cupLayer{ pointer-events:none; }
+    .cup{
+      position:absolute; width: var(--card-w); height: var(--card-h); border-radius:12px;
+      transform: translateY(-140px);
+      transition: transform .45s ease, left .28s ease, top .28s ease;
+      top:0; left:0;
+    }
+    .cup.covered{ transform: translateY(0); }
+    .cup.revealed{ transform: translateY(-140px); }
+
+    #outcome{ font-size: 1.05rem; margin-top: 18px; min-height: 42px; }
+
+    .btn{
+      margin-top: 16px; padding: 8px 14px; border: 1px solid #333; background:#fff;
+      border-radius: 8px; font-family: inherit; cursor: pointer; transition: .2s;
+    }
+    .btn:hover{ background:#333; color:#fff; }
+
+    @media (max-width: 780px){
+      #board{ height: 360px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro overlay -->
+  <div id="introOverlay">
+    <div id="introText">Welcome. Let’s play a game, shall we?</div>
+  </div>
+
+  <section id="game">
+    <div id="scenarioWrap">
+      <p id="scenario"></p>
+    </div>
+
+    <!-- Assets render here per scenario -->
+    <div id="assets"></div>
+
+    <!-- Cup board -->
+    <div id="board">
+      <div id="slots"></div>
+      <div id="preItems"></div>
+      <div id="underItems"></div>
+      <div id="cupLayer"></div>
+    </div>
+
+    <div id="outcome"></div>
+    <button id="playAgain" class="btn" style="display:none;">Play again</button>
+
+    <div style="margin-top:26px;">
+      <a href="index.html" class="btn">← Back to Portfolio</a>
+    </div>
+  </section>
+
+<script>
+/* ---------- Sources (exact filenames in /play) ---------- */
+const SRC = {
+  cupDown: "play/cupdown.jpg",
+  cupUp:   "play/cupup.jpg",
+  gun:     "play/gun.jpg",
+  heart:   "play/heart.jpg",
+  holywater:"play/holy watergun.jpg",
+  rose:    "play/rose.jpg",
+  socks:   "play/socks.jpg",
+  sword:   "play/sword.jpg"
+};
+
+/* ---------- Scenarios (whimsical but coherent) ---------- */
+const SCENARIOS = [
+  {
+    name: "dragon",
+    text: "A dragon sprawls across the road, hiccuping little smoke rings shaped like question marks.",
+    allowed: ["gun","heart","holywater","rose","socks","sword"], // uses all; shown in random order
+    outcomes: {
+      gun: "Bullets ping off his scales like rain on a roof. He yawns.",
+      heart: "Your steady heartbeat calms him. He curls up, purring like a thundercloud. Path clear.",
+      holywater: "The splash turns to steam; he sneezes a friendly smoke ring that nudges you forward.",
+      rose: "He delicately eats the rose and appoints you Royal Florist. Escort included.",
+      socks: "Two socks on two horns—instant fashion. He struts aside to model.",
+      sword: "You brandish the sword; he gently pinches it between claws and hands it back with a wink."
+    }
+  },
+  {
+    name: "vampire",
+    text: "At dusk, a courteous vampire blocks the gate—cape immaculate, appetite negotiable.",
+    allowed: ["holywater","rose","heart","socks","sword","gun"],
+    outcomes: {
+      gun: "You aim. He smiles: “Guns are for daylight troubles.” He reappears behind you. No passage.",
+      heart: "Your open heart recalls a life he once lived. He bows and steps aside. Win.",
+      holywater: "A few bright drops and—foom—he dissolves into polite mist with a tiny bow. Clear win.",
+      rose: "He accepts the rose, breathes it in, and grants you safe passage with courtly grace.",
+      socks: "You offer warm socks. He laughs; mood broken, danger gone. You slip by.",
+      sword: "You slash; he becomes a flurry of bats and reforms on a rooftop, unimpressed. No win."
+    }
+  },
+  {
+    name: "mermaid",
+    text: "By the pier, a mermaid combs seafoam from her hair, tolling passage with curious riddles.",
+    allowed: ["heart","rose","holywater","socks"],
+    outcomes: {
+      heart: "You listen. She answers your unasked question and waves you through. Win.",
+      rose: "You set the rose afloat; it becomes a tiny boat. She smiles and gifts you passage.",
+      holywater: "Already ocean-blessed. It sparkles; she giggles. Nothing changes.",
+      socks: "You offer socks. She points to her tail, amused. Tide says: try again."
+    }
+  }
+];
+
+/* ---------- State ---------- */
+let currentScenario = null;
+let chosenItem = null;   // what user clicks in asset grid
+let cupState = [];       // [{cupEl, itemEl, itemKey, posIdx}]
+let slotCenters = [];    // [{x,y}]
+let isShuffling = false;
+
+/* ---------- Elements ---------- */
+const elScenario  = document.getElementById('scenario');
+const elAssets    = document.getElementById('assets');
+const elBoard     = document.getElementById('board');
+const elSlots     = document.getElementById('slots');
+const elPreItems  = document.getElementById('preItems');
+const elUnder     = document.getElementById('underItems');
+const elCups      = document.getElementById('cupLayer');
+const elOutcome   = document.getElementById('outcome');
+const elPlayAgain = document.getElementById('playAgain');
+
+/* ---------- Start after intro overlay finishes ---------- */
+window.addEventListener('load', () => {
+  // When the overlay animation ends, initialize first round
+  setTimeout(startRound, 2700); // matches intro animation timing
+});
+
+/* ---------- Round flow ---------- */
+function startRound(){
+  // Pick a scenario randomly
+  currentScenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
+  chosenItem = null;
+  elOutcome.textContent = "";
+  elPlayAgain.style.display = "none";
+
+  // Scenario text appears large first
+  elScenario.classList.remove('compact');
+  elScenario.textContent = currentScenario.text;
+
+  // Build asset grid (random order)
+  elAssets.innerHTML = "";
+  const list = shuffle([...currentScenario.allowed]);
+  list.forEach(key=>{
+    const img = document.createElement('img');
+    img.className = 'asset';
+    img.src = SRC[key];         // ✅ correct play/ paths
+    img.alt = key;
+    img.dataset.item = key;
+    img.addEventListener('click', ()=>{
+      chosenItem = key;
+      // move scenario up/smaller on first interaction (if not already)
+      elScenario.classList.add('compact');
+      beginMemoryPhase(list);
+    });
+    elAssets.appendChild(img);
+  });
+
+  // After a short readable moment, compact the scenario to make room
+  setTimeout(()=> elScenario.classList.add('compact'), 1400);
+
+  // Hide board until a pick is made
+  elBoard.style.display = 'none';
+}
+
+/* ---------- Memory phase: show items → cover → shuffle ---------- */
+function beginMemoryPhase(itemsForRound){
+  // Grid columns equal to number of items (max 6)
+  const cols = Math.min(itemsForRound.length, 6);
+  elSlots.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  elPreItems.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+  // Build slots
+  elSlots.innerHTML = '';
+  for(let i=0;i<itemsForRound.length;i++){
+    const d = document.createElement('div');
+    d.className = 'slot';
+    elSlots.appendChild(d);
+  }
+
+  // Show board, hide assets
+  elAssets.style.display = 'none';
+  elBoard.style.display = 'block';
+
+  // 1) Brief preview layer (so memory matters)
+  elPreItems.innerHTML = '';
+  itemsForRound.forEach(key=>{
+    const img = document.createElement('img');
+    img.src = SRC[key];
+    img.alt = key;
+    img.className = 'pre-item';
+    elPreItems.appendChild(img);
+  });
+
+  // Compute slot centers
+  const slots = Array.from(document.querySelectorAll('#slots .slot'));
+  const boardRect = elBoard.getBoundingClientRect();
+  slotCenters = slots.map(slot=>{
+    const r = slot.getBoundingClientRect();
+    return { x: r.left - boardRect.left + r.width/2, y: r.top - boardRect.top + r.height/2 };
+  });
+
+  // 2) Create cups + under-items at slot centers
+  elCups.innerHTML = '';
+  elUnder.innerHTML = '';
+  cupState = itemsForRound.map((itemKey, i)=>{
+    // Under item
+    const under = document.createElement('img');
+    under.className = 'under-item';
+    under.src = SRC[itemKey];
+    under.alt = itemKey;
+    elUnder.appendChild(under);
+
+    // Cup
+    const cup = document.createElement('img');
+    cup.className = 'cup';
+    cup.src = SRC.cupDown;
+    elCups.appendChild(cup);
+
+    positionAt(cup, i);
+    positionAt(under, i);
+
+    return { cupEl: cup, itemEl: under, itemKey, posIdx: i };
+  });
+
+  // 3) Drop cups to cover
+  requestAnimationFrame(()=> cupState.forEach(s=> s.cupEl.classList.add('covered')));
+
+  // 4) Hide preview then shuffle cups
+  setTimeout(()=>{
+    elPreItems.style.opacity = '0';
+    setTimeout(()=> shuffleCups(8), 160);
+  }, 800);
+}
+
+/* ---------- Position helper ---------- */
+function positionAt(el, posIdx){
+  const c = slotCenters[posIdx];
+  el.style.left = (c.x - 55) + 'px';
+  el.style.top  = (c.y - 55) + 'px';
+}
+
+/* ---------- Shuffle: swap two positions repeatedly ---------- */
+function shuffleCups(swaps=8){
+  isShuffling = true;
+  elCups.style.pointerEvents = 'none';
+
+  let count = 0;
+  function doSwap(){
+    if(count >= swaps){
+      isShuffling = false;
+      enableReveals();
+      return;
+    }
+    let a = Math.floor(Math.random()*cupState.length);
+    let b = Math.floor(Math.random()*cupState.length);
+    if(a===b) b = (b+1)%cupState.length;
+
+    const posA = cupState[a].posIdx;
+    const posB = cupState[b].posIdx;
+    cupState[a].posIdx = posB;
+    cupState[b].posIdx = posA;
+
+    // Animate cups + under-items to new slots
+    positionAt(cupState[a].cupEl, cupState[a].posIdx);
+    positionAt(cupState[b].cupEl, cupState[b].posIdx);
+    positionAt(cupState[a].itemEl, cupState[a].posIdx);
+    positionAt(cupState[b].itemEl, cupState[b].posIdx);
+
+    count++;
+    setTimeout(doSwap, 260);
+  }
+  doSwap();
+}
+
+/* ---------- Reveal ---------- */
+function enableReveals(){
+  elCups.style.pointerEvents = 'auto';
+  cupState.forEach(({cupEl})=>{
+    cupEl.onclick = onReveal;
+  });
+}
+
+function onReveal(e){
+  if(isShuffling) return;
+  const cupEl = e.currentTarget;
+  const info = cupState.find(s=>s.cupEl===cupEl);
+
+  // Lift + flip image
+  cupEl.classList.add('revealed');
+  cupEl.src = SRC.cupUp;
+
+  const outcomeText = currentScenario.outcomes[info.itemKey] || "Something unexpected happens.";
+
+  if(info.itemKey === chosenItem){
+    elOutcome.textContent = "Correct! " + outcomeText;
+  }else{
+    elOutcome.textContent = "Wrong cup! " + outcomeText;
+  }
+
+  // Disable further clicks this round
+  cupState.forEach(s=> s.cupEl.onclick = null);
+  elPlayAgain.style.display = 'inline-block';
+}
+
+/* ---------- Play again ---------- */
+document.getElementById('playAgain').addEventListener('click', ()=>{
+  // Reset visuals
+  elPreItems.style.opacity = '1';
+  elAssets.style.display = 'flex';
+  elBoard.style.display = 'none';
+  startRound();
+});
+
+/* ---------- Utils ---------- */
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+</script>
+
+</body>
+</html>
