@@ -203,7 +203,7 @@ const overlay=$('#overlay'), tapHint=$('#tapHint');
 
 /* Audio setup */
 const bgm = $('#bgm');
-bgm.src = encodeURI('play/Fire to dragon .mp3'); // file path unchanged; display text updated
+bgm.src = encodeURI('play/Fire to dragon .mp3'); // path stays the same
 let soundMode = 'normal';
 const soundBtn = $('#soundBtn');
 const audioNote = $('#audioNote');
@@ -254,13 +254,108 @@ const INTRO_LINES={
     "The flood climbs. Traveller, will you calm the chorus or join it?"
   ]
 };
-/* Longer outcomes (unchanged aside from UK spellings) */
+
+/* Full outcomes: every scenario × item has a distinct story */
 const OUTCOMES={
-  kitchen:{ /* ... same as previous message ... */ },
-  dragon:{  /* ... same as previous message ... */ },
-  library:{ /* ... same as previous message ... */ }
+  kitchen:{
+    sword:[
+      "With a dramatic flourish, you brandish the Sword. Steel sings; onions resign themselves to geometry.",
+      "You become a culinary whirlwind—steam hisses, oil applauds, and a goblin tears up at the sight of symmetrical carrot coins.",
+      "The inspector files your knife skills under ‘Impressive, borderline therapeutic’. The cat, unmoved, judges your plating.",
+      "Course five arrives slightly on fire, but the bowtie cat purrs as the smoke alarm harmonises. It is chaos, but it is yours—and everyone leaves full of stories."
+    ],
+    gun:[
+      "You draw the Gun, and the kitchen holds its breath.",
+      "BLAM—the oven timer evaporates from the plane of anxiety. A hush, then cheers; nothing is cooked, but everything is suddenly possible.",
+      "The inspector stamps Approved out of existential respect. A goblin asks for your autograph on a ladle.",
+      "The cat blinks slowly, then sits upon your shoe—an honorary acceptance."
+    ],
+    holy:[
+      "You prime the sacred spritzer. The trigger clicks, and a glittering rain baptises the countertops.",
+      "Goblins squeal; the inspector’s calculator fizzles into repentance. The fridge admits its secrets and stops humming like a liar.",
+      "No feast arrives, yet a gentle fullness settles—like good choir music in the ribcage. The cat smells faintly of lilies and forgiveness."
+    ],
+    heart:[
+      "You lift the Heart. It beats with a rhythm that remembers every breakfast you survived.",
+      "Warmth rolls across the kitchen—goblins soften into lullabies, the inspector remembers painting sunrises on weekends.",
+      "No one eats—and yet the hollowness retreats. The cat curls around your ankle, forgiving you for being mortal."
+    ],
+    socks:[
+      "You don the Socks; doom downgrades to nap-adjacent.",
+      "Goblins yawn themselves into helpfulness, the inspector rubber-stamps with drowsy benevolence.",
+      "Pots simmer at the pace of a cosy afternoon. The cat kneads your lap like a bread deity. The feast becomes a well-timed rest cure."
+    ],
+    rose:[
+      "You present the Rose. Petals flicker; thorns vote for drama.",
+      "Goblins swoon and set the table with frightening precision. The inspector blushes and misplaces his clipboard on purpose.",
+      "The cat steals the stem under the fridge. Dinner never technically happens, but legends do—<i>The Feast That Never Was</i> tours taverns for years."
+    ]
+  },
+  dragon:{
+    sword:[
+      "You carve a canyon through Form 47B stacks. Paper snow swirls like bureaucratic winter.",
+      "The dragon polishes its spectacles, sighs, and closes the ledger. ‘Return the stapler,’ it mutters, surrendering treasure and a stolen hole punch.",
+      "Outside, the queue erupts into polite applause. You bow with administrative grace."
+    ],
+    gun:[
+      "You fire once. The desk becomes modern art; the in-tray experiences a spiritual awakening.",
+      "The dragon stares. ‘Page two needed a signature… but fine.’",
+      "A gold coin clinks into your palm marked for ‘Decisive Energy’. HR files an emotional report."
+    ],
+    holy:[
+      "A fine mist sanctifies the forms; ink confesses and runs toward early retirement.",
+      "The dragon sneezes—a triptych of thunder—and storms off to consult Compliance.",
+      "You gather damp treasure and a surprisingly respectful memo."
+    ],
+    heart:[
+      "The Heart glows. The dragon’s tail relaxes into a conversational curve.",
+      "Together you sprint the labyrinth: initial here, initial there—stamp, stamp, stamp.",
+      "At the end, approval, tea, and a feeling like sunrise in an office park."
+    ],
+    socks:[
+      "Socks on. The waiting room exhales; the fluorescent lights agree to be kinder.",
+      "The dragon yawns, stamps APPROVED on a hundred scrolls, and issues a blanket voucher.",
+      "Treasure is given with a bedtime story about boundaries."
+    ],
+    rose:[
+      "You offer the Rose. Scales blush; fire dimples into candlelight.",
+      "Forms vanish into an enchanted drawer. ‘Forget the paperwork,’ murmurs the dragon. ‘Take the treasure… and call me?’",
+      "Some quests end with signatures; the best end with invitations."
+    ]
+  },
+  library:{
+    sword:[
+      "You wade into the chorus, steel flashing. Verbose volumes are edited mid-sentence.",
+      "Pages scatter like white birds; the flood stills to listen.",
+      "Silence blooms tenderly. Wisdom smells faintly of rain and pulp."
+    ],
+    gun:[
+      "BLAM. Every book freezes mid-syllable. Even the thesaurus runs out of synonyms for ‘stunned’.",
+      "The water, embarrassed by the drama, drains itself with a slurp.",
+      "One pamphlet whispers, ‘Unnecessary, but effective.’ It’s hard to argue."
+    ],
+    holy:[
+      "You baptise the stacks. Margins sing hymns; footnotes glow.",
+      "The flood retreats, sparkling like a well-edited paragraph.",
+      "Cookbooks lead a grateful chorus in Béchamel Major."
+    ],
+    heart:[
+      "The Heart’s rhythm steadies the room. Arguments settle into paragraphs; complaints volunteer for proofreading.",
+      "Books align themselves by genre, then by mood. Even the phone directory feels seen.",
+      "Peace, dryness, order. A bookmark tucks itself in for a nap."
+    ],
+    socks:[
+      "The Socks warm the water into a communal bath of comprehension.",
+      "Epics lounge like sea lions; novellas hum cosy jazz.",
+      "You smell like lavender wisdom; the Dewey Decimal System winks."
+    ],
+    rose:[
+      "You set the Rose upon a floating dictionary. Across the room, the thesaurus sighs.",
+      "The flood blushes and tiptoes out the back door.",
+      "Volume A–B begins a romance with Poets, Selected. They exchange pressed petals."
+    ]
+  }
 };
-/* To keep this answer compact, reuse the same OUTCOMES content you already have. */
 
 const ITEM_SRC={
   sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg",
@@ -398,14 +493,14 @@ async function onPickCup(pickedIdx){
   const itemKey = cupContents[pickedIdx];
   await tellOutcome(currentScenario, itemKey);
   $('#resultBtns').style.display='block';
-  $('#backPortfolio').classList.add('show');  // show only at the end
+  $('#backPortfolio').classList.add('show');
   busy=false;
 }
 
 /* Outcome helper */
 async function tellOutcome(scenario,itemKey){
   const title = TITLES[scenario]||"A Curious Trial";
-  const body  = OUTCOMES[scenario]?.[itemKey] || ["Fate shrugs; the tale goes unwritten—this time."];
+  const body  = OUTCOMES[scenario]?.[itemKey] || ["A curious hush lingers… but your choice writes the next line."];
   const beats = Array.isArray(body) ? body : [body];
   await playLines([title, ...beats]);
 }
