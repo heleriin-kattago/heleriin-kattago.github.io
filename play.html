@@ -17,7 +17,7 @@ body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--pa
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Overlay lines */
+/* Overlay lines (Mansalva big text) */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -37,7 +37,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #tapHint.show{ opacity:1 }
 @media (max-width: 600px){ #tapHint{ font-size:12px; bottom:16px; } }
 
-/* Status line */
+/* Status line under overlay */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
 #story{ margin:10px 0 6px; font-family:'Jomolhari',serif; font-size:clamp(20px,2.8vw,26px); line-height:1.45; }
 #story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
@@ -76,7 +76,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   opacity:0; transform:translateY(0) scale(.1); transition:opacity .35s ease, transform .55s ease; z-index:4;
 }
 
-/* Results */
+/* Results buttons (Inknut text) */
 #resultBtns{ display:none; margin:26px auto 0; max-width:960px }
 #resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
 .btn{
@@ -84,36 +84,34 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   border:1px solid var(--dark);
   background:#fff;
   border-radius:12px;
-  font-family:'Mansalva',cursive;
+  font-family:'Inknut Antiqua',serif; /* Inknut text */
   cursor:pointer;
   transition:.2s;
   font-size:20px;
   min-width:220px;
-  color:var(--dark); /* force black text (mobile too) */
+  color:var(--dark); /* black text (mobile too) */
 }
 .btn:hover{
-  background:var(--mid); /* green hover on desktop */
+  background:var(--mid); /* green hover */
   color:#fff;
   border-color:var(--mid);
 }
 
-/* Back to portfolio */
+/* Back to portfolio (Inknut text) */
 #backPortfolio{
   display:none;
   margin:16px auto 40px;
   text-decoration:none;
-  color:var(--dark); /* black on all devices */
+  color:var(--dark);
   border:1px solid var(--dark);
   border-radius:10px;
   padding:10px 16px;
-  font-family:'Mansalva',cursive;
+  font-family:'Inknut Antiqua',serif; /* Inknut */
   font-size:18px;
 }
 #backPortfolio.show{ display:inline-block }
 #backPortfolio:hover{
-  background:var(--mid); /* green hover */
-  color:#fff;
-  border-color:var(--mid);
+  background:var(--mid); color:#fff; border-color:var(--mid);
 }
 
 /* iPhone spacing */
@@ -126,7 +124,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 @media (max-width: 360px){
   .cup{ width:110px; height:110px; top:74px } .cup img{ width:110px; height:110px }
   [data-pos="0"]{ left:8px } [data-pos="1"]{ left:calc(50% - 55px) } [data-pos="2"]{ left:calc(100% - 118px) }
-  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) } .popItem{ width:90px; height:90px }
+  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) } .popItem{ width:90px; height:90px; }
 }
 
 /* Audio note + control */
@@ -236,7 +234,7 @@ async function playLines(lines,{onAdvance=null}={}){
   overlay.style.display='none';
 }
 
-/* Text */
+/* Text data */
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
@@ -368,27 +366,40 @@ const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#ar
 const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
 const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg", heart:"play/HEART.svg", socks:"play/SOCKS.svg", rose:"play/ROSE.svg" };
 const ITEMS=Object.keys(ITEM_SRC);
-let cupPos=[0,1,2], cupHolding=0, cupContents={}, busy=false, shuffled=false;
 
-function say(line,{compact=false, mansalva=false}={}){ story.classList.toggle('compact',compact); story.classList.toggle('mansalva',mansalva); story.textContent=line; }
+/* Cup positions (visual only) */
+let cupPos=[0,1,2]; /* indices 0..2 -> visual columns 0..2 */
 function setPos(el,pos){ el.dataset.pos=String(pos) }
-function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); }
 function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b); }
-function clearCupSprites(){ $$('.popItem').forEach(el=>el.remove()); flyingItem.style.opacity='0'; flyingItem.style.transform='scale(.9)'; flyingItem.removeAttribute('src'); }
+
+/* Content mapping by ELEMENT (fixes “wrong cup” edge cases) */
+const contentMap = new Map();  // cupEl -> itemKey
+let cupHolding = 0;            // which cup element initially receives the chosen item
+let shuffled = false;
+let busy = false;
+
+function centerOf(el){
+  const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect();
+  return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2};
+}
+function clearCupSprites(){
+  $$('.popItem').forEach(el=>el.remove());
+  flyingItem.style.opacity='0'; flyingItem.style.transform='scale(.9)'; flyingItem.removeAttribute('src');
+}
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show');
-  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; cupContents={}; cupHolding=0; clearCupSprites();
+  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); cupHolding=0; clearCupSprites();
 }
 
-/* Intro + music + full flow */
+/* Intro + music + flow */
 async function runScenarioIntro(key){
   currentScenario=key; overlayAdvances=0;
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
   // Welcome first; start music after welcome
-  await playLines(["Welcome, let’s play a game, shall we?"],{
+  await playLines(["Welcome, let’s play, shall we?"],{
     onAdvance:()=>{ bgm.play().then(()=>{applySoundMode(); audioNote.classList.add('show'); setTimeout(()=>audioNote.classList.remove('show'),3500);}).catch(()=>{}); }
   });
 
@@ -399,7 +410,8 @@ async function runScenarioIntro(key){
   await playLines(INTRO_LINES[key]);
 
   // Choice prompt + show Arsenal
-  say("Traveller, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
+  story.classList.add('mansalva');
+  story.textContent="Traveller, you have a choice to make. Which item do you pick?";
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
@@ -418,17 +430,21 @@ async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block';
-  say("Life always works out. Even when the situation doesn't unfold the way you thought it would.", {compact:true});
+
+  /* Shuffle-stage message as overlay */
+  await playLines(["Your choice dives into the dance."]);
 
   // Reset layout
-  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
+  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2);
+  shuffled=false; busy=false; contentMap.clear();
 
-  // Assign contents: chosen + two decoys
+  // Assign contents: chosen + two decoys (to elements, not indices)
   const others=ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
-  cupHolding=Math.floor(Math.random()*3); cupContents={};
-  for(let i=0,oi=0;i<3;i++){ cupContents[i]=(i===cupHolding)?selectedItem:others[oi++]; }
+  const temp = [selectedItem, others[0], others[1]].sort(()=>Math.random()-0.5); // random distribution to cups
+  cups.forEach((cupEl, i)=> contentMap.set(cupEl, temp[i]));
+  cupHolding = cups.findIndex(c=>contentMap.get(c)===selectedItem);
 
-  // Drop chosen item into its cup
+  // Drop chosen item into its actual cup element
   flyingItem.src=ITEM_SRC[selectedItem];
   flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='170px';
   flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
@@ -437,7 +453,7 @@ async function proceedToCups(){
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=>flyingItem.style.opacity='0',320);
 
-  // Visual shuffle only
+  // Visual shuffle only (slower, no content remap — content sticks to the element)
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
@@ -446,34 +462,40 @@ async function proceedToCups(){
   await playLines(["Well, well, my dear Traveller… where did it go? Pick your cup."]);
 }
 
-/* Reveal and outcome */
-cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)));
-async function onPickCup(pickedIdx){
+/* Reveal and outcome — by element, not index */
+cups.forEach(cupEl => cupEl.addEventListener('click', () => onPickCupEl(cupEl)));
+
+async function onPickCupEl(cupEl){
   if(!shuffled || busy) return; busy=true;
 
-  cups[pickedIdx].style.transform="translateY(-6px)"; setTimeout(()=> cups[pickedIdx].style.transform="", 280);
+  cupEl.style.transform="translateY(-6px)"; setTimeout(()=> cupEl.style.transform="", 280);
 
-  // Pop all items out briefly
+  // Pop all items out briefly from each cup element (positions follow current layout)
   const sprites=[];
-  for(let i=0;i<3;i++){
-    let spr=document.createElement('img'); spr.id=`pop-${i}`; spr.className='popItem'; spr.alt='Revealed item'; cupRow.appendChild(spr);
-    const rect=cups[i].getBoundingClientRect(), host=cupRow.getBoundingClientRect();
-    spr.style.left=(rect.left-host.left+rect.width/2-60)+'px'; spr.style.top=(rect.top-host.top+rect.height/2-60)+'px';
-    spr.src=ITEM_SRC[cupContents[i]]; spr.style.opacity='0'; spr.style.transform='translateY(0) scale(.1)'; sprites.push(spr);
+  for(const el of cups){
+    const spr=document.createElement('img'); spr.className='popItem'; spr.alt='Revealed item'; cupRow.appendChild(spr);
+    const rect=el.getBoundingClientRect(), host=cupRow.getBoundingClientRect();
+    spr.style.left=(rect.left-host.left+rect.width/2-60)+'px';
+    spr.style.top=(rect.top-host.top+rect.height/2-60)+'px';
+    spr.src=ITEM_SRC[contentMap.get(el)];
+    spr.style.opacity='0'; spr.style.transform='translateY(0) scale(.1)'; sprites.push(spr);
   }
-  for(let i=0;i<3;i++){ await wait(140); sprites[i].style.opacity='1'; sprites[i].style.transform='translateY(-60px) scale(1)'; }
+  for(let i=0;i<sprites.length;i++){ await wait(140); sprites[i].style.opacity='1'; sprites[i].style.transform='translateY(-60px) scale(1)'; }
   await wait(550);
-  for(let i=0;i<3;i++){ sprites[i].style.opacity='0'; sprites[i].style.transform='translateY(0) scale(.1)'; }
+  for(const s of sprites){ s.style.opacity='0'; s.style.transform='translateY(0) scale(.1)'; }
   await wait(380);
   sprites.forEach(s=>s.remove());
 
-  const correct=(cupContents[pickedIdx]===selectedItem);
+  const pickedItem = contentMap.get(cupEl);
+  const correct = (pickedItem === selectedItem);
   if(correct) await playLines(["Congratulations. You found your item."]);
-  else await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
+  else        await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
 
   cupStage.style.display='none';
-  const itemKey=cupContents[pickedIdx];
-  await tellOutcome(currentScenario,itemKey);
+  await tellOutcome(currentScenario, pickedItem);
+
+  /* FINAL PAGE MESSAGE — only here (overlay Mansalva) */
+  await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
@@ -482,7 +504,7 @@ async function onPickCup(pickedIdx){
 /* Outcome runner */
 async function tellOutcome(scenario,itemKey){
   const title=TITLES[scenario]||"A Curious Trial";
-  const body=OUTCOMES[scenario]?.[itemKey]||["A curious hush lingers… but your choice writes the next line."];
+  const body=(OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) || ["A curious hush lingers… but your choice writes the next line."];
   const beats=Array.isArray(body)?body:[body];
   await playLines([title, ...beats]);
 }
