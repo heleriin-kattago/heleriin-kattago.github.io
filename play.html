@@ -36,21 +36,6 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 }
 #tapHint.show{ opacity:1 }
 
-/* Back arrow / History */
-#backArrow{
-  position:fixed; left:12px; top:12px; width:30px; height:30px; border-radius:50%;
-  border:1px solid rgba(0,0,0,.35); background:#fff; display:flex; align-items:center; justify-content:center;
-  font-size:18px; color:#333; z-index:60; opacity:.85;
-}
-#backArrow:hover{ background:#333; color:#fff }
-#history{
-  position:fixed; left:12px; top:52px; width:min(520px,90vw); max-height:60vh; overflow:auto;
-  background:#fff; border:1px solid rgba(0,0,0,.15); border-radius:12px; padding:10px 14px;
-  text-align:left; z-index:60; display:none;
-}
-#history h3{ font-size:18px; color:var(--mid); margin:2px 0 8px }
-#history p{ margin:6px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.45 }
-
 /* Small story status line */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
 #story{
@@ -113,9 +98,9 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   #cupRow{ height: 260px; }
   .cup{ width:130px; height:130px; top:70px; }
   .cup img{ width:130px; height:130px; }
-  [data-pos="0"]{ left:12px; }                          /* wider left margin */
-  [data-pos="1"]{ left:calc(50% - 65px); }              /* centered */
-  [data-pos="2"]{ left:calc(100% - 142px); }            /* 12px right margin */
+  [data-pos="0"]{ left:12px; }
+  [data-pos="1"]{ left:calc(50% - 65px); }
+  [data-pos="2"]{ left:calc(100% - 142px); }
   #flyingItem{ width:100px; height:100px; top: 185px; left:calc(50% - 50px); }
   .popItem{ width:100px; height:100px; }
 }
@@ -132,13 +117,8 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 </head>
 <body>
 
-<!-- minimal audio element; starts after first click -->
+<!-- Music: starts after first click to continue -->
 <audio id="bgm" preload="auto" loop></audio>
-
-<button id="backArrow" title="Show previous text" aria-label="Show previous text">←</button>
-<div id="history" role="region" aria-label="Previous narration">
-  <h3>Previous narration</h3><div id="historyList"></div>
-</div>
 
 <div id="overlay"></div>
 <div id="tapHint">Click or press space to continue</div>
@@ -190,19 +170,15 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const overlay=$('#overlay'), tapHint=$('#tapHint');
-const historyBox=$('#history'), historyList=$('#historyList'); $('#backArrow').onclick=()=>{ historyBox.style.display=(historyBox.style.display==='block'?'none':'block'); };
-function pushHistory(t){ const p=document.createElement('p'); p.textContent=t; historyList.appendChild(p); }
 
-/* Audio – set source and start on first advance */
+/* Audio: path + start after first advance */
 const bgm = $('#bgm');
-bgm.src = encodeURI('play/Fire to dragon .mp3'); // handles spaces in filename
+bgm.src = encodeURI('play/Fire to dragon .mp3'); // keep the space in filename safe
 
-let firstAdvanceHook = null;
-async function playLines(lines, {onAdvance} = {}){
+async function playLines(lines, {onAdvance=null} = {}){
   overlay.innerHTML=''; overlay.style.display='block';
   for(let i=0;i<lines.length;i++){
-    const text = lines[i];
-    const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=text; overlay.appendChild(el);
+    const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350); tapHint.classList.add('show');
     await new Promise(res=>{
       const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
@@ -210,7 +186,7 @@ async function playLines(lines, {onAdvance} = {}){
       overlay.addEventListener('click',h); document.addEventListener('keydown',h);
     });
     tapHint.classList.remove('show');
-    if (onAdvance) onAdvance(i);               // callback on each advance
+    if (onAdvance) onAdvance(i);        // e.g., start music after first click
     el.classList.add('hide'); await wait(420);
   }
   overlay.style.display='none';
@@ -342,27 +318,41 @@ const ITEM_SRC={
 };
 const ITEMS=Object.keys(ITEM_SRC);
 
-/* Flow */
+/* Flow/state */
 let currentScenario='kitchen', selectedItem=null;
 const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#arsenalGrid'), arsenalBlurbs=$('#arsenalBlurbs');
-const cupStage=$('#cupStage'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
-let cupPos=[0,1,2], cupHolding=0, cupDecoy={}, busy=false, shuffled=false;
+const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
+let cupPos=[0,1,2], cupHolding=0, cupContents={}, busy=false, shuffled=false;
 
-/* say helper */
-function say(line,{compact=false,push=true, mansalva=false}={}){
-  if(push){ const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p); }
+/* Helpers */
+function say(line,{compact=false,push=false, mansalva=false}={}){
   story.classList.toggle('compact',compact);
   story.classList.toggle('mansalva',mansalva);
   story.textContent=line;
 }
-
-/* Positions and swaps */
 function setPos(el,pos){ el.dataset.pos=String(pos) }
-function centerOfCup(idx){ const r=cups[idx].getBoundingClientRect(), s=cupStage.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
+function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); if(cupHolding===a) cupHolding=b; else if(cupHolding===b) cupHolding=a }
 function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b) }
 
-/* Scenario intro + global intro, with audio start after first advance */
+function clearCupSprites(){
+  $$('.popItem').forEach(el=>el.remove());
+  flyingItem.style.opacity='0';
+  flyingItem.style.transform='scale(.9)';
+  flyingItem.removeAttribute('src');
+}
+
+function resetRound(){
+  // hide sections
+  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
+  cupStage.style.display='none'; $('#resultBtns').style.display='none';
+  // state
+  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; cupContents={}; cupHolding=0;
+  // visuals
+  clearCupSprites();
+}
+
+/* Intro + music kickoff on first advance */
 async function runScenarioIntro(key){
   currentScenario=key;
   await playLines([
@@ -371,72 +361,61 @@ async function runScenarioIntro(key){
     "Yet despair not—for you are not defenseless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
     "The challenge rises before you, vast and unyielding. But you, Traveler, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
   ], {
-    onAdvance: (i)=>{
-      if(i===0){ // after the first click/advance, start the music
-        bgm.play().catch(()=>{/* iOS may require another tap; subsequent advances will retry */});
-      }
-    }
+    onAdvance:(i)=>{ if(i===0) bgm.play().catch(()=>{}); } // start after first click
   });
   await playLines(INTRO_LINES[key]);
   say("Traveler, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
-/* Reset round view */
-function resetRound(){
-  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='none'; $('#resultBtns').style.display='none';
-  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false;
-}
-
-/* Arsenal interactions */
+/* Arsenal pick */
 arsenalGrid.addEventListener('click',e=>{
   const btn=e.target.closest('.asset'); if(!btn) return;
-  $$('.asset').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected');
-  selectedItem=btn.dataset.item;
+  $$('.asset').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedItem=btn.dataset.item;           // remember the chosen item precisely
   proceedToCups();
 });
 
-/* Proceed to cup stage: drop, assign per-cup items, auto-shuffle */
+/* To cup stage */
 async function proceedToCups(){
+  clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
-  // layout
+  // layout reset
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
-  // which cup holds the chosen item
-  cupHolding=Math.floor(Math.random()*3);
-  // per-cup contents (real + two decoys)
-  const leftovers = ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
-  cupDecoy = {};
-  for(let i=0, li=0; i<3; i++){
-    cupDecoy[i] = (i===cupHolding) ? selectedItem : leftovers[li++];
-  }
-  // drop into chosen cup
+  // assign contents per cup (chosen + two decoys)
+  const others = ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
+  cupHolding = Math.floor(Math.random()*3);
+  cupContents = {};
+  for(let i=0,oi=0;i<3;i++){ cupContents[i] = (i===cupHolding) ? selectedItem : others[oi++]; }
+  // drop visuals
   flyingItem.src=ITEM_SRC[selectedItem];
   flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='170px';
   flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
-  await wait(450); const c=centerOfCup(cupHolding);
+  await wait(450);
+  const c=centerOf(cups[cupHolding]);
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=> flyingItem.style.opacity='0', 320);
-  // auto shuffle (slow & readable)
+  // shuffle
   await wait(500);
-  const swaps=7 + Math.floor(Math.random()*3);
+  const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
   shuffled=true;
   await playLines(["Well, well, my dear Traveler… where did it go? Pick your cup."]);
 }
 
-/* When clicking a cup: reveal ALL cups (each pops its item), then narrative */
-cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)) );
+/* Reveal logic: all cups pop items, then items go back & disappear */
+cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)));
 
 async function onPickCup(pickedIdx){
   if(!shuffled || busy) return; busy=true;
 
-  // tiny nudge on the picked cup
+  // soft nudge
   cups[pickedIdx].style.transform="translateY(-6px)"; setTimeout(()=> cups[pickedIdx].style.transform="", 280);
 
-  // create per-cup pop sprites if not present; position via bounding boxes for accuracy
-  let sprites = [];
+  // create/update sprites positioned by current bounding boxes
+  const sprites = [];
   for(let i=0;i<3;i++){
     let spr = document.querySelector(`#pop-${i}`);
     if(!spr){
@@ -444,26 +423,36 @@ async function onPickCup(pickedIdx){
       spr.id = `pop-${i}`;
       spr.className = 'popItem';
       spr.alt = 'Revealed item';
-      $('#cupRow').appendChild(spr);
+      cupRow.appendChild(spr);
     }
     const rect = cups[i].getBoundingClientRect();
-    const host = $('#cupRow').getBoundingClientRect();
-    spr.style.left = (rect.left - host.left + rect.width/2 - (spr.width||120)/2) + 'px';
-    spr.style.top  = (rect.top  - host.top  + rect.height/2 - (spr.height||120)/2) + 'px';
-    spr.src = ITEM_SRC[cupDecoy[i]];
+    const host = cupRow.getBoundingClientRect();
+    const w = spr.naturalWidth || 120, h = spr.naturalHeight || 120;
+    spr.style.left = (rect.left - host.left + rect.width/2 - w/2) + 'px';
+    spr.style.top  = (rect.top  - host.top  + rect.height/2 - h/2) + 'px';
+    spr.src = ITEM_SRC[cupContents[i]];
     spr.style.opacity = '0';
     spr.style.transform = 'translateY(0) scale(.1)';
     sprites.push(spr);
   }
 
-  // staggered pop for all three cups
+  // pop up all three with small stagger
   for(let i=0;i<3;i++){
     await wait(140);
-    sprites[i].style.opacity = '1';
-    sprites[i].style.transform = 'translateY(-60px) scale(1)';
+    sprites[i].style.opacity='1';
+    sprites[i].style.transform='translateY(-60px) scale(1)';
   }
   await wait(550);
 
+  // then back down & fade out, then remove so nothing sticks between games
+  for(let i=0;i<3;i++){
+    sprites[i].style.opacity='0';
+    sprites[i].style.transform='translateY(0) scale(.1)';
+  }
+  await wait(380);
+  sprites.forEach(s=>s.remove());
+
+  // narrative fork
   const correct = (pickedIdx===cupHolding);
   if(correct){
     await playLines(["Congratulations. You found your item."]);
@@ -471,20 +460,19 @@ async function onPickCup(pickedIdx){
     await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
   }
 
-  // hide cups & tell the outcome with the revealed item from picked cup
+  // hide cups & tell outcome based on the item in the picked cup
   cupStage.style.display='none';
-  const itemKey = cupDecoy[pickedIdx];
+  const itemKey = cupContents[pickedIdx];
   await tellOutcome(currentScenario, itemKey);
   $('#resultBtns').style.display='block';
   busy=false;
 }
 
-/* Outcomes in big style (multi-beat arrays) */
+/* Outcome helper (multi-beat arrays supported) */
 async function tellOutcome(scenario,itemKey){
   const title = TITLES[scenario]||"A Curious Trial";
   const body  = OUTCOMES[scenario]?.[itemKey] || ["Fate shrugs; the tale goes unwritten—this time."];
   const beats = Array.isArray(body) ? body : [body];
-  pushHistory(title); beats.forEach(b=>pushHistory(b));
   await playLines([title, ...beats]);
 }
 
@@ -493,7 +481,7 @@ $('#again').onclick     = async ()=>{ resetRound(); await runScenarioIntro(curre
 $('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon'); };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
 
-/* Kick off with kitchen */
+/* Start with Kitchen */
 runScenarioIntro('kitchen');
 </script>
 </body>
