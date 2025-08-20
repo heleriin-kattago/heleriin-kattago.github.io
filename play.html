@@ -4,8 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Arsenal Quest</title>
- <!-- Favicon -->
- <link rel="icon" type="image/svg" href="pics/starfav.svg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="pics/starfav.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap" rel="stylesheet">
 <style>
@@ -16,12 +18,12 @@ body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--pa
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Big overlay lines (intro & outcomes) — slightly smaller now */
+/* Big overlay lines (intro & outcomes) — click/space to advance */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   text-align:center; padding:0 16px; font-family:'Mansalva',cursive;
-  font-size:clamp(26px,5.2vw,56px); line-height:1.1;  /* was 28…64 */
+  font-size:clamp(26px,5.2vw,56px); line-height:1.1;
   opacity:0; transform:translateY(10px);
   transition:opacity .6s ease, transform .6s ease;
 }
@@ -49,19 +51,17 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #history h3{ font-size:18px; color:var(--mid); margin:2px 0 8px }
 #history p{ margin:6px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.45 }
 
-/* Story status line */
+/* Small story status line */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
 #story{
   margin:10px 0 6px; font-family:'Jomolhari',serif;
   font-size:clamp(20px,2.8vw,26px); line-height:1.45;
 }
 #story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
-/* Allow switching to Mansalva for specific line */
 #story.mansalva{ font-family:'Mansalva',cursive }
 
-/* Arsenal (pure vectors) */
+/* Arsenal (pure vectors; heading in Inknut) */
 #arsenalSection{ display:none }
-/* Heading in Inknut (requested) */
 #arsenalSection h2{ font-family:'Inknut Antiqua',serif }
 #arsenalGrid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:18px; margin-top:10px }
 .asset{ position:relative; background:transparent; border:none; outline:none; padding:10px; cursor:pointer; transition:transform .12s ease }
@@ -70,14 +70,15 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 .asset img.thumb{ display:block; width:120px; height:120px; margin:0 auto; object-fit:contain; border:none; background:transparent }
 .asset.selected::after{ content:""; position:absolute; inset:-6px; border-radius:14px; outline:3px solid var(--mid) }
 #arsenalBlurbs{ margin-top:12px; text-align:left; max-width:800px; margin-inline:auto; display:none }
-#arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif }
+#arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.5 }
+#arsenalBlurbs .blurb b{ font-family:'Inknut Antiqua',serif; font-weight:700 }
 
 /* Cup shuffle */
 #cupStage{ display:none; margin:26px auto 0; max-width:960px }
-#board{ position:relative; height:320px; margin-top:6px }
-#cupRow{ position:relative; height:240px; margin-top:10px }
+#board{ position:relative; height:360px; margin-top:6px }
+#cupRow{ position:relative; height:260px; margin-top:10px }
 .cup{
-  position:absolute; width:160px; height:160px; top:40px; border:none;
+  position:absolute; width:160px; height:160px; top:60px; border:none;
   display:flex; align-items:center; justify-content:center; cursor:pointer;
   transition:left 1s ease, transform .28s ease; /* slow shuffle */
 }
@@ -87,18 +88,52 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 [data-pos="2"]{ left:calc(100% - 240px) }
 #flyingItem{
   position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
-  left:calc(50% - 60px); top:150px; opacity:0; transform:scale(.9);
+  left:calc(50% - 60px); top:170px; opacity:0; transform:scale(.9);
   transition:left .6s ease, top .6s ease, opacity .35s ease, transform .6s ease; z-index:3;
 }
+/* Per-cup reveal sprites */
+.popItem{
+  position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
+  opacity:0; transform:translateY(0) scale(.1); transition:opacity .35s ease, transform .55s ease; z-index:4;
+}
 
-/* Result buttons (after outcome) */
-#resultBtns{ display:none; margin:18px auto 0; max-width:920px }
-#resultBtns .row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center }
-.btn{ padding:8px 14px; border:1px solid #333; background:#fff; border-radius:8px; font-family:inherit; cursor:pointer; transition:.2s; font-size:16px }
+/* Result buttons bigger */
+#resultBtns{ display:none; margin:22px auto 0; max-width:920px }
+#resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
+.btn{
+  padding:14px 20px; border:1px solid #333; background:#fff; border-radius:10px;
+  font-family:inherit; cursor:pointer; transition:.2s; font-size:18px; min-width:200px;
+}
 .btn:hover{ background:#333; color:#fff }
+@media (max-width:600px){ .btn{ width:100% } }
+
+/* iPhone/narrow spacing tweaks */
+@media (max-width: 430px){
+  #board{ height: 360px; }
+  #cupRow{ height: 260px; }
+  .cup{ width:130px; height:130px; top:70px; }
+  .cup img{ width:130px; height:130px; }
+  [data-pos="0"]{ left:12px; }                          /* wider left margin */
+  [data-pos="1"]{ left:calc(50% - 65px); }              /* centered */
+  [data-pos="2"]{ left:calc(100% - 142px); }            /* 12px right margin */
+  #flyingItem{ width:100px; height:100px; top: 185px; left:calc(50% - 50px); }
+  .popItem{ width:100px; height:100px; }
+}
+@media (max-width: 360px){
+  .cup{ width:110px; height:110px; top:74px; }
+  .cup img{ width:110px; height:110px; }
+  [data-pos="0"]{ left:8px; }
+  [data-pos="1"]{ left:calc(50% - 55px); }
+  [data-pos="2"]{ left:calc(100% - 118px); }
+  #flyingItem{ width:90px; height:90px; top: 190px; left:calc(50% - 45px); }
+  .popItem{ width:90px; height:90px; }
+}
 </style>
 </head>
 <body>
+
+<!-- minimal audio element; starts after first click -->
+<audio id="bgm" preload="auto" loop></audio>
 
 <button id="backArrow" title="Show previous text" aria-label="Show previous text">←</button>
 <div id="history" role="region" aria-label="Previous narration">
@@ -121,12 +156,12 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
     <button class="asset" data-item="rose" aria-label="The Rose"><img class="thumb" src="play/ROSE.svg" alt=""></button>
   </div>
   <div id="arsenalBlurbs">
-    <div class="blurb">⚔️ <b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
-    <div class="blurb">🔫 <b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
-    <div class="blurb">💦 <b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
-    <div class="blurb">💖 <b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
-    <div class="blurb">🧦 <b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
-    <div class="blurb">🌹 <b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
+    <div class="blurb"><b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
+    <div class="blurb"><b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
+    <div class="blurb"><b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
+    <div class="blurb"><b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
+    <div class="blurb"><b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
+    <div class="blurb"><b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
   </div>
 </section>
 
@@ -157,16 +192,26 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const overlay=$('#overlay'), tapHint=$('#tapHint');
 const historyBox=$('#history'), historyList=$('#historyList'); $('#backArrow').onclick=()=>{ historyBox.style.display=(historyBox.style.display==='block'?'none':'block'); };
 function pushHistory(t){ const p=document.createElement('p'); p.textContent=t; historyList.appendChild(p); }
-async function playLines(lines){
+
+/* Audio – set source and start on first advance */
+const bgm = $('#bgm');
+bgm.src = encodeURI('play/Fire to dragon .mp3'); // handles spaces in filename
+
+let firstAdvanceHook = null;
+async function playLines(lines, {onAdvance} = {}){
   overlay.innerHTML=''; overlay.style.display='block';
-  for(const text of lines){
+  for(let i=0;i<lines.length;i++){
+    const text = lines[i];
     const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=text; overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350); tapHint.classList.add('show');
-    await new Promise(res=>{ const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
+    await new Promise(res=>{
+      const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
       function cleanup(){ overlay.removeEventListener('click',h); document.removeEventListener('keydown',h); }
       overlay.addEventListener('click',h); document.addEventListener('keydown',h);
     });
-    tapHint.classList.remove('show'); el.classList.add('hide'); await wait(420);
+    tapHint.classList.remove('show');
+    if (onAdvance) onAdvance(i);               // callback on each advance
+    el.classList.add('hide'); await wait(420);
   }
   overlay.style.display='none';
 }
@@ -190,30 +235,105 @@ const INTRO_LINES={
     "The flood climbs. Traveler, will you calm the chorus or join it?"
   ]
 };
+/* Longer outcomes */
 const OUTCOMES={
   kitchen:{
-    sword:"With a dramatic flourish, you brandish the Sword. The goblins cheer—you become a culinary whirlwind, onions surrendering in perfect cubes. The inspector files your knife skills under ‘Impressive’. The cat remains unimpressed. Dinner is… edible. Barely.",
-    gun:"You draw the Gun. Silence. Then—BLAM!—you shoot the oven timer. The room erupts in applause, crisis solved by gravitas alone. The inspector stamps ‘Approved’ out of raw respect. The cat blinks, unimpressed but accepting the bit.",
-    holy:"You unleash a sparkling baptism. Goblins squeal with delight; the inspector’s calculator fizzles; the cat now smells faintly of lilies. Dinner never arrives, yet everyone leaves weirdly satisfied.",
-    heart:"You lift the glowing Heart; warmth spreads. Goblins hum lullabies, the inspector remembers his dream of painting, the cat purrs with genuine approval. No one eats—but somehow, everyone feels full.",
-    socks:"You don the Socks. Doom feels like nap time. Goblins tuck themselves in, the inspector yawns and stamps everything, the cat kneads your lap. The feast becomes a very successful rest.",
-    rose:"You present the Rose. The goblins swoon; the inspector blushes; the cat abducts the stem under the fridge. Dinner is never cooked, but your performance is legendary: <i>The Feast That Never Was</i>."
+    sword:[
+      "With a dramatic flourish, you brandish the Sword. Steel sings; onions resign themselves to geometry.",
+      "You become a culinary whirlwind—steam hisses, oil applauds, and a goblin tears up at the sight of symmetrical carrot coins.",
+      "The inspector files your knife skills under ‘Impressive, borderline therapeutic’. The cat, unmoved, judges your plating.",
+      "Course five arrives slightly on fire, but the bowtie cat purrs as the smoke alarm harmonizes. It is chaos, but it is yours—and everyone leaves full of stories."
+    ],
+    gun:[
+      "You draw the Gun, and the kitchen holds its breath.",
+      "BLAM—the oven timer evaporates from the plane of anxiety. A hush, then cheers; nothing is cooked, but everything is suddenly possible.",
+      "The inspector stamps Approved out of existential respect. A goblin asks for your autograph on a ladle.",
+      "The cat blinks slowly, then sits upon your shoe—an honorary acceptance."
+    ],
+    holy:[
+      "You prime the sacred spritzer. The trigger clicks, and a glittering rain baptizes the countertops.",
+      "Goblins squeal; the inspector’s calculator fizzles into repentance. The fridge admits its secrets and stops humming like a liar.",
+      "No feast arrives, yet a gentle fullness settles—like good choir music in the ribcage. The cat smells faintly of lilies and forgiveness."
+    ],
+    heart:[
+      "You lift the Heart. It beats with a rhythm that remembers every breakfast you survived.",
+      "Warmth rolls across the kitchen—goblins soften into lullabies, the inspector remembers painting sunrises on weekends.",
+      "No one eats—and yet the hollowness retreats. The cat curls around your ankle, forgiving you for being mortal."
+    ],
+    socks:[
+      "You don the Socks; doom downgrades to nap-adjacent.",
+      "Goblins yawn themselves into helpfulness, the inspector rubber-stamps with drowsy benevolence.",
+      "Pots simmer at the pace of a cozy afternoon. The cat kneads your lap like a bread deity. The feast becomes a well-timed rest cure."
+    ],
+    rose:[
+      "You present the Rose. Petals flicker; thorns vote for drama.",
+      "Goblins swoon and set the table with frightening precision. The inspector blushes and misplaces his clipboard on purpose.",
+      "The cat steals the stem under the fridge. Dinner never technically happens, but legends do—<i>The Feast That Never Was</i> tours taverns for years."
+    ]
   },
   dragon:{
-    sword:"You slice through towers of Form 47B. Paper snow! The dragon sighs, closes the ledger, and concedes the treasure—demanding only that you return the stapler.",
-    gun:"A single shot reduces the desk to modern art. The dragon adjusts its glasses: ‘You could’ve signed page two… but fine.’ A gold coin is awarded for ‘decisive energy’.",
-    holy:"A holy mist washes bureaucracy away; ink runs like guilty secrets. The dragon sneezes thrice and storms off to HR. You collect treasure, damp but triumphant.",
-    heart:"You raise the Heart. The forms feel… doable. The dragon softens, offers a pen, and together you sprint the paperwork. Stamp, stamp, stamp—approved with a smile.",
-    socks:"Socks on. Lines become cozy. The dragon yawns, stamps APPROVED on everything, and sends you off with a blanket and a bonus chit.",
-    rose:"You offer the Rose. Scales blush; paperwork vanishes into a drawer. ‘Forget the forms,’ whispers the dragon. ‘Take the treasure. And… call me?’"
+    sword:[
+      "You carve a canyon through Form 47B stacks. Paper snow swirls like bureaucratic winter.",
+      "The dragon polishes its spectacles, sighs, and closes the ledger. ‘Return the stapler,’ it mutters, surrendering treasure and a stolen hole punch.",
+      "Outside, the queue erupts into polite applause. You bow with administrative grace."
+    ],
+    gun:[
+      "You fire once. The desk becomes modern art; the in-tray experiences a spiritual awakening.",
+      "The dragon stares. ‘Page two needed a signature… but fine.’",
+      "A gold coin clinks into your palm marked for ‘Decisive Energy’. HR files an emotional report."
+    ],
+    holy:[
+      "A fine mist sanctifies the forms; ink confesses and runs toward early retirement.",
+      "The dragon sneezes—a triptych of thunder—and storms off to consult Compliance.",
+      "You gather damp treasure and a surprisingly respectful memo."
+    ],
+    heart:[
+      "The Heart glows. The dragon’s tail relaxes into a conversational curve.",
+      "Together you sprint the labyrinth: initial here, initial there—stamp, stamp, stamp.",
+      "At the end, approval, tea, and a feeling like sunrise in an office park."
+    ],
+    socks:[
+      "Socks on. The waiting room exhales; the fluorescent lights agree to be kinder.",
+      "The dragon yawns, stamps APPROVED on a hundred scrolls, and issues a blanket voucher.",
+      "Treasure is given with a bedtime story about boundaries."
+    ],
+    rose:[
+      "You offer the Rose. Scales blush; fire dimples into candlelight.",
+      "Forms vanish into an enchanted drawer. ‘Forget the paperwork,’ murmurs the dragon. ‘Take the treasure… and call me?’",
+      "Some quests end with signatures; the best end with invitations."
+    ]
   },
   library:{
-    sword:"You wade in, slicing soggy chatterboxes. Pages scatter; silence follows. The water stills. The scent of pulp and victory lingers.",
-    gun:"BLAM. Every book freezes mid-sentence. The water, embarrassed by the drama, drains itself. One pamphlet whispers, ‘Unnecessary, but effective.’",
-    holy:"You baptize the stacks; voices turn to hymns. The flood sparkles and retreats. Cookbooks lead a grateful chorus.",
-    heart:"The Heart’s rhythm calms the room. Books stop bickering and line up neatly—even the phone directory. Peace. Dryness. Order.",
-    socks:"Socks convert the flood to a warm bath. Books sigh into snores; vapor rises like a spa day. You smell faintly of lavender wisdom.",
-    rose:"You set the Rose upon a floating dictionary. The entire library swoons. The flood retreats shyly. A romance begins between Volume A–B and the thesaurus."
+    sword:[
+      "You wade into the chorus, steel flashing. Verbose volumes are edited mid-sentence.",
+      "Pages scatter like white birds; the flood stills to listen.",
+      "Silence blooms tenderly. Wisdom smells faintly of rain and pulp."
+    ],
+    gun:[
+      "BLAM. Every book freezes mid-syllable. Even the thesaurus runs out of synonyms for ‘stunned’.",
+      "The water, embarrassed by the drama, drains itself with a slurp.",
+      "One pamphlet whispers, ‘Unnecessary, but effective.’ It’s hard to argue."
+    ],
+    holy:[
+      "You baptize the stacks. Margins sing hymns; footnotes glow.",
+      "The flood retreats, sparkling like a well-edited paragraph.",
+      "Cookbooks lead a grateful chorus in Béchamel Major."
+    ],
+    heart:[
+      "The Heart’s rhythm steadies the room. Arguments settle into paragraphs; complaints volunteer for proofreading.",
+      "Books align themselves by genre, then by mood. Even the phone directory feels seen.",
+      "Peace, dryness, order. A bookmark tucks itself in for a nap."
+    ],
+    socks:[
+      "The Socks warm the water into a communal bath of comprehension.",
+      "Epics lounge like sea lions; novellas hum cozy jazz.",
+      "You smell like lavender wisdom; the Dewey Decimal System winks."
+    ],
+    rose:[
+      "You set the Rose upon a floating dictionary. Across the room, the thesaurus sighs.",
+      "The flood blushes and tiptoes out the back door.",
+      "Volume A–B begins a romance with Poets, Selected. They exchange pressed petals."
+    ]
   }
 };
 const ITEM_SRC={
@@ -228,93 +348,45 @@ const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#ar
 const cupStage=$('#cupStage'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
 let cupPos=[0,1,2], cupHolding=0, cupDecoy={}, busy=false, shuffled=false;
 
+/* say helper */
 function say(line,{compact=false,push=true, mansalva=false}={}){
-  if(push) { const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p); }
+  if(push){ const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p); }
   story.classList.toggle('compact',compact);
   story.classList.toggle('mansalva',mansalva);
   story.textContent=line;
 }
+
+/* Positions and swaps */
 function setPos(el,pos){ el.dataset.pos=String(pos) }
 function centerOfCup(idx){ const r=cups[idx].getBoundingClientRect(), s=cupStage.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); if(cupHolding===a) cupHolding=b; else if(cupHolding===b) cupHolding=a }
 function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b) }
 
+/* Scenario intro + global intro, with audio start after first advance */
 async function runScenarioIntro(key){
   currentScenario=key;
   await playLines([
-    "Let’s play.",
+    "Welcome, let’s play, shall we?",
     "My dear Traveler… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.<br>Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
     "Yet despair not—for you are not defenseless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
     "The challenge rises before you, vast and unyielding. But you, Traveler, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
-  ]);
+  ], {
+    onAdvance: (i)=>{
+      if(i===0){ // after the first click/advance, start the music
+        bgm.play().catch(()=>{/* iOS may require another tap; subsequent advances will retry */});
+      }
+    }
+  });
   await playLines(INTRO_LINES[key]);
-  say("Traveler, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true}); /* Mansalva line */
+  say("Traveler, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
+/* Reset round view */
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none';
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false;
-}
-
-async function proceedToCups(){
-  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
-  // positions
-  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
-  // decide which cup holds the chosen item
-  cupHolding=Math.floor(Math.random()*3);
-  // assign decoys to each cup at shuffle-time (exactly as requested)
-  const leftovers = ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
-  cupDecoy = {};
-  for(let i=0, li=0; i<3; i++){
-    cupDecoy[i] = (i===cupHolding) ? selectedItem : leftovers[li++];
-  }
-
-  // drop in
-  flyingItem.src=ITEM_SRC[selectedItem];
-  flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='150px';
-  flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
-  await wait(450); const c=centerOfCup(cupHolding);
-  flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
-  setTimeout(()=> flyingItem.style.opacity='0', 320);
-  // auto shuffle (slow)
-  await wait(500);
-  const swaps=7 + Math.floor(Math.random()*3);
-  for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
-  shuffled=true;
-  await playLines(["Well, well, my dear Traveler… where did it go? Pick your cup."]);
-}
-
-async function onPickCup(idx){
-  if(!shuffled || busy) return; busy=true;
-  cups[idx].style.transform="translateY(-6px)"; setTimeout(()=> cups[idx].style.transform="", 280);
-
-  const itemKey = cupDecoy[idx];              // this cup’s assigned item (real or decoy)
-  const correct = (idx===cupHolding);
-
-  // Pop the item from THIS cup (rise once more)
-  const c=centerOfCup(idx);
-  flyingItem.src=ITEM_SRC[itemKey];
-  flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px';
-  flyingItem.style.opacity='0'; flyingItem.style.transform='scale(0.1)';
-  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
-    flyingItem.style.opacity='1'; flyingItem.style.transform='translateY(-50px) scale(1)';
-    setTimeout(()=> flyingItem.style.transform='scale(1)', 450);
-  });});
-
-  if(correct){
-    await playLines(["Congratulations. You found your item."]);
-  } else {
-    await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
-  }
-
-  // Hide cups & tell the outcome with the revealed item
-  cupStage.style.display='none';
-  await tellOutcome(currentScenario, itemKey);
-  $('#resultBtns').style.display='block';
-  busy=false;
 }
 
 /* Arsenal interactions */
@@ -325,15 +397,95 @@ arsenalGrid.addEventListener('click',e=>{
   proceedToCups();
 });
 
-/* Cups */
+/* Proceed to cup stage: drop, assign per-cup items, auto-shuffle */
+async function proceedToCups(){
+  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
+  cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
+  // layout
+  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
+  // which cup holds the chosen item
+  cupHolding=Math.floor(Math.random()*3);
+  // per-cup contents (real + two decoys)
+  const leftovers = ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
+  cupDecoy = {};
+  for(let i=0, li=0; i<3; i++){
+    cupDecoy[i] = (i===cupHolding) ? selectedItem : leftovers[li++];
+  }
+  // drop into chosen cup
+  flyingItem.src=ITEM_SRC[selectedItem];
+  flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='170px';
+  flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
+  await wait(450); const c=centerOfCup(cupHolding);
+  flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
+  setTimeout(()=> flyingItem.style.opacity='0', 320);
+  // auto shuffle (slow & readable)
+  await wait(500);
+  const swaps=7 + Math.floor(Math.random()*3);
+  for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
+  shuffled=true;
+  await playLines(["Well, well, my dear Traveler… where did it go? Pick your cup."]);
+}
+
+/* When clicking a cup: reveal ALL cups (each pops its item), then narrative */
 cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)) );
 
-/* Outcomes */
+async function onPickCup(pickedIdx){
+  if(!shuffled || busy) return; busy=true;
+
+  // tiny nudge on the picked cup
+  cups[pickedIdx].style.transform="translateY(-6px)"; setTimeout(()=> cups[pickedIdx].style.transform="", 280);
+
+  // create per-cup pop sprites if not present; position via bounding boxes for accuracy
+  let sprites = [];
+  for(let i=0;i<3;i++){
+    let spr = document.querySelector(`#pop-${i}`);
+    if(!spr){
+      spr = document.createElement('img');
+      spr.id = `pop-${i}`;
+      spr.className = 'popItem';
+      spr.alt = 'Revealed item';
+      $('#cupRow').appendChild(spr);
+    }
+    const rect = cups[i].getBoundingClientRect();
+    const host = $('#cupRow').getBoundingClientRect();
+    spr.style.left = (rect.left - host.left + rect.width/2 - (spr.width||120)/2) + 'px';
+    spr.style.top  = (rect.top  - host.top  + rect.height/2 - (spr.height||120)/2) + 'px';
+    spr.src = ITEM_SRC[cupDecoy[i]];
+    spr.style.opacity = '0';
+    spr.style.transform = 'translateY(0) scale(.1)';
+    sprites.push(spr);
+  }
+
+  // staggered pop for all three cups
+  for(let i=0;i<3;i++){
+    await wait(140);
+    sprites[i].style.opacity = '1';
+    sprites[i].style.transform = 'translateY(-60px) scale(1)';
+  }
+  await wait(550);
+
+  const correct = (pickedIdx===cupHolding);
+  if(correct){
+    await playLines(["Congratulations. You found your item."]);
+  } else {
+    await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
+  }
+
+  // hide cups & tell the outcome with the revealed item from picked cup
+  cupStage.style.display='none';
+  const itemKey = cupDecoy[pickedIdx];
+  await tellOutcome(currentScenario, itemKey);
+  $('#resultBtns').style.display='block';
+  busy=false;
+}
+
+/* Outcomes in big style (multi-beat arrays) */
 async function tellOutcome(scenario,itemKey){
   const title = TITLES[scenario]||"A Curious Trial";
-  const body  = OUTCOMES[scenario]?.[itemKey] || "Fate shrugs; the tale goes unwritten—this time.";
-  pushHistory(title); pushHistory(body);
-  await playLines([title, body]);
+  const body  = OUTCOMES[scenario]?.[itemKey] || ["Fate shrugs; the tale goes unwritten—this time."];
+  const beats = Array.isArray(body) ? body : [body];
+  pushHistory(title); beats.forEach(b=>pushHistory(b));
+  await playLines([title, ...beats]);
 }
 
 /* Buttons after outcome */
