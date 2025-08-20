@@ -3,32 +3,35 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Arsenal Quest</title>
+<title>Quest</title>
 
+<!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="pics/starfav.svg">
+
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap" rel="stylesheet">
 
 <style>
 html, body, a, button { cursor: url('pics/cursor.svg'), auto; }
-:root{ --dark:#101A04; --mid:#536340; --paper:#f9f9f9; }
+:root{ --gap:14px; --dark:#101A04; --mid:#536340; --paper:#f9f9f9; }
 *{ box-sizing:border-box }
 body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--paper); margin:0; color:var(--dark) }
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Overlay narrative */
+/* Overlay lines (big narrative text) */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  text-align:center; padding:0 16px; font-family:'Mansalva',cursive;
-  font-size:clamp(26px,5.2vw,56px); line-height:1.1;
+  text-align:center; padding:0 16px;
+  font-family:'Mansalva',cursive; font-size:clamp(26px,5.2vw,56px); line-height:1.1;
   opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease;
 }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
 .overlayLine.hide{ opacity:0; transform:translateY(-10px) }
 
-/* Continue hint */
+/* Continue hint (auto-hides on mobile after a few advances) */
 #tapHint{
   position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
   background:rgba(0,0,0,.78); color:#fff; padding:8px 12px; border-radius:10px;
@@ -37,15 +40,19 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #tapHint.show{ opacity:1 }
 @media (max-width: 600px){ #tapHint{ font-size:12px; bottom:16px; } }
 
-/* Small status area */
+/* Optional status line (kept minimal) */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
-#story{ margin:10px 0 6px; font-family:'Mansalva',cursive; font-size:clamp(20px,2.8vw,26px); line-height:1.45; }
+#story{ margin:10px 0 6px; font-family:'Jomolhari',serif; font-size:clamp(20px,2.8vw,26px); line-height:1.45; }
+#story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
+#story.mansalva{ font-family:'Mansalva',cursive }
 
 /* Arsenal */
 #arsenalSection{ display:none }
 #arsenalSection h2{ font-family:'Inknut Antiqua',serif }
 #arsenalGrid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:18px; margin-top:10px }
-.asset{ position:relative; background:transparent; border:none; outline:none; padding:10px; cursor:pointer; transition:transform .12s ease }
+.asset{
+  position:relative; background:transparent; border:none; outline:none; padding:10px; cursor:pointer; transition:transform .12s ease;
+}
 .asset:focus-visible{ outline:2px solid var(--mid); border-radius:12px }
 .asset:hover{ transform:translateY(-2px) scale(1.02) }
 .asset img.thumb{ display:block; width:120px; height:120px; margin:0 auto; object-fit:contain; border:none; background:transparent }
@@ -54,7 +61,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.5 }
 #arsenalBlurbs .blurb b{ font-family:'Inknut Antiqua',serif; font-weight:700 }
 
-/* Cups */
+/* Cup shuffle */
 #cupStage{ display:none; margin:26px auto 0; max-width:960px }
 #board{ position:relative; height:360px; margin-top:6px }
 #cupRow{ position:relative; height:260px; margin-top:10px }
@@ -65,25 +72,28 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 .cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block }
 [data-pos="0"]{ left:80px } [data-pos="1"]{ left:calc(50% - 80px) } [data-pos="2"]{ left:calc(100% - 240px) }
 
+/* Flying chosen item (drops into the correct cup) */
 #flyingItem{
   position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
   left:calc(50% - 60px); top:170px; opacity:0; transform:scale(.9);
   transition:left .6s ease, top .6s ease, opacity .35s ease, transform .6s ease; z-index:3;
 }
+
+/* Per-cup reveal sprites */
 .popItem{
   position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
   opacity:0; transform:translateY(0) scale(.1); transition:opacity .35s ease, transform .55s ease; z-index:4;
 }
 
-/* End buttons (Inknut; black on mobile; green hover desktop) */
+/* Results buttons (Inknut text; black on mobile; green hover desktop) */
 #resultBtns{ display:none; margin:26px auto 0; max-width:960px }
 #resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
 .btn{
   padding:14px 22px; border:1px solid var(--dark); background:#fff; border-radius:12px;
   font-family:'Inknut Antiqua',serif; cursor:pointer; transition:.2s; font-size:20px; min-width:220px; color:var(--dark);
 }
-@media (hover:hover){ .btn:hover{ background:var(--mid); color:#fff; border-color:var(--mid); } }
-@media (max-width:600px){ .btn{ width:100%; color:var(--dark); } }
+.btn:hover{ background:var(--mid); color:#fff; border-color:var(--mid); }
+@media (max-width:600px){ .btn{ width:100%; color:var(--dark) } }
 
 /* Back to portfolio (only at end) */
 #backPortfolio{
@@ -96,15 +106,24 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 
 /* iPhone spacing */
 @media (max-width: 430px){
-  #board{ height: 360px; } #cupRow{ height: 260px; }
-  .cup{ width:130px; height:130px; top:70px; } .cup img{ width:130px; height:130px; }
-  [data-pos="0"]{ left:12px } [data-pos="1"]{ left:calc(50% - 65px) } [data-pos="2"]{ left:calc(100% - 142px) }
-  #flyingItem{ width:100px; height:100px; top:185px; left:calc(50% - 50px); } .popItem{ width:100px; height:100px; }
+  #board{ height: 360px; }
+  #cupRow{ height: 260px; }
+  .cup{ width:130px; height:130px; top:70px; }
+  .cup img{ width:130px; height:130px; }
+  [data-pos="0"]{ left:12px }
+  [data-pos="1"]{ left:calc(50% - 65px) }
+  [data-pos="2"]{ left:calc(100% - 142px) }
+  #flyingItem{ width:100px; height:100px; top:185px; left:calc(50% - 50px); }
+  .popItem{ width:100px; height:100px; }
 }
 @media (max-width: 360px){
-  .cup{ width:110px; height:110px; top:74px } .cup img{ width:110px; height:110px }
-  [data-pos="0"]{ left:8px } [data-pos="1"]{ left:calc(50% - 55px) } [data-pos="2"]{ left:calc(100% - 118px) }
-  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) } .popItem{ width:90px; height:90px; }
+  .cup{ width:110px; height:110px; top:74px }
+  .cup img{ width:110px; height:110px }
+  [data-pos="0"]{ left:8px }
+  [data-pos="1"]{ left:calc(50% - 55px) }
+  [data-pos="2"]{ left:calc(100% - 118px) }
+  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) }
+  .popItem{ width:90px; height:90px; }
 }
 
 /* Audio note + control */
@@ -132,11 +151,14 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 <div id="audioNote">Playing <i>“Fire to Dragon”</i> — by me. Turn up the volume of your device.</div>
 <button id="soundBtn" title="Sound: normal" aria-label="Sound: normal">🔊</button>
 
+<!-- Narrative overlay + hint -->
 <div id="overlay"></div>
 <div id="tapHint">Click or press space to continue</div>
 
+<!-- Minimal status area -->
 <section id="storySection"><div id="storyWrap"><div id="story"></div></div></section>
 
+<!-- Arsenal -->
 <section id="arsenalSection">
   <h2>Choose from your Arsenal</h2>
   <div id="arsenalGrid" aria-label="Arsenal">
@@ -157,6 +179,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   </div>
 </section>
 
+<!-- Cups -->
 <section id="cupStage">
   <h2 id="cupTitle">The Shuffle</h2>
   <div id="board">
@@ -169,6 +192,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   </div>
 </section>
 
+<!-- End-of-story options (Kitchen first) -->
 <section id="resultBtns">
   <div class="row">
     <button id="toKitchen" class="btn">The Kitchen Crucible</button>
@@ -180,42 +204,63 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 <a id="backPortfolio" href="index.html">Back to portfolio</a>
 
 <script>
-/* Shortcuts */
+/* Shorthands & utils */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const overlay=$('#overlay'), tapHint=$('#tapHint');
 
-/* Audio */
-const bgm=$('#bgm'); bgm.src=encodeURI('play/Fire to dragon .mp3');
+const bgm=$('#bgm'); bgm.src=encodeURI('play/Fire to Dragon.mp3'); /* your filename tweak is fine */
 let soundMode='normal'; const soundBtn=$('#soundBtn'); const audioNote=$('#audioNote');
 function applySoundMode(){
   if(soundMode==='normal'){ bgm.muted=false; bgm.volume=0.7; soundBtn.textContent='🔊'; soundBtn.title='Sound: normal'; }
   if(soundMode==='quiet'){  bgm.muted=false; bgm.volume=0.2; soundBtn.textContent='🔉'; soundBtn.title='Sound: quiet'; }
   if(soundMode==='muted'){  bgm.muted=true;  bgm.volume=0.0; soundBtn.textContent='🔇'; soundBtn.title='Sound: muted'; }
 }
-soundBtn.addEventListener('click',()=>{ soundMode=(soundMode==='normal')?'quiet':(soundMode==='quiet'?'muted':'normal'); applySoundMode(); });
+soundBtn.onclick=()=>{ soundMode=(soundMode==='normal')?'quiet':(soundMode==='quiet'?'muted':'normal'); applySoundMode(); };
 
-/* Overlay engine */
-let overlayAdvances=0; const isMobile=()=>window.matchMedia('(max-width:600px)').matches;
+/* Overlay engine with Space consumption and mobile auto-hide hint */
+let overlayAdvances=0, overlayActive=false; const isMobile=()=>window.matchMedia('(max-width:600px)').matches;
 async function playLines(lines,{onAdvance=null}={}){
-  overlay.innerHTML=''; overlay.style.display='block';
+  overlay.innerHTML=''; overlay.style.display='block'; overlayActive=true;
   for(let i=0;i<lines.length;i++){
     const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350);
     if(!(isMobile() && overlayAdvances>=2)) tapHint.classList.add('show');
     await new Promise(res=>{
-      const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
-      function cleanup(){ overlay.removeEventListener('click',h); document.removeEventListener('keydown',h); }
-      overlay.addEventListener('click',h); document.addEventListener('keydown',h);
+      const h=(e)=>{
+        if(e.type==='keydown'){
+          if(e.code!=='Space') return;
+          e.preventDefault(); e.stopPropagation();
+        }
+        cleanup(); res();
+      };
+      function cleanup(){ overlay.removeEventListener('click',h); document.removeEventListener('keydown',h,true); }
+      overlay.addEventListener('click',h);
+      /* use capture to intercept Space before focused elements receive it */
+      document.addEventListener('keydown',h,true);
     });
     overlayAdvances++; tapHint.classList.remove('show'); if(onAdvance) onAdvance(i);
     el.classList.add('hide'); await wait(420);
   }
-  overlay.style.display='none';
+  overlay.style.display='none'; overlayActive=false;
 }
 
-/* Story data */
+/* Global Space guard when overlay is NOT visible: prevents accidental button activation */
+document.addEventListener('keydown', (e)=>{
+  if(e.code==='Space' && !overlayActive){
+    /* If we're in arsenal or cups, block space-triggered clicks/scrolls */
+    const arsenalVisible = getComputedStyle($('#arsenalSection')).display!=='none';
+    const cupsVisible    = getComputedStyle($('#cupStage')).display!=='none';
+    if(arsenalVisible || cupsVisible){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+}, true);
+
+/* Story text */
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
+
 const INTRO_LINES={
   kitchen:[
     "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
@@ -233,12 +278,14 @@ const INTRO_LINES={
     "The flood climbs. Traveller, will you calm the chorus or join it?"
   ]
 };
+
 const INTRO_FIXED="My dear Traveller… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.";
 const INTRO_VARIANTS=[
   "Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
   "Yet despair not—for you are not defenceless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
   "The challenge rises before you, vast and unyielding. But you, Traveller, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
 ];
+
 const OUTCOMES={
   kitchen:{
     sword:[
@@ -347,71 +394,92 @@ const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),
 const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg", heart:"play/HEART.svg", socks:"play/SOCKS.svg", rose:"play/ROSE.svg" };
 const ITEMS=Object.keys(ITEM_SRC);
 
-/* Visual positions, independent of content */
+/* Cup visual positions (0..2) */
 let cupPos=[0,1,2];
 function setPos(el,pos){ el.dataset.pos=String(pos) }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); }
 function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b); }
-function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
-function clearCupSprites(){ $$('.popItem').forEach(el=>el.remove()); flyingItem.style.opacity='0'; flyingItem.style.transform='scale(.9)'; flyingItem.removeAttribute('src'); }
 
-/* Robust content binding: map each CUP ELEMENT to its item. This never changes during swaps. */
-const contentMap=new Map(); // cupEl => itemKey
+/* Robust content binding (cup element -> item key). Never remap during swaps. */
+const contentMap=new Map();
 let shuffled=false, busy=false;
 
-/* Reset between runs */
+/* Utility */
+function centerOf(el){
+  const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect();
+  return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2};
+}
+function clearCupSprites(){
+  $$('.popItem').forEach(el=>el.remove());
+  flyingItem.style.opacity='0'; flyingItem.style.transform='scale(.9)'; flyingItem.removeAttribute('src');
+}
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show');
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 
-/* Intro flow */
+/* Scenario intro + music */
 async function runScenarioIntro(key){
   currentScenario=key; overlayAdvances=0;
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
-  // Welcome; start music after the first advance
+  // Welcome first; start music after welcome line advances
   await playLines(["Welcome, let’s play, shall we?"],{
-    onAdvance:()=>{ bgm.play().then(()=>{applySoundMode(); audioNote.classList.add('show'); setTimeout(()=>audioNote.classList.remove('show'),3500);}).catch(()=>{}); }
+    onAdvance:()=>{
+      bgm.play().then(()=>{
+        applySoundMode();
+        audioNote.classList.add('show');
+        setTimeout(()=>audioNote.classList.remove('show'),3500);
+      }).catch(()=>{});
+    }
   });
 
+  // Global intro (fixed first line + random second line)
   await playLines([INTRO_FIXED, variant]);
+
+  // Scenario-specific intro
   await playLines(INTRO_LINES[key]);
 
+  // Choice prompt and show arsenal
+  story.classList.add('mansalva');
   story.textContent="Traveller, you have a choice to make. Which item do you pick?";
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
-/* Pick from Arsenal → tease → cups */
+/* Arsenal choose -> tease -> to cups */
 arsenalGrid.addEventListener('click', async e=>{
   const btn=e.target.closest('.asset'); if(!btn || busy) return;
   $$('.asset').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
   selectedItem=btn.dataset.item;
+
   await playLines(["Didn’t think it would be that easy now, did you?"]);
   proceedToCups();
 });
 
-/* Cup stage with element-bound content */
+/* Proceed to cups + shuffle (overlay shuffle line; stable element binding) */
 async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block';
 
-  // Overlay shuffle line
+  // Blur any focused button so Space can’t re-click it
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+
+  // Shuffle stage message as big overlay
   await playLines(["Your choice dives into the dance."]);
 
-  // Reset visual layout
+  // Reset visuals
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2);
-  shuffled=false; busy=false; contentMap.clear();
+  shuffled=false; busy=true; contentMap.clear();
 
-  // Assign items to CUP ELEMENTS (stable)
+  // Assign item content to CUP ELEMENTS (not indices)
   const others=ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
   const pool=[selectedItem, others[0], others[1]].sort(()=>Math.random()-0.5);
   cups.forEach((cupEl,i)=> contentMap.set(cupEl, pool[i]));
 
-  // Find which element holds the chosen item and drop the icon into it
+  // Drop the chosen item into whichever cup element actually holds it
   const chosenCupEl = cups.find(el=>contentMap.get(el)===selectedItem);
   flyingItem.src=ITEM_SRC[selectedItem];
   flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='170px';
@@ -421,24 +489,25 @@ async function proceedToCups(){
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=>flyingItem.style.opacity='0',320);
 
-  // Visual shuffle (only positions move; contentMap stays)
+  // Visual shuffle (items remain bound to their cup elements)
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
-  shuffled=true;
+  shuffled=true; busy=false;
 
   await playLines(["Well, well, my dear Traveller… where did it go? Pick your cup."]);
 }
 
-/* Reveal + outcome (read from element binding) */
+/* Pick a cup -> reveal -> outcome -> final life line -> end buttons */
 cups.forEach(cupEl => cupEl.addEventListener('click', ()=> onPickCup(cupEl)));
 
 async function onPickCup(cupEl){
   if(!shuffled || busy) return; busy=true;
 
+  // Small lift feedback
   cupEl.style.transform="translateY(-6px)"; setTimeout(()=> cupEl.style.transform="", 280);
 
-  // Pop all three items briefly from each cup's current position
+  // Reveal: pop all items briefly from their current cup positions
   const sprites=[];
   for(const el of cups){
     const spr=document.createElement('img');
@@ -456,23 +525,26 @@ async function onPickCup(cupEl){
   await wait(380);
   sprites.forEach(s=>s.remove());
 
+  // Determine picked item and outcome
   const pickedItem = contentMap.get(cupEl);
   const correct = (pickedItem === selectedItem);
   if(correct) await playLines(["Congratulations. You found your item."]);
   else        await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
 
+  // Run the scenario outcome narrative
   cupStage.style.display='none';
   await tellOutcome(currentScenario, pickedItem);
 
-  // Final message ONLY at the end of the story
+  // Final life message appears only here (Mansalva overlay)
   await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
-  // End navigation
+  // End menu
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
+  busy=false;
 }
 
-/* Outcome presenter */
+/* Outcome runner */
 async function tellOutcome(scenario,itemKey){
   const title=TITLES[scenario]||"A Curious Trial";
   const body=(OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) || ["A curious hush lingers… but your choice writes the next line."];
@@ -480,12 +552,12 @@ async function tellOutcome(scenario,itemKey){
   await playLines([title, ...beats]);
 }
 
-/* End buttons (Kitchen → Dragon → Library) */
+/* End-page buttons (Kitchen first, then Dragon, then Library) */
 $('#toKitchen').onclick = async ()=>{ resetRound(); await runScenarioIntro('kitchen'); };
 $('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon');  };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
 
-/* Boot */
+/* Start */
 applySoundMode();
 runScenarioIntro('kitchen');
 </script>
