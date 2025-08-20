@@ -29,12 +29,17 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
 .overlayLine.hide{ opacity:0; transform:translateY(-10px) }
+
+/* Continue hint */
 #tapHint{
   position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
   background:rgba(0,0,0,.78); color:#fff; padding:8px 12px; border-radius:10px;
   font-size:14px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:60;
 }
 #tapHint.show{ opacity:1 }
+@media (max-width: 600px){
+  #tapHint{ font-size:12px; bottom:16px; }
+}
 
 /* Small story status line */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
@@ -118,7 +123,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   .cup img{ width:110px; height:110px; }
   [data-pos="0"]{ left:8px; }
   [data-pos="1"]{ left:calc(50% - 55px); }
-  [data-pos="2"]{ left:calc(100% - 118px); }
+  [data-pos="2"]{ left:calc(100% - 118px) }
   #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px); }
   .popItem{ width:90px; height:90px; }
 }
@@ -144,8 +149,8 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 <!-- Music -->
 <audio id="bgm" preload="auto" loop></audio>
 
-<!-- Minimal audio note + sound control -->
-<div id="audioNote">Playing <i>“Fire to Dragon”</i> — by me. Turn up the volume of your device.</div>
+<!-- Audio note + sound control -->
+<div id="audioNote">Playing <i>“Fight the Dragon”</i> — by me. Turn up the volume of your device.</div>
 <button id="soundBtn" title="Sound: normal" aria-label="Sound: normal">🔊</button>
 
 <div id="overlay"></div>
@@ -187,7 +192,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 
 <section id="resultBtns">
   <div class="row">
-    <button id="again" class="btn">Play again (same scenario)</button>
+    <button id="again" class="btn">Replay current story</button>
     <button id="toDragon" class="btn">📑 Bureaucratic Dragon</button>
     <button id="toLibrary" class="btn">🌊 Flooded Library</button>
   </div>
@@ -217,17 +222,23 @@ soundBtn.addEventListener('click',()=>{
   applySoundMode();
 });
 
-/* Overlay runner */
+/* Mobile hint auto-hide after a few advances */
+let overlayAdvances = 0;
+const isMobile = () => window.matchMedia('(max-width: 600px)').matches;
+
 async function playLines(lines, {onAdvance=null} = {}){
   overlay.innerHTML=''; overlay.style.display='block';
   for(let i=0;i<lines.length;i++){
     const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
-    await wait(30); el.classList.add('show'); await wait(350); tapHint.classList.add('show');
+    await wait(30); el.classList.add('show'); await wait(350);
+    // show hint unless we've hidden it on mobile after a few advances
+    if(!(isMobile() && overlayAdvances >= 2)) tapHint.classList.add('show');
     await new Promise(res=>{
       const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
       function cleanup(){ overlay.removeEventListener('click',h); document.removeEventListener('keydown',h); }
       overlay.addEventListener('click',h); document.addEventListener('keydown',h);
     });
+    overlayAdvances++;
     tapHint.classList.remove('show');
     if (onAdvance) onAdvance(i);
     el.classList.add('hide'); await wait(420);
@@ -237,6 +248,8 @@ async function playLines(lines, {onAdvance=null} = {}){
 
 /* Story data (British English + water emoji for library) */
 const TITLES={ kitchen:"🍲 The Kitchen Crucible", dragon:"📑 The Bureaucratic Dragon", library:"🌊 The Flooded Library" };
+
+/* Scenario intros */
 const INTRO_LINES={
   kitchen:[
     "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
@@ -255,7 +268,15 @@ const INTRO_LINES={
   ]
 };
 
-/* Full outcomes: every scenario × item has a distinct story */
+/* Global intro pool */
+const INTRO_FIXED = "My dear Traveller… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.";
+const INTRO_VARIANTS = [
+  "Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
+  "Yet despair not—for you are not defenceless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
+  "The challenge rises before you, vast and unyielding. But you, Traveller, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
+];
+
+/* Full outcomes (same as previous step; trimmed here for brevity) */
 const OUTCOMES={
   kitchen:{
     sword:[
@@ -393,11 +414,12 @@ function resetRound(){
 /* Intro + music start & audio note */
 async function runScenarioIntro(key){
   currentScenario=key;
+  overlayAdvances = 0; // reset hint counter each scenario
+  // random second line
+  const variant = INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
   await playLines([
-    "Welcome, let’s play, shall we?",
-    "My dear Traveller… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.<br>Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
-    "Yet despair not—for you are not defenceless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
-    "The challenge rises before you, vast and unyielding. But you, Traveller, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
+    INTRO_FIXED,
+    variant
   ], {
     onAdvance:(i)=>{
       if(i===0){
@@ -412,14 +434,17 @@ async function runScenarioIntro(key){
   await playLines(INTRO_LINES[key]);
   say("Traveller, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
+  // Update the “replay” button label to match current title
+  $('#again').textContent = TITLES[currentScenario];
 }
 
-/* Arsenal pick */
-arsenalGrid.addEventListener('click',e=>{
-  const btn=e.target.closest('.asset'); if(!btn) return;
+/* Arsenal pick: show the tease line BEFORE shuffle */
+arsenalGrid.addEventListener('click',async e=>{
+  const btn=e.target.closest('.asset'); if(!btn || busy) return;
   $$('.asset').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
   selectedItem=btn.dataset.item;
+  await playLines(["Didn’t think it would be that easy now, did you?"]);
   proceedToCups();
 });
 
@@ -443,7 +468,7 @@ async function proceedToCups(){
   const c=centerOf(cups[cupHolding]);
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=> flyingItem.style.opacity='0', 320);
-  // shuffle visually only
+  // shuffle visually only (slower, steady)
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
@@ -494,7 +519,6 @@ async function onPickCup(pickedIdx){
   await tellOutcome(currentScenario, itemKey);
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
-  busy=false;
 }
 
 /* Outcome helper */
