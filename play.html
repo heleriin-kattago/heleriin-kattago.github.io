@@ -17,7 +17,7 @@ body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--pa
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Overlay lines */
+/* Overlay lines (Mansalva big text) */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -37,7 +37,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #tapHint.show{ opacity:1 }
 @media (max-width: 600px){ #tapHint{ font-size:12px; bottom:16px; } }
 
-/* Status line */
+/* Status line under overlay */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
 #story{ margin:10px 0 6px; font-family:'Jomolhari',serif; font-size:clamp(20px,2.8vw,26px); line-height:1.45; }
 #story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
@@ -76,7 +76,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   opacity:0; transform:translateY(0) scale(.1); transition:opacity .35s ease, transform .55s ease; z-index:4;
 }
 
-/* Results */
+/* Results buttons (Inknut text) */
 #resultBtns{ display:none; margin:26px auto 0; max-width:960px }
 #resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
 .btn{
@@ -84,36 +84,34 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   border:1px solid var(--dark);
   background:#fff;
   border-radius:12px;
-  font-family:'Mansalva',cursive;
+  font-family:'Inknut Antiqua',serif; /* Inknut text */
   cursor:pointer;
   transition:.2s;
   font-size:20px;
   min-width:220px;
-  color:var(--dark); /* force black text (mobile too) */
+  color:var(--dark); /* black text (mobile too) */
 }
 .btn:hover{
-  background:var(--mid); /* green hover on desktop */
+  background:var(--mid); /* green hover */
   color:#fff;
   border-color:var(--mid);
 }
 
-/* Back to portfolio */
+/* Back to portfolio (Inknut text) */
 #backPortfolio{
   display:none;
   margin:16px auto 40px;
   text-decoration:none;
-  color:var(--dark); /* black on all devices */
+  color:var(--dark);
   border:1px solid var(--dark);
   border-radius:10px;
   padding:10px 16px;
-  font-family:'Mansalva',cursive;
+  font-family:'Inknut Antiqua',serif; /* Inknut */
   font-size:18px;
 }
 #backPortfolio.show{ display:inline-block }
 #backPortfolio:hover{
-  background:var(--mid); /* green hover */
-  color:#fff;
-  border-color:var(--mid);
+  background:var(--mid); color:#fff; border-color:var(--mid);
 }
 
 /* iPhone spacing */
@@ -126,7 +124,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 @media (max-width: 360px){
   .cup{ width:110px; height:110px; top:74px } .cup img{ width:110px; height:110px }
   [data-pos="0"]{ left:8px } [data-pos="1"]{ left:calc(50% - 55px) } [data-pos="2"]{ left:calc(100% - 118px) }
-  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) } .popItem{ width:90px; height:90px }
+  #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) } .popItem{ width:90px; height:90px; }
 }
 
 /* Audio note + control */
@@ -236,7 +234,7 @@ async function playLines(lines,{onAdvance=null}={}){
   overlay.style.display='none';
 }
 
-/* Text */
+/* Text data */
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
@@ -370,6 +368,7 @@ const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOL
 const ITEMS=Object.keys(ITEM_SRC);
 let cupPos=[0,1,2], cupHolding=0, cupContents={}, busy=false, shuffled=false;
 
+/* Helpers */
 function say(line,{compact=false, mansalva=false}={}){ story.classList.toggle('compact',compact); story.classList.toggle('mansalva',mansalva); story.textContent=line; }
 function setPos(el,pos){ el.dataset.pos=String(pos) }
 function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
@@ -382,7 +381,7 @@ function resetRound(){
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; cupContents={}; cupHolding=0; clearCupSprites();
 }
 
-/* Intro + music + full flow */
+/* Intro + music + flow */
 async function runScenarioIntro(key){
   currentScenario=key; overlayAdvances=0;
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
@@ -418,7 +417,9 @@ async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block';
-  say("Life always works out. Even when the situation doesn't unfold the way you thought it would.", {compact:true});
+
+  /* Shuffle-stage message in Mansalva */
+  say("Your choice dives into the dance.", {compact:true, mansalva:true});
 
   // Reset layout
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
@@ -437,7 +438,7 @@ async function proceedToCups(){
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=>flyingItem.style.opacity='0',320);
 
-  // Visual shuffle only
+  // Visual shuffle only (slower)
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
@@ -474,6 +475,9 @@ async function onPickCup(pickedIdx){
   cupStage.style.display='none';
   const itemKey=cupContents[pickedIdx];
   await tellOutcome(currentScenario,itemKey);
+
+  /* FINAL PAGE MESSAGE — only here (overlay Mansalva) */
+  await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
