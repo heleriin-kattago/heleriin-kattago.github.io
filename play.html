@@ -7,181 +7,119 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap" rel="stylesheet">
 <style>
-/* ─── Global / Typography ─────────────────────────────────────────── */
 html, body, a, button { cursor: url('pics/cursor.svg'), auto; }
-:root{
-  --gap:14px;
-  --dark:#101A04; --mid:#536340; --accent:#722330; --paper:#f9f9f9;
-}
-*{ box-sizing:border-box; }
-body{
-  font-family:'Inknut Antiqua', serif; text-align:center; background:var(--paper); margin:0;
-  color:var(--dark);
-}
-h1,h2,h3{ font-family:'Mansalva', cursive; margin:0; }
-section{ margin:40px auto; max-width:960px; padding:0 18px; }
+:root{ --gap:14px; --dark:#101A04; --mid:#536340; --accent:#722330; --paper:#f9f9f9; }
+*{ box-sizing:border-box }
+body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--paper); margin:0; color:var(--dark) }
+h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
+section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* ─── Intro: big disappearing lines ───────────────────────────────── */
-#introOverlay{
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  background:var(--paper); z-index:50; text-align:center; padding:0 16px;
-}
-.introLine{
+/* Big overlay lines (intro & outcomes) */
+#overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
+.overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-family:'Mansalva', cursive; font-size:clamp(28px,6vw,64px); line-height:1.1;
-  opacity:0; transform:translateY(10px);
-  transition:opacity .7s ease, transform .7s ease;
+  text-align:center; padding:0 16px; font-family:'Mansalva',cursive;
+  font-size:clamp(28px,6vw,64px); line-height:1.1; opacity:0; transform:translateY(10px);
+  transition:opacity .6s ease, transform .6s ease;
 }
-.introLine.show{ opacity:1; transform:translateY(0); }
-.introLine.hide{ opacity:0; transform:translateY(-10px); }
+.overlayLine.show{ opacity:1; transform:translateY(0) }
+.overlayLine.hide{ opacity:0; transform:translateY(-10px) }
+#tapHint{
+  position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
+  background:rgba(0,0,0,.78); color:#fff; padding:8px 12px; border-radius:10px;
+  font-size:14px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:60;
+}
+#tapHint.show{ opacity:1 }
 
-/* Minimal back arrow to open history */
+/* Back arrow / History */
 #backArrow{
   position:fixed; left:12px; top:12px; width:30px; height:30px; border-radius:50%;
   border:1px solid rgba(0,0,0,.35); background:#fff; display:flex; align-items:center; justify-content:center;
   font-size:18px; color:#333; z-index:60; opacity:.85;
 }
-#backArrow:hover{ background:#333; color:#fff; }
-
-/* History drawer */
+#backArrow:hover{ background:#333; color:#fff }
 #history{
   position:fixed; left:12px; top:52px; width:min(520px,90vw); max-height:60vh; overflow:auto;
   background:#fff; border:1px solid rgba(0,0,0,.15); border-radius:12px; padding:10px 14px;
   text-align:left; z-index:60; display:none;
 }
-#history h3{ font-size:18px; color:var(--mid); margin:2px 0 8px; }
-#history p{ margin:6px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.45; }
+#history h3{ font-size:18px; color:var(--mid); margin:2px 0 8px }
+#history p{ margin:6px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.45 }
 
-/* ─── Story text area (after intro) ───────────────────────────────── */
-#storyWrap{ position:relative; min-height:90px; margin:22px auto 10px; }
-#story{
-  margin:10px 0 6px; font-family:'Jomolhari',serif;
-  font-size:clamp(20px,2.8vw,26px); line-height:1.45; transition:opacity .5s ease, transform .5s ease;
-}
-#story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px); }
+/* Small story status line */
+#storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
+#story{ margin:10px 0 6px; font-family:'Jomolhari',serif; font-size:clamp(20px,2.8vw,26px); line-height:1.45 }
+#story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
 
-/* ─── Arsenal (pure vectors, no borders) ─────────────────────────── */
-#arsenalSection{ display:none; }
-#arsenalGrid{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:18px; margin-top:10px;
-}
-.asset{
-  position:relative; background:transparent; border:none; outline:none; padding:10px;
-  cursor:pointer; transition:transform .12s ease;
-}
-.asset:focus-visible{ outline:2px solid var(--mid); border-radius:12px; }
-.asset:hover{ transform:translateY(-2px) scale(1.02); }
-.asset img.thumb{
-  display:block; width:120px; height:120px; margin:0 auto; object-fit:contain; border:none; background:transparent;
-}
-.asset.selected::after{
-  content:""; position:absolute; inset:-6px; border-radius:14px; outline:3px solid var(--mid);
-}
-#arsenalBlurbs{
-  margin-top:12px; text-align:left; max-width:800px; margin-left:auto; margin-right:auto; display:none;
-}
-#arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif; }
+/* Arsenal (pure vectors) */
+#arsenalSection{ display:none }
+#arsenalGrid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:18px; margin-top:10px }
+.asset{ position:relative; background:transparent; border:none; outline:none; padding:10px; cursor:pointer; transition:transform .12s ease }
+.asset:focus-visible{ outline:2px solid var(--mid); border-radius:12px }
+.asset:hover{ transform:translateY(-2px) scale(1.02) }
+.asset img.thumb{ display:block; width:120px; height:120px; margin:0 auto; object-fit:contain; border:none; background:transparent }
+.asset.selected::after{ content:""; position:absolute; inset:-6px; border-radius:14px; outline:3px solid var(--mid) }
+#arsenalBlurbs{ margin-top:12px; text-align:left; max-width:800px; margin-inline:auto; display:none }
+#arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif }
 
-/* ─── Cup shuffle stage ──────────────────────────────────────────── */
-#cupStage{ display:none; margin:26px auto 0; max-width:960px; }
-#board{ position:relative; height:320px; margin-top:6px; }
-#cupRow{ position:relative; height:240px; margin-top:10px; }
+/* Cup shuffle */
+#cupStage{ display:none; margin:26px auto 0; max-width:960px }
+#board{ position:relative; height:320px; margin-top:6px }
+#cupRow{ position:relative; height:240px; margin-top:10px }
 .cup{
   position:absolute; width:160px; height:160px; top:40px; border:none;
   display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:left .6s ease, transform .25s ease;
+  transition:left 1s ease, transform .28s ease; /* slower shuffle */
 }
-.cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block; }
-[data-pos="0"]{ left:80px; }
-[data-pos="1"]{ left:calc(50% - 80px); }
-[data-pos="2"]{ left:calc(100% - 240px); }
-
+.cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block }
+[data-pos="0"]{ left:80px }
+[data-pos="1"]{ left:calc(50% - 80px) }
+[data-pos="2"]{ left:calc(100% - 240px) }
 #flyingItem{
   position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
   left:calc(50% - 60px); top:150px; opacity:0; transform:scale(.9);
-  transition:left .55s ease, top .55s ease, opacity .35s ease, transform .55s ease;
-  z-index:3;
+  transition:left .6s ease, top .6s ease, opacity .35s ease, transform .6s ease; z-index:3;
 }
 
-/* Buttons */
-.btn{
-  margin:10px 6px 0; padding:8px 14px; border:1px solid #333; background:#fff; border-radius:8px;
-  font-family:inherit; cursor:pointer; transition:.2s; font-size:16px;
-}
-.btn:hover{ background:#333; color:#fff; }
-.btn:disabled{ opacity:.5; cursor:not-allowed; }
-
-/* Result card */
-#result{
-  display:none; margin:18px auto 0; max-width:920px; background:#fff; border:1px solid rgba(0,0,0,.12);
-  border-radius:12px; padding:14px 16px; text-align:left;
-}
-#result h3{ font-size:22px; color:var(--accent); margin:0 0 8px; }
-#result p{ font-family:'Jomolhari',serif; font-size:18px; line-height:1.6; margin:6px 0; }
-#result .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; justify-content:flex-end; }
-
-footer{ margin:28px 0 14px; font-size:14px; opacity:.75; }
+/* Result buttons (after outcome) */
+#resultBtns{ display:none; margin:18px auto 0; max-width:920px }
+#resultBtns .row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center }
+.btn{ padding:8px 14px; border:1px solid #333; background:#fff; border-radius:8px; font-family:inherit; cursor:pointer; transition:.2s; font-size:16px }
+.btn:hover{ background:#333; color:#fff }
 </style>
 </head>
 <body>
 
-<!-- Minimal back arrow + history -->
 <button id="backArrow" title="Show previous text" aria-label="Show previous text">←</button>
 <div id="history" role="region" aria-label="Previous narration">
-  <h3>Previous narration</h3>
-  <div id="historyList"></div>
+  <h3>Previous narration</h3><div id="historyList"></div>
 </div>
 
-<!-- Big intro overlay -->
-<div id="introOverlay">
-  <div id="intro1" class="introLine">Let’s play.</div>
-  <div id="intro2" class="introLine">My dear Traveler… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.<br>Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.</div>
-  <div id="intro3" class="introLine">Yet despair not—for you are not defenseless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.</div>
-  <div id="intro4" class="introLine">The challenge rises before you, vast and unyielding. But you, Traveler, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?</div>
-</div>
+<div id="overlay"></div>
+<div id="tapHint">Click or press space to continue</div>
 
-<section id="storySection">
-  <div id="storyWrap">
-    <div id="story"></div>
-  </div>
-</section>
+<section id="storySection"><div id="storyWrap"><div id="story"></div></div></section>
 
-<!-- Arsenal -->
 <section id="arsenalSection">
   <h2>Choose from your Arsenal</h2>
   <div id="arsenalGrid" aria-label="Arsenal">
-    <button class="asset" data-item="sword" aria-label="The Sword">
-      <img class="thumb" src="play/SWORD.svg" alt="">
-    </button>
-    <button class="asset" data-item="gun" aria-label="The Gun">
-      <img class="thumb" src="play/REVOLVER.svg" alt="">
-    </button>
-    <button class="asset" data-item="holy" aria-label="Water Gun (Holy)">
-      <img class="thumb" src="play/HOLY-WATER-GUN.svg" alt="">
-    </button>
-    <button class="asset" data-item="heart" aria-label="Heart Full of Hope">
-      <img class="thumb" src="play/HEART.svg" alt="">
-    </button>
-    <button class="asset" data-item="socks" aria-label="Warm Fuzzy Socks">
-      <img class="thumb" src="play/SOCKS.svg" alt="">
-    </button>
-    <button class="asset" data-item="rose" aria-label="The Rose">
-      <img class="thumb" src="play/ROSE.svg" alt="">
-    </button>
+    <button class="asset" data-item="sword" aria-label="The Sword"><img class="thumb" src="play/SWORD.svg" alt=""></button>
+    <button class="asset" data-item="gun" aria-label="The Gun"><img class="thumb" src="play/REVOLVER.svg" alt=""></button>
+    <button class="asset" data-item="holy" aria-label="Water Gun (Holy)"><img class="thumb" src="play/HOLY-WATER-GUN.svg" alt=""></button>
+    <button class="asset" data-item="heart" aria-label="Heart Full of Hope"><img class="thumb" src="play/HEART.svg" alt=""></button>
+    <button class="asset" data-item="socks" aria-label="Warm Fuzzy Socks"><img class="thumb" src="play/SOCKS.svg" alt=""></button>
+    <button class="asset" data-item="rose" aria-label="The Rose"><img class="thumb" src="play/ROSE.svg" alt=""></button>
   </div>
-
-  <!-- Arsenal blurbs (appear after vectors) -->
   <div id="arsenalBlurbs">
-    <div class="blurb">⚔️ <b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
-    <div class="blurb">🔫 <b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
-    <div class="blurb">💦 <b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
-    <div class="blurb">💖 <b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
-    <div class="blurb">🧦 <b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
-    <div class="blurb">🌹 <b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
+    <div class="blurb"> <b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
+    <div class="blurb"> <b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
+    <div class="blurb"> <b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
+    <div class="blurb"> <b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
+    <div class="blurb"> <b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
+    <div class="blurb"> <b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
   </div>
 </section>
 
-<!-- Cup shuffle -->
 <section id="cupStage">
   <h2 id="cupTitle">The Shuffle</h2>
   <div id="board">
@@ -191,241 +129,65 @@ footer{ margin:28px 0 14px; font-size:14px; opacity:.75; }
       <div id="cup1" class="cup" data-pos="1" aria-label="Cup B"><img src="play/CUP.svg" alt=""></div>
       <div id="cup2" class="cup" data-pos="2" aria-label="Cup C"><img src="play/CUP.svg" alt=""></div>
     </div>
-    <div>
-      <button id="shuffleBtn" class="btn">Shuffle</button>
-      <button id="revealBtn" class="btn" disabled>Reveal</button>
-    </div>
   </div>
 </section>
 
-<!-- Result -->
-<section id="result">
-  <h3 id="resultTitle"></h3>
-  <p id="resultText"></p>
+<section id="resultBtns">
   <div class="row">
-    <button id="playAgain" class="btn">Play again (same scenario)</button>
-    <button id="tryDragon" class="btn">📑 Bureaucratic Dragon</button>
-    <button id="tryLibrary" class="btn">📚 Flooded Library</button>
+    <button id="again" class="btn">Play again (same scenario)</button>
+    <button id="toDragon" class="btn"> Bureaucratic Dragon</button>
+    <button id="toLibrary" class="btn"> Flooded Library</button>
   </div>
 </section>
-
-<footer>All art uses your SVGs from <code>play/</code>. No borders. Pure vectors. Cups fully cover items.</footer>
 
 <script>
-/* ───────────────────────── Utilities ───────────────────────── */
-const $ = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
-function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
-/* ───────────────────── History (minimal) ───────────────────── */
-const backArrow = $('#backArrow');
-const historyBox = $('#history');
-const historyList = $('#historyList');
-let historyLines = [];
-function pushHistory(text){
-  historyLines.push(text);
-  const p = document.createElement('p'); p.textContent = text; historyList.appendChild(p);
-}
-backArrow.addEventListener('click', ()=>{
-  historyBox.style.display = (historyBox.style.display==='block'?'none':'block');
-});
-
-/* ───────────────────── Intro sequence ──────────────────────── */
-const introOverlay = $('#introOverlay');
-const introLines = [$('#intro1'), $('#intro2'), $('#intro3'), $('#intro4')];
-
-async function runIntro(){
-  // Show each line, then fade it away.
-  for (let i=0;i<introLines.length;i++){
-    const el = introLines[i];
-    el.classList.add('show');
-    await wait(1500 + (i?1200:800)); // first line shorter
-    el.classList.add('hide');
-    await wait(500);
-    el.classList.remove('show','hide');
+/* Helpers */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const overlay=$('#overlay'), tapHint=$('#tapHint');
+const historyBox=$('#history'), historyList=$('#historyList'); $('#backArrow').onclick=()=>{ historyBox.style.display=(historyBox.style.display==='block'?'none':'block'); };
+function pushHistory(t){ const p=document.createElement('p'); p.textContent=t; historyList.appendChild(p); }
+async function playLines(lines){
+  overlay.innerHTML=''; overlay.style.display='block';
+  for(const text of lines){
+    const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=text; overlay.appendChild(el);
+    await wait(30); el.classList.add('show'); await wait(350); tapHint.classList.add('show');
+    await new Promise(res=>{ const h=e=>{ if(e.type==='keydown' && e.code!=='Space') return; cleanup(); res(); };
+      function cleanup(){ overlay.removeEventListener('click',h); document.removeEventListener('keydown',h); }
+      overlay.addEventListener('click',h); document.addEventListener('keydown',h);
+    });
+    tapHint.classList.remove('show'); el.classList.add('hide'); await wait(420);
   }
-  introOverlay.style.display = 'none';
-  startStory();
+  overlay.style.display='none';
 }
 
-/* ───────────────────── Story text area ─────────────────────── */
-const story = $('#story');
-
-function say(line, opts={push:true, compact:false}){
-  if (opts.push) pushHistory(line);
-  story.style.opacity = 0;
-  setTimeout(()=>{
-    story.textContent = line;
-    story.classList.toggle('compact', !!opts.compact);
-    story.style.opacity = 1;
-  }, 150);
-}
-
-/* ───────────────────── Arsenal setup ───────────────────────── */
-const arsenalSection = $('#arsenalSection');
-const arsenalGrid = $('#arsenalGrid');
-const arsenalBlurbs = $('#arsenalBlurbs');
-
-const ITEM_SRC = {
-  sword:"play/SWORD.svg",
-  gun:"play/REVOLVER.svg",
-  holy:"play/HOLY-WATER-GUN.svg",
-  heart:"play/HEART.svg",
-  socks:"play/SOCKS.svg",
-  rose:"play/ROSE.svg"
+/* Scenario data */
+const TITLES={ kitchen:" The Kitchen Crucible", dragon:" The Bureaucratic Dragon", library:" The Flooded Library" };
+const INTRO_LINES={
+  kitchen:[
+    "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgment sharper than any blade.",
+    "The oven ticks ominously, the fridge hums with secrets, and somewhere in the distance, a smoke alarm clears its throat.",
+    "Traveler, you cannot do nothing. You must act."
+  ],
+  dragon:[
+    "You arrive at a cavern mouth—and find a dragon behind a desk the size of a lighthouse. No smoke, only paperwork.",
+    "‘Form 47B in triplicate. Notarized. Three forms of identification,’ it rumbles, shoving a mountain of parchment your way.",
+    "The line of adventurers groans. Traveler, something must be done."
+  ],
+  library:[
+    "An oak door groans open to reveal a grand library—half-submerged. Books whisper, gossip, and shout across rising water.",
+    "‘Save me first!’ sobs an encyclopedia. ‘Burn me!’ shrieks a cookbook. A 1,800-page novel merely laughs.",
+    "The flood climbs. Traveler, will you calm the chorus or join it?"
+  ]
 };
-const ITEMS = Object.keys(ITEM_SRC);
-
-let selectedItem = null;
-let currentScenario = 'kitchen'; // default scenario for first run
-
-function startStory(){
-  // Kitchen scenario intro text in the same flow
-  say("You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie. The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgment sharper than any blade.");
-  setTimeout(()=> say("The oven ticks ominously, the fridge hums with secrets, and somewhere in the distance, a smoke alarm clears its throat.", {compact:true}), 2000);
-  setTimeout(()=>{
-    say("Traveler, you cannot do nothing. You must act. And so the question becomes: which weapon from your Arsenal will you call upon to face this most curious of trials?", {compact:true});
-    showArsenal();
-  }, 4200);
-}
-
-function showArsenal(){
-  arsenalSection.style.display = 'block';
-  // First: minimal “choice” line
-  setTimeout(()=> say("Traveler, you have a choice to make. Which item do you pick?", {compact:true}), 350);
-  // Then reveal the blurbs after a beat
-  setTimeout(()=> { arsenalBlurbs.style.display = 'block'; }, 600);
-}
-
-arsenalGrid.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.asset');
-  if(!btn) return;
-  $$('.asset').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedItem = btn.dataset.item;
-  proceedToCups();
-});
-
-/* ───────────────────── Cup game ─────────────────────────────── */
-const cupStage = $('#cupStage');
-const cupRow = $('#cupRow');
-const cups = [$('#cup0'), $('#cup1'), $('#cup2')];
-const flyingItem = $('#flyingItem');
-const shuffleBtn = $('#shuffleBtn');
-const revealBtn = $('#revealBtn');
-
-let cupPos = [0,1,2];        // cup index -> position 0/1/2
-let cupHolding = 0;          // which cup holds the chosen item (by cup index)
-let cupDecoy = {};           // cup index -> decoy item key (for wrong picks)
-let busy = false, shuffled = false;
-
-function centerOfCup(idx){
-  const rect = cups[idx].getBoundingClientRect();
-  const stage = cupStage.getBoundingClientRect();
-  const cx = rect.left - stage.left + rect.width/2;
-  const cy = rect.top  - stage.top  + rect.height/2;
-  return {x:cx, y:cy};
-}
-function setPos(el,pos){ el.dataset.pos = String(pos); }
-function swapCups(a,b){
-  const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa;
-  setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]);
-  if (cupHolding===a) cupHolding=b; else if (cupHolding===b) cupHolding=a;
-}
-function randomSwap(){
-  const a=Math.floor(Math.random()*3);
-  let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3;
-  swapCups(a,b);
-}
-
-function proceedToCups(){
-  arsenalSection.style.display = 'none';
-  say("Watch closely… your choice will dive into a cup, and the dance will begin.", {compact:true});
-  cupStage.style.display = 'block';
-  // reset layout
-  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2);
-  revealBtn.disabled = true; shuffled=false; busy=false;
-  // assign where the real item will go
-  cupHolding = Math.floor(Math.random()*3);
-  // assign decoys to the other cups
-  const others = ITEMS.filter(k=>k!==selectedItem);
-  const shuffledOthers = others.sort(()=>Math.random()-0.5);
-  let oi=0;
-  for(let i=0;i<3;i++){
-    if(i===cupHolding){ cupDecoy[i]=selectedItem; } // real one
-    else { cupDecoy[i]=shuffledOthers[oi++]; }
-  }
-  // put flying item in the middle, then drop into chosen cup
-  flyingItem.src = ITEM_SRC[selectedItem];
-  flyingItem.style.left = 'calc(50% - 60px)';
-  flyingItem.style.top  = '150px';
-  flyingItem.style.opacity = '1'; flyingItem.style.transform = 'scale(1)';
-  setTimeout(()=>{
-    const c = centerOfCup(cupHolding);
-    flyingItem.style.left = (c.x-60)+'px';
-    flyingItem.style.top  = (c.y-60)+'px';
-    flyingItem.style.transform = 'scale(0.1)';
-    setTimeout(()=> flyingItem.style.opacity='0', 280);
-  }, 400);
-}
-
-shuffleBtn.addEventListener('click', async ()=>{
-  if(busy) return; busy=true; revealBtn.disabled=true;
-  say("Oh-ho… the swirl begins! Track it with your eyes, Traveler.", {compact:true});
-  const swaps = 10 + Math.floor(Math.random()*4);
-  for(let i=0;i<swaps;i++){ await wait(460); randomSwap(); }
-  shuffled=true; revealBtn.disabled=false; busy=false;
-  say("Well, well, my dear Traveler… where did it go? Pick your cup.", {compact:true});
-});
-
-cups.forEach((cup, idx)=>{
-  cup.addEventListener('click', ()=>{
-    if(!shuffled || busy) return;
-    cup.style.transform="translateY(-6px)"; setTimeout(()=> cup.style.transform="", 300);
-    resolveCup(idx);
-  });
-});
-revealBtn.addEventListener('click', ()=> resolveCup(cupHolding));
-
-function resolveCup(idx){
-  // Pop the item from the picked cup (correct or decoy)
-  const c = centerOfCup(idx);
-  flyingItem.src = ITEM_SRC[cupDecoy[idx]];
-  flyingItem.style.left = (c.x-60)+'px';
-  flyingItem.style.top  = (c.y-60)+'px';
-  flyingItem.style.opacity = '0';
-  flyingItem.style.transform = 'scale(0.1)';
-  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
-    flyingItem.style.opacity='1';
-    flyingItem.style.transform='translateY(-50px) scale(1)';
-    setTimeout(()=> flyingItem.style.transform='scale(1)', 450);
-  });});
-  // Show result
-  const pickedItem = cupDecoy[idx]; // if wrong, this is a decoy; if right, equals selectedItem
-  showOutcome(currentScenario, pickedItem);
-}
-
-/* ───────────────────── Outcomes ─────────────────────────────── */
-const result = $('#result');
-const resultTitle = $('#resultTitle');
-const resultText = $('#resultText');
-$('#playAgain').addEventListener('click', ()=> location.reload());
-$('#tryDragon').addEventListener('click', ()=> { currentScenario='dragon'; location.reload(); });
-$('#tryLibrary').addEventListener('click', ()=> { currentScenario='library'; location.reload(); });
-
-const TITLES = {
-  kitchen:"🍲 The Kitchen Crucible",
-  dragon:"📑 The Bureaucratic Dragon",
-  library:"📚 The Flooded Library"
-};
-const OUTCOMES = {
+const OUTCOMES={
   kitchen:{
     sword:"With a dramatic flourish, you brandish the Sword. The goblins cheer—you become a culinary whirlwind, onions surrendering in perfect cubes. The inspector files your knife skills under ‘Impressive’. The cat remains unimpressed. Dinner is… edible. Barely.",
     gun:"You draw the Gun. Silence. Then—BLAM!—you shoot the oven timer. The room erupts in applause, crisis solved by gravitas alone. The inspector stamps ‘Approved’ out of raw respect. The cat blinks, unimpressed but accepting the bit.",
     holy:"You unleash a sparkling baptism. Goblins squeal with delight; the inspector’s calculator fizzles; the cat now smells faintly of lilies. Dinner never arrives, yet everyone leaves weirdly satisfied.",
     heart:"You lift the glowing Heart; warmth spreads. Goblins hum lullabies, the inspector remembers his dream of painting, the cat purrs with genuine approval. No one eats—but somehow, everyone feels full.",
     socks:"You don the Socks. Doom feels like nap time. Goblins tuck themselves in, the inspector yawns and stamps everything, the cat kneads your lap. The feast becomes a very successful rest.",
-    rose:"You present the Rose. The goblins swoon; the inspector blushes; the cat abducts the stem under the fridge. Dinner is never cooked, but your performance is legendary: *The Feast That Never Was*."
+    rose:"You present the Rose. The goblins swoon; the inspector blushes; the cat abducts the stem under the fridge. Dinner is never cooked, but your performance is legendary: <i>The Feast That Never Was</i>."
   },
   dragon:{
     sword:"You slice through towers of Form 47B. Paper snow! The dragon sighs, closes the ledger, and concedes the treasure—demanding only that you return the stapler.",
@@ -444,17 +206,119 @@ const OUTCOMES = {
     rose:"You set the Rose upon a floating dictionary. The entire library swoons. The flood retreats shyly. A romance begins between Volume A–B and the thesaurus."
   }
 };
+const ITEM_SRC={
+  sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg",
+  heart:"play/HEART.svg", socks:"play/SOCKS.svg", rose:"play/ROSE.svg"
+};
+const ITEMS=Object.keys(ITEM_SRC);
 
-function showOutcome(scenario, itemKey){
-  resultTitle.textContent = TITLES[scenario] || "A Curious Trial";
-  resultText.textContent = (OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) ? OUTCOMES[scenario][itemKey] : "Fate shrugs; the tale goes unwritten—this time.";
-  result.style.display = 'block';
-  pushHistory(resultTitle.textContent + " — " + itemKey.toUpperCase());
-  pushHistory(resultText.textContent);
+/* Flow control */
+let currentScenario='kitchen', selectedItem=null;
+const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#arsenalGrid'), arsenalBlurbs=$('#arsenalBlurbs');
+const cupStage=$('#cupStage'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
+let cupPos=[0,1,2], cupHolding=0, busy=false, shuffled=false;
+
+function say(line,{compact=false,push=true}={}){ if(push){ const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p);} story.classList.toggle('compact',compact); story.textContent=line; }
+function setPos(el,pos){ el.dataset.pos=String(pos) }
+function centerOfCup(idx){ const r=cups[idx].getBoundingClientRect(), s=cupStage.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
+function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); if(cupHolding===a) cupHolding=b; else if(cupHolding===b) cupHolding=a }
+function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b) }
+
+async function runScenarioIntro(key){
+  currentScenario=key;
+  await playLines([
+    "Let’s play.",
+    "My dear Traveler… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.<br>Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
+    "Yet despair not—for you are not defenseless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
+    "The challenge rises before you, vast and unyielding. But you, Traveler, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
+  ]);
+  await playLines(INTRO_LINES[key]);
+  say("Traveler, you have a choice to make. Which item do you pick?", {compact:true});
+  arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
-/* ───────────────────── Kick things off ─────────────────────── */
-runIntro();
+function resetRound(){
+  // hide UI bits
+  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
+  cupStage.style.display='none'; $('#resultBtns').style.display='none';
+  // clear selection & cup state
+  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false;
+}
+
+async function proceedToCups(){
+  arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
+  cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
+  cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
+  cupHolding=Math.floor(Math.random()*3);
+  flyingItem.src=ITEM_SRC[selectedItem]; flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='150px';
+  flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
+  await wait(450); const c=centerOfCup(cupHolding);
+  flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
+  setTimeout(()=> flyingItem.style.opacity='0', 320);
+  await wait(500);
+  const swaps=7 + Math.floor(Math.random()*3);
+  for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); } // slower
+  shuffled=true;
+  await playLines(["Well, well, my dear Traveler… where did it go? Pick your cup."]);
+}
+
+async function onPickCup(idx){
+  if(!shuffled || busy) return; busy=true;
+  cups[idx].style.transform="translateY(-6px)"; setTimeout(()=> cups[idx].style.transform="", 280);
+  const pickedIsCorrect = (idx===cupHolding);
+  const c=centerOfCup(idx);
+  const key = pickedIsCorrect ? selectedItem : ITEMS.find(k=>k!==selectedItem && k); // placeholder; below we’ll change to decoy logic
+  // show the item coming out
+  flyingItem.src = pickedIsCorrect ? ITEM_SRC[selectedItem] : ITEM_SRC[key];
+  flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px';
+  flyingItem.style.opacity='0'; flyingItem.style.transform='scale(0.1)';
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    flyingItem.style.opacity='1'; flyingItem.style.transform='translateY(-50px) scale(1)';
+    setTimeout(()=> flyingItem.style.transform='scale(1)', 450);
+  });});
+  if(pickedIsCorrect){
+    await playLines(["Congratulations. You found your item."]);
+    cupStage.style.display='none';
+    await tellOutcome(currentScenario, selectedItem);
+    $('#resultBtns').style.display='block';
+  } else {
+    await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
+    cupStage.style.display='none';
+    // pick a deterministic decoy: whichever item is *not* the chosen one and maps to this cup index
+    // simple mapping: use ITEMS[idx] if different; otherwise use next
+    let decoy = ITEMS[idx]; if(decoy===selectedItem) decoy = ITEMS[(idx+1)%ITEMS.length];
+    await tellOutcome(currentScenario, decoy);
+    $('#resultBtns').style.display='block';
+  }
+  busy=false;
+}
+
+/* Arsenal interactions */
+arsenalGrid.addEventListener('click',e=>{
+  const btn=e.target.closest('.asset'); if(!btn) return;
+  $$('.asset').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected');
+  selectedItem=btn.dataset.item;
+  proceedToCups();
+});
+
+/* Cups */
+cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)) );
+
+/* Outcomes */
+async function tellOutcome(scenario,itemKey){
+  const title = TITLES[scenario]||"A Curious Trial";
+  const body  = OUTCOMES[scenario]?.[itemKey] || "Fate shrugs; the tale goes unwritten—this time.";
+  pushHistory(title); pushHistory(body);
+  await playLines([title, body]);
+}
+
+/* Buttons after outcome */
+$('#again').onclick = async ()=>{ resetRound(); await runScenarioIntro(currentScenario); };
+$('#toDragon').onclick = async ()=>{ resetRound(); await runScenarioIntro('dragon'); };
+$('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
+
+/* Kick off with kitchen by default */
+runScenarioIntro('kitchen');
 </script>
 </body>
 </html>
