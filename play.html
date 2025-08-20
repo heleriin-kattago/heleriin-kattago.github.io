@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quest</title>
+<title>Arsenal Quest</title>
 
 <link rel="icon" type="image/svg+xml" href="pics/starfav.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,13 +11,13 @@
 
 <style>
 html, body, a, button { cursor: url('pics/cursor.svg'), auto; }
-:root{ --gap:14px; --dark:#101A04; --mid:#536340; --paper:#f9f9f9; }
+:root{ --dark:#101A04; --mid:#536340; --paper:#f9f9f9; }
 *{ box-sizing:border-box }
 body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--paper); margin:0; color:var(--dark) }
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Overlay lines (big narrative) */
+/* Overlay narrative */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -37,7 +37,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #tapHint.show{ opacity:1 }
 @media (max-width: 600px){ #tapHint{ font-size:12px; bottom:16px; } }
 
-/* Status line (minimal) */
+/* Small status area */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
 #story{ margin:10px 0 6px; font-family:'Mansalva',cursive; font-size:clamp(20px,2.8vw,26px); line-height:1.45; }
 
@@ -54,7 +54,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #arsenalBlurbs .blurb{ margin:8px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.5 }
 #arsenalBlurbs .blurb b{ font-family:'Inknut Antiqua',serif; font-weight:700 }
 
-/* Cup shuffle */
+/* Cups */
 #cupStage{ display:none; margin:26px auto 0; max-width:960px }
 #board{ position:relative; height:360px; margin-top:6px }
 #cupRow{ position:relative; height:260px; margin-top:10px }
@@ -64,6 +64,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 }
 .cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block }
 [data-pos="0"]{ left:80px } [data-pos="1"]{ left:calc(50% - 80px) } [data-pos="2"]{ left:calc(100% - 240px) }
+
 #flyingItem{
   position:absolute; width:120px; height:120px; object-fit:contain; border:none; pointer-events:none;
   left:calc(50% - 60px); top:170px; opacity:0; transform:scale(.9);
@@ -74,7 +75,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   opacity:0; transform:translateY(0) scale(.1); transition:opacity .35s ease, transform .55s ease; z-index:4;
 }
 
-/* Results buttons (Inknut; black on mobile; green hover on desktop) */
+/* End buttons (Inknut; black on mobile; green hover desktop) */
 #resultBtns{ display:none; margin:26px auto 0; max-width:960px }
 #resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
 .btn{
@@ -84,7 +85,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 @media (hover:hover){ .btn:hover{ background:var(--mid); color:#fff; border-color:var(--mid); } }
 @media (max-width:600px){ .btn{ width:100%; color:var(--dark); } }
 
-/* Back to portfolio (end only) */
+/* Back to portfolio (only at end) */
 #backPortfolio{
   display:none; margin:16px auto 40px; text-decoration:none; color:var(--dark);
   border:1px solid var(--dark); border-radius:10px; padding:10px 16px;
@@ -213,7 +214,7 @@ async function playLines(lines,{onAdvance=null}={}){
   overlay.style.display='none';
 }
 
-/* Story text data */
+/* Story data */
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
@@ -346,17 +347,23 @@ const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),
 const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg", heart:"play/HEART.svg", socks:"play/SOCKS.svg", rose:"play/ROSE.svg" };
 const ITEMS=Object.keys(ITEM_SRC);
 
-/* Visual positions (0..2) — content bound by CUP INDEX, not visual pos */
-let cupPos=[0,1,2], cupHolding=0, cupContents={}, shuffled=false, busy=false;
+/* Visual positions, independent of content */
+let cupPos=[0,1,2];
 function setPos(el,pos){ el.dataset.pos=String(pos) }
-function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); }
 function randomSwap(){ const a=Math.floor(Math.random()*3); let b=Math.floor(Math.random()*3); if(b===a) b=(a+1)%3; swapCups(a,b); }
+function centerOf(el){ const r=el.getBoundingClientRect(), s=cupRow.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function clearCupSprites(){ $$('.popItem').forEach(el=>el.remove()); flyingItem.style.opacity='0'; flyingItem.style.transform='scale(.9)'; flyingItem.removeAttribute('src'); }
+
+/* Robust content binding: map each CUP ELEMENT to its item. This never changes during swaps. */
+const contentMap=new Map(); // cupEl => itemKey
+let shuffled=false, busy=false;
+
+/* Reset between runs */
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show');
-  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; cupContents={}; cupHolding=0; clearCupSprites();
+  selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 
 /* Intro flow */
@@ -364,23 +371,19 @@ async function runScenarioIntro(key){
   currentScenario=key; overlayAdvances=0;
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
-  // Welcome; start music just after first advance
+  // Welcome; start music after the first advance
   await playLines(["Welcome, let’s play, shall we?"],{
     onAdvance:()=>{ bgm.play().then(()=>{applySoundMode(); audioNote.classList.add('show'); setTimeout(()=>audioNote.classList.remove('show'),3500);}).catch(()=>{}); }
   });
 
-  // Global intro (fixed + random)
   await playLines([INTRO_FIXED, variant]);
-
-  // Scenario-specific intro
   await playLines(INTRO_LINES[key]);
 
-  // Choice prompt + show Arsenal
   story.textContent="Traveller, you have a choice to make. Which item do you pick?";
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
-/* Arsenal pick → tease → cups */
+/* Pick from Arsenal → tease → cups */
 arsenalGrid.addEventListener('click', async e=>{
   const btn=e.target.closest('.asset'); if(!btn || busy) return;
   $$('.asset').forEach(b=>b.classList.remove('selected'));
@@ -390,34 +393,35 @@ arsenalGrid.addEventListener('click', async e=>{
   proceedToCups();
 });
 
-/* Cups stage */
+/* Cup stage with element-bound content */
 async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block';
 
-  // Overlay line at shuffle start
+  // Overlay shuffle line
   await playLines(["Your choice dives into the dance."]);
 
-  // Reset visuals
+  // Reset visual layout
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2);
-  shuffled=false; busy=false;
+  shuffled=false; busy=false; contentMap.clear();
 
-  // Assign contents by CUP INDEX (stable mapping)
+  // Assign items to CUP ELEMENTS (stable)
   const others=ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
-  cupHolding=Math.floor(Math.random()*3); cupContents={};
-  for(let i=0,oi=0;i<3;i++){ cupContents[i]=(i===cupHolding)?selectedItem:others[oi++]; }
+  const pool=[selectedItem, others[0], others[1]].sort(()=>Math.random()-0.5);
+  cups.forEach((cupEl,i)=> contentMap.set(cupEl, pool[i]));
 
-  // Drop chosen item into its real cup (based on index)
+  // Find which element holds the chosen item and drop the icon into it
+  const chosenCupEl = cups.find(el=>contentMap.get(el)===selectedItem);
   flyingItem.src=ITEM_SRC[selectedItem];
   flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='170px';
   flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
   await wait(450);
-  const c=centerOf(cups[cupHolding]);
+  const c=centerOf(chosenCupEl);
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=>flyingItem.style.opacity='0',320);
 
-  // Visual shuffle (content mapping does NOT change)
+  // Visual shuffle (only positions move; contentMap stays)
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
@@ -426,32 +430,33 @@ async function proceedToCups(){
   await playLines(["Well, well, my dear Traveller… where did it go? Pick your cup."]);
 }
 
-/* Reveal & outcome */
-cups.forEach((cup,idx)=> cup.addEventListener('click',()=> onPickCup(idx)));
-async function onPickCup(pickedIdx){
+/* Reveal + outcome (read from element binding) */
+cups.forEach(cupEl => cupEl.addEventListener('click', ()=> onPickCup(cupEl)));
+
+async function onPickCup(cupEl){
   if(!shuffled || busy) return; busy=true;
 
-  cups[pickedIdx].style.transform="translateY(-6px)"; setTimeout(()=> cups[pickedIdx].style.transform="", 280);
+  cupEl.style.transform="translateY(-6px)"; setTimeout(()=> cupEl.style.transform="", 280);
 
-  // Pop all items briefly (from the position of each cup element)
+  // Pop all three items briefly from each cup's current position
   const sprites=[];
-  for(let i=0;i<3;i++){
+  for(const el of cups){
     const spr=document.createElement('img');
     spr.className='popItem'; spr.alt='Revealed item'; cupRow.appendChild(spr);
-    const rect=cups[i].getBoundingClientRect(), host=cupRow.getBoundingClientRect();
+    const rect=el.getBoundingClientRect(), host=cupRow.getBoundingClientRect();
     spr.style.left=(rect.left-host.left+rect.width/2-60)+'px';
     spr.style.top =(rect.top -host.top +rect.height/2-60)+'px';
-    spr.src=ITEM_SRC[cupContents[i]];
+    spr.src=ITEM_SRC[contentMap.get(el)];
     spr.style.opacity='0'; spr.style.transform='translateY(0) scale(.1)';
     sprites.push(spr);
   }
-  for(let i=0;i<3;i++){ await wait(140); sprites[i].style.opacity='1'; sprites[i].style.transform='translateY(-60px) scale(1)'; }
+  for(let i=0;i<sprites.length;i++){ await wait(140); sprites[i].style.opacity='1'; sprites[i].style.transform='translateY(-60px) scale(1)'; }
   await wait(550);
-  for(let i=0;i<3;i++){ sprites[i].style.opacity='0'; sprites[i].style.transform='translateY(0) scale(.1)'; }
+  for(const s of sprites){ s.style.opacity='0'; s.style.transform='translateY(0) scale(.1)'; }
   await wait(380);
   sprites.forEach(s=>s.remove());
 
-  const pickedItem = cupContents[pickedIdx];
+  const pickedItem = contentMap.get(cupEl);
   const correct = (pickedItem === selectedItem);
   if(correct) await playLines(["Congratulations. You found your item."]);
   else        await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
@@ -459,15 +464,15 @@ async function onPickCup(pickedIdx){
   cupStage.style.display='none';
   await tellOutcome(currentScenario, pickedItem);
 
-  // Final message ONLY at the end of story
+  // Final message ONLY at the end of the story
   await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
-  // End options
+  // End navigation
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
 }
 
-/* Outcome runner */
+/* Outcome presenter */
 async function tellOutcome(scenario,itemKey){
   const title=TITLES[scenario]||"A Curious Trial";
   const body=(OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) || ["A curious hush lingers… but your choice writes the next line."];
@@ -475,7 +480,7 @@ async function tellOutcome(scenario,itemKey){
   await playLines([title, ...beats]);
 }
 
-/* End buttons (fixed order) */
+/* End buttons (Kitchen → Dragon → Library) */
 $('#toKitchen').onclick = async ()=>{ resetRound(); await runScenarioIntro('kitchen'); };
 $('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon');  };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
