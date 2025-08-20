@@ -4,6 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Arsenal Quest</title>
+ <!-- Favicon -->
+ <link rel="icon" type="image/svg" href="pics/starfav.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap" rel="stylesheet">
 <style>
@@ -14,12 +16,13 @@ body{ font-family:'Inknut Antiqua',serif; text-align:center; background:var(--pa
 h1,h2,h3{ font-family:'Mansalva',cursive; margin:0 }
 section{ margin:40px auto; max-width:960px; padding:0 18px }
 
-/* Big overlay lines (intro & outcomes) */
+/* Big overlay lines (intro & outcomes) — slightly smaller now */
 #overlay{ position:fixed; inset:0; background:var(--paper); z-index:50; display:none }
 .overlayLine{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   text-align:center; padding:0 16px; font-family:'Mansalva',cursive;
-  font-size:clamp(28px,6vw,64px); line-height:1.1; opacity:0; transform:translateY(10px);
+  font-size:clamp(26px,5.2vw,56px); line-height:1.1;  /* was 28…64 */
+  opacity:0; transform:translateY(10px);
   transition:opacity .6s ease, transform .6s ease;
 }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
@@ -46,13 +49,20 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #history h3{ font-size:18px; color:var(--mid); margin:2px 0 8px }
 #history p{ margin:6px 0; font-family:'Jomolhari',serif; font-size:16px; line-height:1.45 }
 
-/* Small story status line */
+/* Story status line */
 #storyWrap{ position:relative; min-height:90px; margin:22px auto 10px }
-#story{ margin:10px 0 6px; font-family:'Jomolhari',serif; font-size:clamp(20px,2.8vw,26px); line-height:1.45 }
+#story{
+  margin:10px 0 6px; font-family:'Jomolhari',serif;
+  font-size:clamp(20px,2.8vw,26px); line-height:1.45;
+}
 #story.compact{ transform:translateY(-6px); opacity:.95; font-size:clamp(18px,2.3vw,22px) }
+/* Allow switching to Mansalva for specific line */
+#story.mansalva{ font-family:'Mansalva',cursive }
 
 /* Arsenal (pure vectors) */
 #arsenalSection{ display:none }
+/* Heading in Inknut (requested) */
+#arsenalSection h2{ font-family:'Inknut Antiqua',serif }
 #arsenalGrid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:18px; margin-top:10px }
 .asset{ position:relative; background:transparent; border:none; outline:none; padding:10px; cursor:pointer; transition:transform .12s ease }
 .asset:focus-visible{ outline:2px solid var(--mid); border-radius:12px }
@@ -69,7 +79,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 .cup{
   position:absolute; width:160px; height:160px; top:40px; border:none;
   display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:left 1s ease, transform .28s ease; /* slower shuffle */
+  transition:left 1s ease, transform .28s ease; /* slow shuffle */
 }
 .cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block }
 [data-pos="0"]{ left:80px }
@@ -111,12 +121,12 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
     <button class="asset" data-item="rose" aria-label="The Rose"><img class="thumb" src="play/ROSE.svg" alt=""></button>
   </div>
   <div id="arsenalBlurbs">
-    <div class="blurb"> <b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
-    <div class="blurb"> <b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
-    <div class="blurb"> <b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
-    <div class="blurb"> <b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
-    <div class="blurb"> <b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
-    <div class="blurb"> <b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
+    <div class="blurb">⚔️ <b>The Sword</b> — “Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.”</div>
+    <div class="blurb">🔫 <b>The Gun</b> — “Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.”</div>
+    <div class="blurb">💦 <b>The Water Gun (filled with holy water)</b> — “Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures—hydration has never been so holy.”</div>
+    <div class="blurb">💖 <b>The Heart Full of Hope</b> — “It beats in your palm with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet—just the outrageous audacity to keep going. A weapon softer than socks, yet heavier than despair.”</div>
+    <div class="blurb">🧦 <b>The Warm Fuzzy Socks</b> — “Soft, squishy, and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.”</div>
+    <div class="blurb">🌹 <b>The Rose</b> — “Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.”</div>
   </div>
 </section>
 
@@ -135,8 +145,8 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 <section id="resultBtns">
   <div class="row">
     <button id="again" class="btn">Play again (same scenario)</button>
-    <button id="toDragon" class="btn"> Bureaucratic Dragon</button>
-    <button id="toLibrary" class="btn"> Flooded Library</button>
+    <button id="toDragon" class="btn">📑 Bureaucratic Dragon</button>
+    <button id="toLibrary" class="btn">📚 Flooded Library</button>
   </div>
 </section>
 
@@ -162,7 +172,7 @@ async function playLines(lines){
 }
 
 /* Scenario data */
-const TITLES={ kitchen:" The Kitchen Crucible", dragon:" The Bureaucratic Dragon", library:" The Flooded Library" };
+const TITLES={ kitchen:"🍲 The Kitchen Crucible", dragon:"📑 The Bureaucratic Dragon", library:"📚 The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
     "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgment sharper than any blade.",
@@ -212,13 +222,18 @@ const ITEM_SRC={
 };
 const ITEMS=Object.keys(ITEM_SRC);
 
-/* Flow control */
+/* Flow */
 let currentScenario='kitchen', selectedItem=null;
 const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#arsenalGrid'), arsenalBlurbs=$('#arsenalBlurbs');
 const cupStage=$('#cupStage'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
-let cupPos=[0,1,2], cupHolding=0, busy=false, shuffled=false;
+let cupPos=[0,1,2], cupHolding=0, cupDecoy={}, busy=false, shuffled=false;
 
-function say(line,{compact=false,push=true}={}){ if(push){ const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p);} story.classList.toggle('compact',compact); story.textContent=line; }
+function say(line,{compact=false,push=true, mansalva=false}={}){
+  if(push) { const p=document.createElement('p'); p.textContent=line; historyList.appendChild(p); }
+  story.classList.toggle('compact',compact);
+  story.classList.toggle('mansalva',mansalva);
+  story.textContent=line;
+}
 function setPos(el,pos){ el.dataset.pos=String(pos) }
 function centerOfCup(idx){ const r=cups[idx].getBoundingClientRect(), s=cupStage.getBoundingClientRect(); return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2} }
 function swapCups(a,b){ const pa=cupPos[a], pb=cupPos[b]; cupPos[a]=pb; cupPos[b]=pa; setPos(cups[a],cupPos[a]); setPos(cups[b],cupPos[b]); if(cupHolding===a) cupHolding=b; else if(cupHolding===b) cupHolding=a }
@@ -233,31 +248,41 @@ async function runScenarioIntro(key){
     "The challenge rises before you, vast and unyielding. But you, Traveler, are more than a wanderer—you are a weaver of fate.<br>Reach into your Arsenal, and decide: how will you meet the storm?"
   ]);
   await playLines(INTRO_LINES[key]);
-  say("Traveler, you have a choice to make. Which item do you pick?", {compact:true});
+  say("Traveler, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true}); /* Mansalva line */
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
 function resetRound(){
-  // hide UI bits
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none';
-  // clear selection & cup state
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false;
 }
 
 async function proceedToCups(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
+  // positions
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
+  // decide which cup holds the chosen item
   cupHolding=Math.floor(Math.random()*3);
-  flyingItem.src=ITEM_SRC[selectedItem]; flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='150px';
+  // assign decoys to each cup at shuffle-time (exactly as requested)
+  const leftovers = ITEMS.filter(k=>k!==selectedItem).sort(()=>Math.random()-0.5);
+  cupDecoy = {};
+  for(let i=0, li=0; i<3; i++){
+    cupDecoy[i] = (i===cupHolding) ? selectedItem : leftovers[li++];
+  }
+
+  // drop in
+  flyingItem.src=ITEM_SRC[selectedItem];
+  flyingItem.style.left='calc(50% - 60px)'; flyingItem.style.top='150px';
   flyingItem.style.opacity='1'; flyingItem.style.transform='scale(1)';
   await wait(450); const c=centerOfCup(cupHolding);
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px'; flyingItem.style.transform='scale(0.1)';
   setTimeout(()=> flyingItem.style.opacity='0', 320);
+  // auto shuffle (slow)
   await wait(500);
   const swaps=7 + Math.floor(Math.random()*3);
-  for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); } // slower
+  for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
   shuffled=true;
   await playLines(["Well, well, my dear Traveler… where did it go? Pick your cup."]);
 }
@@ -265,31 +290,30 @@ async function proceedToCups(){
 async function onPickCup(idx){
   if(!shuffled || busy) return; busy=true;
   cups[idx].style.transform="translateY(-6px)"; setTimeout(()=> cups[idx].style.transform="", 280);
-  const pickedIsCorrect = (idx===cupHolding);
+
+  const itemKey = cupDecoy[idx];              // this cup’s assigned item (real or decoy)
+  const correct = (idx===cupHolding);
+
+  // Pop the item from THIS cup (rise once more)
   const c=centerOfCup(idx);
-  const key = pickedIsCorrect ? selectedItem : ITEMS.find(k=>k!==selectedItem && k); // placeholder; below we’ll change to decoy logic
-  // show the item coming out
-  flyingItem.src = pickedIsCorrect ? ITEM_SRC[selectedItem] : ITEM_SRC[key];
+  flyingItem.src=ITEM_SRC[itemKey];
   flyingItem.style.left=(c.x-60)+'px'; flyingItem.style.top=(c.y-60)+'px';
   flyingItem.style.opacity='0'; flyingItem.style.transform='scale(0.1)';
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
     flyingItem.style.opacity='1'; flyingItem.style.transform='translateY(-50px) scale(1)';
     setTimeout(()=> flyingItem.style.transform='scale(1)', 450);
   });});
-  if(pickedIsCorrect){
+
+  if(correct){
     await playLines(["Congratulations. You found your item."]);
-    cupStage.style.display='none';
-    await tellOutcome(currentScenario, selectedItem);
-    $('#resultBtns').style.display='block';
   } else {
     await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
-    cupStage.style.display='none';
-    // pick a deterministic decoy: whichever item is *not* the chosen one and maps to this cup index
-    // simple mapping: use ITEMS[idx] if different; otherwise use next
-    let decoy = ITEMS[idx]; if(decoy===selectedItem) decoy = ITEMS[(idx+1)%ITEMS.length];
-    await tellOutcome(currentScenario, decoy);
-    $('#resultBtns').style.display='block';
   }
+
+  // Hide cups & tell the outcome with the revealed item
+  cupStage.style.display='none';
+  await tellOutcome(currentScenario, itemKey);
+  $('#resultBtns').style.display='block';
   busy=false;
 }
 
@@ -313,11 +337,11 @@ async function tellOutcome(scenario,itemKey){
 }
 
 /* Buttons after outcome */
-$('#again').onclick = async ()=>{ resetRound(); await runScenarioIntro(currentScenario); };
-$('#toDragon').onclick = async ()=>{ resetRound(); await runScenarioIntro('dragon'); };
+$('#again').onclick     = async ()=>{ resetRound(); await runScenarioIntro(currentScenario); };
+$('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon'); };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
 
-/* Kick off with kitchen by default */
+/* Kick off with kitchen */
 runScenarioIntro('kitchen');
 </script>
 </body>
