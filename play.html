@@ -80,17 +80,41 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 #resultBtns{ display:none; margin:26px auto 0; max-width:960px }
 #resultBtns .row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
 .btn{
-  padding:14px 22px; border:1px solid #333; background:#fff; border-radius:12px;
-  font-family:'Mansalva',cursive; cursor:pointer; transition:.2s; font-size:20px; min-width:220px;
+  padding:14px 22px;
+  border:1px solid var(--dark);
+  background:#fff;
+  border-radius:12px;
+  font-family:'Mansalva',cursive;
+  cursor:pointer;
+  transition:.2s;
+  font-size:20px;
+  min-width:220px;
+  color:var(--dark); /* force black text (mobile too) */
 }
-.btn:hover{ background:#333; color:#fff }
-@media (max-width:600px){ .btn{ width:100% } }
+.btn:hover{
+  background:var(--mid); /* green hover on desktop */
+  color:#fff;
+  border-color:var(--mid);
+}
 
+/* Back to portfolio */
 #backPortfolio{
-  display:none; margin:16px auto 40px; text-decoration:none; color:#333;
-  border:1px solid #333; border-radius:10px; padding:10px 16px; font-family:'Mansalva',cursive; font-size:18px;
+  display:none;
+  margin:16px auto 40px;
+  text-decoration:none;
+  color:var(--dark); /* black on all devices */
+  border:1px solid var(--dark);
+  border-radius:10px;
+  padding:10px 16px;
+  font-family:'Mansalva',cursive;
+  font-size:18px;
 }
-#backPortfolio.show{ display:inline-block } #backPortfolio:hover{ background:#333; color:#fff }
+#backPortfolio.show{ display:inline-block }
+#backPortfolio:hover{
+  background:var(--mid); /* green hover */
+  color:#fff;
+  border-color:var(--mid);
+}
 
 /* iPhone spacing */
 @media (max-width: 430px){
@@ -169,9 +193,9 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
 
 <section id="resultBtns">
   <div class="row">
-    <button id="again" class="btn">Replay current story</button>
-    <button id="toDragon" class="btn"> Bureaucratic Dragon</button>
-    <button id="toLibrary" class="btn"> Flooded Library</button>
+    <button id="toKitchen" class="btn">The Kitchen Crucible</button>
+    <button id="toDragon" class="btn">The Bureaucratic Dragon</button>
+    <button id="toLibrary" class="btn">The Flooded Library</button>
   </div>
 </section>
 
@@ -213,7 +237,7 @@ async function playLines(lines,{onAdvance=null}={}){
 }
 
 /* Text */
-const TITLES={ kitchen:" The Kitchen Crucible", dragon:" The Bureaucratic Dragon", library:" The Flooded Library" };
+const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
     "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
@@ -377,9 +401,6 @@ async function runScenarioIntro(key){
   // Choice prompt + show Arsenal
   say("Traveller, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
-
-  // Label the replay button with current story name
-  $('#again').textContent = TITLES[currentScenario];
 }
 
 /* Arsenal pick → tease line → shuffle */
@@ -396,7 +417,8 @@ arsenalGrid.addEventListener('click', async e=>{
 async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='block'; say("Your choice dives into the dance.", {compact:true});
+  cupStage.style.display='block';
+  say("Life always works out. Even when the situation doesn't unfold the way you thought it would.", {compact:true});
 
   // Reset layout
   cupPos=[0,1,2]; setPos(cups[0],0); setPos(cups[1],1); setPos(cups[2],2); shuffled=false; busy=false;
@@ -465,9 +487,9 @@ async function tellOutcome(scenario,itemKey){
   await playLines([title, ...beats]);
 }
 
-/* Buttons */
-$('#again').onclick     = async ()=>{ resetRound(); await runScenarioIntro(currentScenario); };
-$('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon'); };
+/* Buttons (fixed order at end) */
+$('#toKitchen').onclick = async ()=>{ resetRound(); await runScenarioIntro('kitchen'); };
+$('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon');  };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
 
 /* Boot */
