@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Arsenal Quest</title>
+<title>Lehepeal the Quest</title>
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="pics/starfav.svg">
@@ -193,7 +193,7 @@ section{ margin:40px auto; max-width:960px; padding:0 18px }
   </div>
 </section>
 
-<!-- End-of-story options (Kitchen first) -->
+<!-- End-of-story options -->
 <section id="resultBtns">
   <div class="row">
     <button id="toKitchen" class="btn">The Kitchen Crucible</button>
@@ -547,14 +547,16 @@ async function tellOutcome(scenario,itemKey){
   await playLines([title, ...beats]);
 }
 
-/* End-page buttons (Kitchen first) */
+/* End-page buttons */
 $('#toKitchen').onclick = async ()=>{ resetRound(); await runScenarioIntro('kitchen'); };
 $('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon');  };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
 
-/* Boot */
+/* Boot — RANDOM starting scenario */
 applySoundMode();
-runScenarioIntro('kitchen');
+const startScenarios=['kitchen','dragon','library'];
+const startKey=startScenarios[Math.floor(Math.random()*startScenarios.length)];
+runScenarioIntro(startKey);
 </script>
 </body>
 </html>
