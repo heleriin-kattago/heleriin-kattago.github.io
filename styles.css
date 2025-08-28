@@ -200,3 +200,23 @@ section {
         padding: 1.25rem 1rem;
     }
 }
+.image-caption {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* Tablet */
+  @media (max-width: 768px) {
+    .image-caption {
+      font-size: 16px;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    .image-caption {
+      font-size: 14px;
+    }
+  }
+  
