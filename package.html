@@ -23,21 +23,22 @@
     }
 
     body {
-      font-family: 'Inknut Antiqua', serif; /* secondary font everywhere */
+      font-family: 'Inknut Antiqua', serif;
       background-color: var(--white);
       color: var(--dark-green);
       padding: 3rem;
+      line-height: 1.55;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* Fix: single h1 rule (previous code had nested h1{}) */
     h1 {
-      font-family: 'Mansalva', cursive; /* only h1 in Mansalva */
+      font-family: 'Mansalva', cursive;
       font-size: 64px;
       margin-bottom: 1.5rem;
       text-align: center;
     }
 
-    /* Section headings: Inknut, smaller, left-aligned */
     .section-title {
       font-size: 26px;
       margin: 2.5rem 0 1rem;
@@ -46,25 +47,13 @@
       text-align: left;
     }
 
-    /* Captions under each gallery: left and a bit smaller */
-    .caption {
-      font-size: 16px;
-      line-height: 1.55;
-      margin: 0.5rem 0 2rem;
-      max-width: 1000px;
-      text-align: center;
-      color: var(--dark-green);
-    }
-
-    .product-gallery {
-      margin-bottom: 2rem; /* space before caption */
-    }
+    .product-gallery { margin-bottom: 1.25rem; }
 
     .main-image-container {
       position: relative;
       width: 100%;
       height: 500px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       background-color: var(--white);
       display: flex;
       justify-content: center;
@@ -77,12 +66,9 @@
       max-height: 100%;
       object-fit: contain;
     }
+    video.main-image { max-height: 100%; max-width: 100%; }
 
-    video.main-image {
-      max-height: 100%;
-      max-width: 100%;
-    }
-
+    /* LEFT-aligned thumbnails */
     .thumbnail-container {
       display: flex;
       gap: 10px;
@@ -90,8 +76,10 @@
       padding-bottom: 10px;
       scrollbar-width: thin;
       scrollbar-color: var(--medium-green) var(--white);
+      justify-content: flex-start;    /* key: left */
+      width: 100%;
+      margin: 0;                      /* no auto-centering */
     }
-
     .thumbnail-container::-webkit-scrollbar { height: 6px; }
     .thumbnail-container::-webkit-scrollbar-track { background: var(--white); }
     .thumbnail-container::-webkit-scrollbar-thumb { background-color: var(--medium-green); border-radius: 3px; }
@@ -110,14 +98,27 @@
       justify-content: center;
       align-items: center;
     }
-
     .thumbnail:hover { border-color: var(--dark-green); transform: scale(1.05); }
     .thumbnail.active { border-color: var(--dark-green); border-width: 3px; }
 
-    .thumbnail img {
+    .thumbnail img,
+    .thumbnail .thumb-video {
       max-width: 100%;
       max-height: 100%;
-      object-fit: contain;
+      object-fit: cover;   /* tidy crop inside each square */
+      display: block;
+      border-radius: 4px;
+      pointer-events: none; /* click goes to .thumbnail */
+    }
+
+    /* Captions: we’ll compute left+width with JS so they start at first thumb and end near the right arrow */
+    .caption {
+      font-size: 16px;
+      line-height: 1.55;
+      margin: 0.5rem 0 2rem;
+      text-align: left;      /* key: not centered */
+      max-width: none;       /* JS will set width; this is fallback */
+      width: auto;
     }
 
     .nav-button {
@@ -138,7 +139,6 @@
       color: var(--dark-green);
       user-select: none;
     }
-
     .nav-button:hover { background-color: var(--medium-green); color: var(--white); }
     .prev { left: 15px; }
     .next { right: 15px; }
@@ -160,7 +160,8 @@
       h1 { font-size: 48px; }
       .section-title { font-size: 24px; }
       .main-image-container { height: 350px; }
-      .thumbnail { width: 80px; height: 80px; min-width: 80px; }
+      .thumbnail { width: 84px; height: 84px; min-width: 84px; }
+      .caption { font-size: 14px; }
     }
 
     @media (max-width: 480px) {
@@ -168,8 +169,9 @@
       h1 { font-size: 36px; margin-bottom: 1.2rem; }
       .section-title { font-size: 22px; margin: 2rem 0 0.8rem; }
       .main-image-container { height: 280px; }
-      .thumbnail { width: 70px; height: 70px; min-width: 70px; }
+      .thumbnail { width: 74px; height: 74px; min-width: 74px; }
       .back-link { font-size: 18px; margin-top: 2rem; }
+      .caption { font-size: 13px; }
     }
   </style>
 </head>
@@ -269,7 +271,7 @@
     The dragon emblem/logo was first hand-drawn in Procreate. The rest of the packaging was designed and finalised in Adobe Illustrator.
   </p>
 
-  <!-- Dark Chocolate package design -->
+  <!-- Dark Chocolate package design (with video like CoA) -->
   <div class="section-title">Dark Chocolate package design idea</div>
   <div class="product-gallery" id="coco-gallery">
     <div class="main-image-container">
@@ -287,8 +289,12 @@
       <div class="thumbnail" onclick="changeImage('coco', 2)">
         <img src="package/coco.jpg" alt="Coco Design">
       </div>
+      <!-- VIDEO THUMB like CoA: autoplaying, muted preview in the square -->
       <div class="thumbnail" onclick="changeImage('coco', 3)">
-        <img src="package/coco-poster.jpg" alt="Coco Video Poster">
+        <video class="thumb-video"
+               src="package/coco.mp4"
+               poster="package/coco-poster.jpg"
+               muted autoplay playsinline loop preload="metadata"></video>
       </div>
     </div>
   </div>
@@ -299,7 +305,7 @@
   <a href="index.html" class="back-link">Back</a>
 
   <script>
-    // Gallery data
+    // Gallery data (note coco includes a video item at index 3)
     const galleries = {
       cards: {
         images: [
@@ -337,18 +343,13 @@
           { src: "package/dark coco out.png", alt: "Dark Coco Outside" },
           { src: "package/dark coco inside.png", alt: "Dark Coco Inside" },
           { src: "package/coco.jpg", alt: "Coco Design" },
-          {
-            type: "video",
-            src: "package/coco.mp4",
-            alt: "Video",
-            poster: "package/coco-poster.jpg"
-          }
+          { type: "video", src: "package/coco.mp4", poster: "package/coco-poster.jpg", alt: "Coco video" }
         ],
         currentIndex: 0
       }
     };
 
-    // Change image function
+    // Change image / video
     function changeImage(galleryId, index) {
       const gallery = galleries[galleryId];
       gallery.currentIndex = index;
@@ -356,81 +357,100 @@
       const mainContainer = document.querySelector(`#${galleryId}-gallery .main-image-container`);
       const currentItem = gallery.images[index];
 
-      // Clear previous content
-      while (mainContainer.firstChild) {
-        mainContainer.removeChild(mainContainer.firstChild);
-      }
+      mainContainer.innerHTML = ""; // clear
 
-      // Create new content based on type
-      let mediaElement;
+      let el;
       if (currentItem.type === "video") {
-        mediaElement = document.createElement('video');
-        mediaElement.className = 'main-image';
-        mediaElement.src = currentItem.src;
-        mediaElement.alt = currentItem.alt;
-        mediaElement.poster = currentItem.poster;
-        mediaElement.controls = true;
-        mediaElement.autoplay = true;
-        mediaElement.loop = true;
+        el = document.createElement("video");
+        el.className = "main-image";
+        el.src = currentItem.src;
+        if (currentItem.poster) el.poster = currentItem.poster;
+        el.controls = true;
+        el.autoplay = true;
+        el.muted = true;          // allow autoplay
+        el.loop = true;
+        el.setAttribute("playsinline","");
       } else {
-        mediaElement = document.createElement('img');
-        mediaElement.className = 'main-image';
-        mediaElement.src = currentItem.src;
-        mediaElement.alt = currentItem.alt;
+        el = document.createElement("img");
+        el.className = "main-image";
+        el.src = currentItem.src;
+        el.alt = currentItem.alt || "";
       }
 
-      // Add navigation buttons back
       const prevBtn = document.createElement('div');
       prevBtn.className = 'nav-button prev';
-      prevBtn.innerHTML = '❮';
+      prevBtn.textContent = '❮';
       prevBtn.onclick = function() { prevImage(galleryId); };
 
       const nextBtn = document.createElement('div');
       nextBtn.className = 'nav-button next';
-      nextBtn.innerHTML = '❯';
+      nextBtn.textContent = '❯';
       nextBtn.onclick = function() { nextImage(galleryId); };
 
-      mainContainer.appendChild(mediaElement);
+      mainContainer.appendChild(el);
       mainContainer.appendChild(prevBtn);
       mainContainer.appendChild(nextBtn);
 
-      // Update active thumbnail
-      const thumbnails = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
-      thumbnails.forEach((thumb, i) => {
-        thumb.classList.toggle('active', i === index);
-      });
+      // update active thumb
+      const thumbs = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
+      thumbs.forEach((t,i)=> t.classList.toggle('active', i===index));
+
+      requestAnimationFrame(alignCaptions);
     }
 
-    // Navigation functions
     function prevImage(galleryId) {
-      const gallery = galleries[galleryId];
-      let newIndex = gallery.currentIndex - 1;
-      if (newIndex < 0) newIndex = gallery.images.length - 1;
-      changeImage(galleryId, newIndex);
+      const g = galleries[galleryId];
+      let i = g.currentIndex - 1;
+      if (i < 0) i = g.images.length - 1;
+      changeImage(galleryId, i);
     }
-
     function nextImage(galleryId) {
-      const gallery = galleries[galleryId];
-      let newIndex = gallery.currentIndex + 1;
-      if (newIndex >= gallery.images.length) newIndex = 0;
-      changeImage(galleryId, newIndex);
+      const g = galleries[galleryId];
+      let i = g.currentIndex + 1;
+      if (i >= g.images.length) i = 0;
+      changeImage(galleryId, i);
     }
 
-    // Keyboard navigation (acts on the gallery whose thumbnail was last clicked)
+    // Keyboard nav (acts on gallery of the last clicked thumbnail)
     document.addEventListener('keydown', function(e) {
       const activeThumb = document.querySelector('.thumbnail.active');
       if (!activeThumb) return;
       const activeGallery = activeThumb.closest('.product-gallery');
       if (!activeGallery) return;
-
-      const galleryId = activeGallery.id.replace('-gallery', '');
-
-      if (e.key === 'ArrowLeft') {
-        prevImage(galleryId);
-      } else if (e.key === 'ArrowRight') {
-        nextImage(galleryId);
-      }
+      const id = activeGallery.id.replace('-gallery','');
+      if (e.key === 'ArrowLeft') prevImage(id);
+      if (e.key === 'ArrowRight') nextImage(id);
     });
+
+    // Caption alignment: use the next .caption after each gallery
+    function alignCaptions(){
+      document.querySelectorAll('.product-gallery').forEach(gal=>{
+        // find its caption (immediately after, as in your markup)
+        let cap = gal.nextElementSibling;
+        if (!cap || !cap.classList.contains('caption')) return;
+
+        const thumbs   = gal.querySelector('.thumbnail-container');
+        const mainWrap = gal.querySelector('.main-image-container');
+        if (!thumbs || !mainWrap) return;
+
+        const gRect = gal.getBoundingClientRect();
+        const tRect = thumbs.getBoundingClientRect();
+        const mRect = mainWrap.getBoundingClientRect();
+
+        const leftOffset = Math.max(0, Math.round(tRect.left - gRect.left));
+        const safety   = 16; // px gap before the right arrow
+        const rightLim = Math.round(mRect.right - gRect.left) - safety;
+        const width    = Math.max(0, rightLim - leftOffset);
+
+        cap.style.marginLeft = leftOffset + 'px';
+        cap.style.marginRight = '0';
+        cap.style.width = width + 'px';
+        cap.style.maxWidth = 'none';
+      });
+    }
+
+    window.addEventListener('load', alignCaptions);
+    window.addEventListener('resize', alignCaptions);
   </script>
 </body>
 </html>
