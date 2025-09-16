@@ -435,50 +435,5 @@
       document.querySelectorAll('.product-gallery .main-image-container').forEach(c=>observer.observe(c));
     }
   </script>
-  <script>
-    function alignCaptions(){
-      // for each gallery, find the next sibling paragraph with class .caption or .image-caption
-      document.querySelectorAll('.product-gallery').forEach(gal=>{
-        let cap = gal.nextElementSibling;
-        if (!cap || !(cap.classList.contains('caption') || cap.classList.contains('image-caption'))) return;
-  
-        const thumbs   = gal.querySelector('.thumbnail-container');
-        const stage    = gal.querySelector('.main-image-container');
-        if (!thumbs || !stage) return;
-  
-        const gRect = gal.getBoundingClientRect();
-        const tRect = thumbs.getBoundingClientRect();
-        const sRect = stage.getBoundingClientRect();
-  
-        const leftOffset = Math.max(0, Math.round(tRect.left - gRect.left));
-        const safety     = 16; // px gap before right arrow
-        const rightLim   = Math.round(sRect.right - gRect.left) - safety;
-        const width      = Math.max(0, rightLim - leftOffset);
-  
-        cap.style.marginLeft = leftOffset + 'px';
-        cap.style.marginRight = '0';
-        cap.style.width = width + 'px';
-        cap.style.maxWidth = 'none';
-      });
-    }
-  
-    // call on load/resize
-    window.addEventListener('load', alignCaptions);
-    window.addEventListener('resize', alignCaptions);
-  
-    // If you already have changeImage(galleryId, index), wrap it so we re-align after swaps:
-    (function wrapChangeImage(){
-      if (!window.changeImage) return;
-      const prev = window.changeImage;
-      window.changeImage = function(galleryId, index){
-        prev(galleryId, index);
-        // make sure video swaps autoplay nicely
-        const wrap = document.querySelector(`#${galleryId}-gallery .main-image-container`);
-        const vid  = wrap ? wrap.querySelector('video.main-image') : null;
-        if (vid) { vid.muted = true; vid.setAttribute('playsinline',''); vid.play().catch(()=>{}); }
-        requestAnimationFrame(alignCaptions);
-      };
-    })();
-  </script>  
 </body>
 </html>
