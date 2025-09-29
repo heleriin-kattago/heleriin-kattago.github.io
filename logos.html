@@ -34,16 +34,15 @@
     /* --- Star “tire” animation (seamless, leftwards, no scaling) --- */
 :root{
   --star-duration: 14s;                 /* change here to speed up/slow down */
-  --star-size: min(42vw, 520px);        /* stage size controller */
+  --star-size: min(42vw, 450px);        /* stage size controller */
 }
 
 .star-stage{
   position: relative;
   width: 100%;
   height: 260px;
-  overflow: hidden;
+  overflow: visible;
   margin: 1.25rem auto 2.25rem;
-  border-radius: 12px;
 }
 
 .star-roller{
