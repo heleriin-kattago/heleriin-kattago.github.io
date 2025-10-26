@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Jõululoos — Staatus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap" rel="stylesheet">
+<style>
+body{font-family:"Inknut Antiqua",serif;background:#f9f9f9;color:#101A04;margin:0;padding:24px;text-align:center}
+h1{font-family:"Mansalva",cursive;margin:0 0 16px}
+table{border-collapse:collapse;margin:0 auto;width:min(720px,96vw);background:#fff;border:1px solid #ddd;border-radius:12px;overflow:hidden}
+th,td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left}
+tr:last-child td{border-bottom:none}
+.yes{color:#2e7d32;font-weight:700}
+.no{color:#b23;font-weight:700}
+</style>
+
+<h1>Jõululoos — Staatus</h1>
+<table id="t"><thead><tr><th>Nimi</th><th>Sisestatud</th><th>Avatud</th><th>Aeg</th></tr></thead><tbody></tbody></table>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID"
+};
+const EVENT_ID = "joululoos2025";
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const tbody=document.querySelector("#t tbody");
+const ts=x=>x?new Date(x).toLocaleString("et-EE"): "";
+
+const snap=await getDocs(collection(db,"events",EVENT_ID,"status"));
+snap.forEach(doc=>{
+  const d=doc.data();
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${doc.id}</td>
+    <td class="${d.entered?'yes':'no'}">${d.entered?'✓':'—'}</td>
+    <td class="${d.revealed?'yes':'no'}">${d.revealed?'✓':'—'}</td>
+    <td>${d.revealedAt?ts(d.revealedAt):d.enteredAt?ts(d.enteredAt):""}</td>`;
+  tbody.appendChild(tr);
+});
+</script>
