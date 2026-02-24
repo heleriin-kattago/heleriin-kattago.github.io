@@ -1,456 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Heleriin Kattago | Package and Product Designs</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Heleriin Kattago | Package and Product Designs</title>
 
-  <link rel="icon" type="image/png" href="pics/favicongreen.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
+<link rel="icon" type="image/png" href="pics/favicongreen.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
 
-  <style>
-    :root {
-      --white: #F6F6F6;
-      --dark-green: #101A04;
-      --medium-green: #536340;
-    }
+<style>
+:root{
+  --white:#F6F6F6;
+  --dark-green:#101A04;
+  --medium-green:#536340;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: url('pics/cursor.svg'), auto;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  cursor:url('pics/cursor.svg'),auto;
+}
 
-    body {
-      font-family: 'Inknut Antiqua', serif;
-      background-color: var(--white);
-      color: var(--dark-green);
-      padding: 3rem;
-      line-height: 1.55;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+body{
+  font-family:'Inknut Antiqua',serif;
+  background:var(--white);
+  color:var(--dark-green);
+  padding:3rem;
+  line-height:1.55;
+  max-width:1200px;
+  margin:0 auto;
+}
 
-    h1 {
-      font-family: 'Mansalva', cursive;
-      font-size: 64px;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
+h1{
+  font-family:'Mansalva',cursive;
+  font-size:64px;
+  margin-bottom:1.5rem;
+  text-align:center;
+}
 
-    .section-title {
-      font-size: 26px;
-      margin: 2.5rem 0 1rem;
-      padding-bottom: 0.4rem;
-      border-bottom: 2px solid var(--medium-green);
-      text-align: left;
-    }
+.section-title{
+  font-size:26px;
+  margin:2.5rem 0 1rem;
+  padding-bottom:.4rem;
+  border-bottom:2px solid var(--medium-green);
+}
 
-    .product-gallery { margin-bottom: 1.25rem; }
+.product-gallery{margin-bottom:1.25rem;}
 
-    .main-image-container {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      margin-bottom: 0.75rem;
-      background-color: var(--white);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+.main-image-container{
+  position:relative;
+  width:100%;
+  height:500px;
+  margin-bottom:.75rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
 
-    .main-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    video.main-image { max-height: 100%; max-width: 100%; }
+.main-image{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
 
-    /* LEFT-aligned thumbnails */
-    .thumbnail-container {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--medium-green) var(--white);
-      justify-content: flex-start;    /* key: left */
-      width: 100%;
-      margin: 0;                      /* no auto-centering */
-    }
-    .thumbnail-container::-webkit-scrollbar { height: 6px; }
-    .thumbnail-container::-webkit-scrollbar-track { background: var(--white); }
-    .thumbnail-container::-webkit-scrollbar-thumb { background-color: var(--medium-green); border-radius: 3px; }
+video.main-image{
+  max-width:100%;
+  max-height:100%;
+}
 
-    .thumbnail {
-      width: 100px;
-      height: 100px;
-      min-width: 100px;
-      background-color: var(--white);
-      border: 2px solid var(--medium-green);
-      border-radius: 6px;
-      padding: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .thumbnail:hover { border-color: var(--dark-green); transform: scale(1.05); }
-    .thumbnail.active { border-color: var(--dark-green); border-width: 3px; }
+.thumbnail-container{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
 
-    .thumbnail img,
-    .thumbnail .thumb-video {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;   /* tidy crop inside each square */
-      display: block;
-      border-radius: 4px;
-      pointer-events: none; /* click goes to .thumbnail */
-    }
+.thumbnail{
+  width:100px;
+  height:100px;
+  min-width:100px;
+  border:2px solid var(--medium-green);
+  border-radius:6px;
+  padding:8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  transition:.2s;
+}
 
-    /* Captions: we’ll compute left+width with JS so they start at first thumb and end near the right arrow */
-    .caption {
-      font-size: 16px;
-      line-height: 1.55;
-      margin: 0.5rem 0 2rem;
-      text-align: left;      /* key: not centered */
-      max-width: none;       /* JS will set width; this is fallback */
-      width: auto;
-    }
+.thumbnail:hover{
+  border-color:var(--dark-green);
+  transform:scale(1.05);
+}
 
-    .nav-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255, 255, 255, 0.7);
-      border: 2px solid var(--medium-green);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 10;
-      font-size: 20px;
-      color: var(--dark-green);
-      user-select: none;
-    }
-    .nav-button:hover { background-color: var(--medium-green); color: var(--white); }
-    .prev { left: 15px; }
-    .next { right: 15px; }
+.thumbnail.active{
+  border-color:var(--dark-green);
+  border-width:3px;
+}
 
-    .back-link {
-      display: inline-block;
-      margin-top: 3rem;
-      font-size: 20px;
-      color: var(--medium-green);
-      text-decoration: none;
-      border: 2px solid var(--medium-green);
-      padding: 0.5rem 1.5rem;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-    }
-    .back-link:hover { background-color: var(--medium-green); color: var(--white); }
+.thumbnail img,
+.thumbnail video{
+  max-width:100%;
+  max-height:100%;
+  object-fit:cover;
+  pointer-events:none;
+}
 
-    @media (max-width: 768px) {
-      h1 { font-size: 48px; }
-      .section-title { font-size: 24px; }
-      .main-image-container { height: 350px; }
-      .thumbnail { width: 84px; height: 84px; min-width: 84px; }
-      .caption { font-size: 14px; }
-    }
+.caption{
+  font-size:16px;
+  margin:.5rem 0 2rem;
+}
 
-    @media (max-width: 480px) {
-      body { padding: 1.5rem; }
-      h1 { font-size: 36px; margin-bottom: 1.2rem; }
-      .section-title { font-size: 22px; margin: 2rem 0 0.8rem; }
-      .main-image-container { height: 280px; }
-      .thumbnail { width: 74px; height: 74px; min-width: 74px; }
-      .back-link { font-size: 18px; margin-top: 2rem; }
-      .caption { font-size: 13px; }
-    }
-  </style>
+.nav-button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:2px solid var(--medium-green);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(255,255,255,.7);
+  cursor:pointer;
+  user-select:none;
+}
+
+.nav-button:hover{
+  background:var(--medium-green);
+  color:white;
+}
+
+.prev{left:15px;}
+.next{right:15px;}
+
+.back-link{
+  display:inline-block;
+  margin-top:3rem;
+  font-size:20px;
+  color:var(--medium-green);
+  text-decoration:none;
+  border:2px solid var(--medium-green);
+  padding:.5rem 1.5rem;
+  border-radius:4px;
+}
+
+.back-link:hover{
+  background:var(--medium-green);
+  color:white;
+}
+</style>
 </head>
+
 <body>
-  <h1>Package & Product Designs</h1>
 
-  <!-- Heart of the Lamb playing cards deck -->
-  <div class="section-title">Heart of the Lamb deck — playing cards</div>
-  <div class="product-gallery" id="cards-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="package/cards.jpg" alt="Heart of the Lamb playing cards">
-      <div class="nav-button prev" onclick="prevImage('cards')">❮</div>
-      <div class="nav-button next" onclick="nextImage('cards')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('cards', 0)">
-        <img src="package/cards.jpg" alt="Cards">
-      </div>
-      <div class="thumbnail" onclick="changeImage('cards', 1)">
-        <img src="package/kaardipakk.png" alt="Card Pack">
-      </div>
-      <div class="thumbnail" onclick="changeImage('cards', 2)">
-        <img src="package/cardsblender.png" alt="Cards Blender">
-      </div>
-    </div>
-  </div>
-  <p class="caption">
-    Artwork on the card box was hand-drawn in Procreate. The suits were first drawn by hand in Procreate as well, then everything was brought into Adobe Illustrator to assemble and finish the final design.
-  </p>
+<h1>Package & Product Designs</h1>
 
-  <!-- Kiikaboo bread -->
-  <div class="section-title">Kiikaboo bread</div>
-  <div class="product-gallery" id="kiikaboo-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="package/kiikaboo white.png" alt="Kiikaboo bread packaging">
-      <div class="nav-button prev" onclick="prevImage('kiikaboo')">❮</div>
-      <div class="nav-button next" onclick="nextImage('kiikaboo')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('kiikaboo', 0)">
-        <img src="package/kiikaboo white.png" alt="Kiikaboo White">
-      </div>
-      <div class="thumbnail" onclick="changeImage('kiikaboo', 1)">
-        <img src="package/kiikaboo green.png" alt="Kiikaboo Green">
-      </div>
-      <div class="thumbnail" onclick="changeImage('kiikaboo', 2)">
-        <img src="package/peeekaboo.png" alt="Peekaboo">
-      </div>
-    </div>
-  </div>
-  <p class="caption">
-    Packaging designed in Adobe Illustrator.
-  </p>
+<!-- Cards -->
+<div class="section-title">Heart of the Lamb deck — playing cards</div>
+<div class="product-gallery" id="cards-gallery">
+<div class="main-image-container">
+<img class="main-image" src="package/cards.jpg">
+<div class="nav-button prev" onclick="prevImage('cards')">❮</div>
+<div class="nav-button next" onclick="nextImage('cards')">❯</div>
+</div>
 
-  <!-- Theoremaly Serum -->
-  <div class="section-title">Theoremaly Serum</div>
-  <div class="product-gallery" id="serum-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="package/serumblender.png" alt="Theoremaly Serum packaging">
-      <div class="nav-button prev" onclick="prevImage('serum')">❮</div>
-      <div class="nav-button next" onclick="nextImage('serum')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('serum', 0)">
-        <img src="package/serumblender.png" alt="Serum Blender">
-      </div>
-      <div class="thumbnail" onclick="changeImage('serum', 1)">
-        <img src="package/full lilla.png" alt="Full Lilla">
-      </div>
-    </div>
-  </div>
-  <p class="caption">
-    Packaging designed in Adobe Illustrator.
-  </p>
+<div class="thumbnail-container">
+<div class="thumbnail active" onclick="changeImage('cards',0)">
+<img src="package/cards.jpg">
+</div>
+<div class="thumbnail" onclick="changeImage('cards',1)">
+<img src="package/kaardipakk.png">
+</div>
+<div class="thumbnail" onclick="changeImage('cards',2)">
+<img src="package/cardsblender.png">
+</div>
+</div>
+</div>
 
-  <!-- Little Dragon Chocolate Box -->
-  <div class="section-title">Little Dragon Chocolate Box</div>
-  <div class="product-gallery" id="dragon-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="package/lil dragon box.png" alt="Little Dragon Chocolate Box">
-      <div class="nav-button prev" onclick="prevImage('dragon')">❮</div>
-      <div class="nav-button next" onclick="nextImage('dragon')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('dragon', 0)">
-        <img src="package/lil dragon box.png" alt="Lil Dragon Box">
-      </div>
-      <div class="thumbnail" onclick="changeImage('dragon', 1)">
-        <img src="package/box lil dragon out.png" alt="Lil Dragon Out">
-      </div>
-      <div class="thumbnail" onclick="changeImage('dragon', 2)">
-        <img src="package/box lil dragon inside.png" alt="Lil Dragon Inside">
-      </div>
-    </div>
-  </div>
-  <p class="caption">
-    The dragon emblem/logo was first hand-drawn in Procreate. The rest of the packaging was designed and finalised in Adobe Illustrator.
-  </p>
+<p class="caption">
+Artwork on the card box was hand-drawn in Procreate and finalized in Adobe Illustrator.
+</p>
 
-  <!-- Dark Chocolate package design (with video like CoA) -->
-  <div class="section-title">Dark Chocolate package design idea</div>
-  <div class="product-gallery" id="coco-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="package/dark coco out.png" alt="Dark Chocolate package">
-      <div class="nav-button prev" onclick="prevImage('coco')">❮</div>
-      <div class="nav-button next" onclick="nextImage('coco')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('coco', 0)">
-        <img src="package/dark coco out.png" alt="Dark Coco Outside">
-      </div>
-      <div class="thumbnail" onclick="changeImage('coco', 1)">
-        <img src="package/dark coco inside.png" alt="Dark Coco Inside">
-      </div>
-      <div class="thumbnail" onclick="changeImage('coco', 2)">
-        <img src="package/coco.jpg" alt="Coco Design">
-      </div>
-      <!-- VIDEO THUMB like CoA: autoplaying, muted preview in the square -->
-      <div class="thumbnail" onclick="changeImage('coco', 3)">
-        <video class="thumb-video"
-               src="package/coco.mp4"
-               poster="package/coco-poster.jpg"
-               muted autoplay playsinline loop preload="metadata"></video>
-      </div>
-    </div>
-  </div>
-  <p class="caption">
-    Concept design created in Adobe Illustrator.
-  </p>
+<!-- Kiikaboo -->
+<div class="section-title">Kiikaboo bread</div>
+<div class="product-gallery" id="kiikaboo-gallery">
+<div class="main-image-container">
+<img class="main-image" src="package/kiikaboo white.png">
+<div class="nav-button prev" onclick="prevImage('kiikaboo')">❮</div>
+<div class="nav-button next" onclick="nextImage('kiikaboo')">❯</div>
+</div>
 
-  <a href="index.html" class="back-link">Back</a>
+<div class="thumbnail-container">
+<div class="thumbnail active" onclick="changeImage('kiikaboo',0)">
+<img src="package/kiikaboo white.png">
+</div>
+<div class="thumbnail" onclick="changeImage('kiikaboo',1)">
+<img src="package/kiikaboo green.png">
+</div>
+<div class="thumbnail" onclick="changeImage('kiikaboo',2)">
+<img src="package/peeekaboo.png">
+</div>
+</div>
+</div>
 
-  <script>
-    // Gallery data (note coco includes a video item at index 3)
-    const galleries = {
-      cards: {
-        images: [
-          { src: "package/cards.jpg", alt: "Heart of the Lamb playing cards" },
-          { src: "package/kaardipakk.png", alt: "Card Pack" },
-          { src: "package/cardsblender.png", alt: "Cards Blender" }
-        ],
-        currentIndex: 0
-      },
-      kiikaboo: {
-        images: [
-          { src: "package/kiikaboo white.png", alt: "Kiikaboo White" },
-          { src: "package/kiikaboo green.png", alt: "Kiikaboo Green" },
-          { src: "package/peeekaboo.png", alt: "Peekaboo" }
-        ],
-        currentIndex: 0
-      },
-      serum: {
-        images: [
-          { src: "package/serumblender.png", alt: "Serum Blender" },
-          { src: "package/full lilla.png", alt: "Full Lilla" }
-        ],
-        currentIndex: 0
-      },
-      dragon: {
-        images: [
-          { src: "package/lil dragon box.png", alt: "Lil Dragon Box" },
-          { src: "package/box lil dragon out.png", alt: "Lil Dragon Out" },
-          { src: "package/box lil dragon inside.png", alt: "Lil Dragon Inside" }
-        ],
-        currentIndex: 0
-      },
-      coco: {
-        images: [
-          { src: "package/dark coco out.png", alt: "Dark Coco Outside" },
-          { src: "package/dark coco inside.png", alt: "Dark Coco Inside" },
-          { src: "package/coco.jpg", alt: "Coco Design" },
-          { type: "video", src: "package/coco.mp4", poster: "package/coco-poster.jpg", alt: "Coco video" }
-        ],
-        currentIndex: 0
-      }
-    };
+<p class="caption">Packaging designed in Adobe Illustrator.</p>
 
-    // Change image / video
-    function changeImage(galleryId, index) {
-      const gallery = galleries[galleryId];
-      gallery.currentIndex = index;
+<!-- Serum -->
+<div class="section-title">Theoremaly Serum</div>
+<div class="product-gallery" id="serum-gallery">
+<div class="main-image-container">
+<img class="main-image" src="package/serumblender.png">
+<div class="nav-button prev" onclick="prevImage('serum')">❮</div>
+<div class="nav-button next" onclick="nextImage('serum')">❯</div>
+</div>
 
-      const mainContainer = document.querySelector(`#${galleryId}-gallery .main-image-container`);
-      const currentItem = gallery.images[index];
+<div class="thumbnail-container">
+<div class="thumbnail active" onclick="changeImage('serum',0)">
+<img src="package/serumblender.png">
+</div>
+<div class="thumbnail" onclick="changeImage('serum',1)">
+<img src="package/full lilla.png">
+</div>
+</div>
+</div>
 
-      mainContainer.innerHTML = ""; // clear
+<p class="caption">Packaging designed in Adobe Illustrator.</p>
 
-      let el;
-      if (currentItem.type === "video") {
-        el = document.createElement("video");
-        el.className = "main-image";
-        el.src = currentItem.src;
-        if (currentItem.poster) el.poster = currentItem.poster;
-        el.controls = true;
-        el.autoplay = true;
-        el.muted = true;          // allow autoplay
-        el.loop = true;
-        el.setAttribute("playsinline","");
-      } else {
-        el = document.createElement("img");
-        el.className = "main-image";
-        el.src = currentItem.src;
-        el.alt = currentItem.alt || "";
-      }
+<!-- Dragon -->
+<div class="section-title">Little Dragon Chocolate Box</div>
+<div class="product-gallery" id="dragon-gallery">
+<div class="main-image-container">
+<img class="main-image" src="package/lil dragon box.png">
+<div class="nav-button prev" onclick="prevImage('dragon')">❮</div>
+<div class="nav-button next" onclick="nextImage('dragon')">❯</div>
+</div>
 
-      const prevBtn = document.createElement('div');
-      prevBtn.className = 'nav-button prev';
-      prevBtn.textContent = '❮';
-      prevBtn.onclick = function() { prevImage(galleryId); };
+<div class="thumbnail-container">
+<div class="thumbnail active" onclick="changeImage('dragon',0)">
+<img src="package/lil dragon box.png">
+</div>
+<div class="thumbnail" onclick="changeImage('dragon',1)">
+<img src="package/box lil dragon out.png">
+</div>
+<div class="thumbnail" onclick="changeImage('dragon',2)">
+<img src="package/box lil dragon inside.png">
+</div>
+</div>
+</div>
 
-      const nextBtn = document.createElement('div');
-      nextBtn.className = 'nav-button next';
-      nextBtn.textContent = '❯';
-      nextBtn.onclick = function() { nextImage(galleryId); };
+<p class="caption">
+Dragon emblem hand-drawn in Procreate, packaging finalized in Illustrator.
+</p>
 
-      mainContainer.appendChild(el);
-      mainContainer.appendChild(prevBtn);
-      mainContainer.appendChild(nextBtn);
+<!-- Coco -->
+<div class="section-title">Dark Chocolate package design idea</div>
+<div class="product-gallery" id="coco-gallery">
+<div class="main-image-container">
+<img class="main-image" src="package/dark coco out.png">
+<div class="nav-button prev" onclick="prevImage('coco')">❮</div>
+<div class="nav-button next" onclick="nextImage('coco')">❯</div>
+</div>
 
-      // update active thumb
-      const thumbs = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
-      thumbs.forEach((t,i)=> t.classList.toggle('active', i===index));
+<div class="thumbnail-container">
+<div class="thumbnail active" onclick="changeImage('coco',0)">
+<img src="package/dark coco out.png">
+</div>
+<div class="thumbnail" onclick="changeImage('coco',1)">
+<img src="package/dark coco inside.png">
+</div>
+<div class="thumbnail" onclick="changeImage('coco',2)">
+<img src="package/coco.jpg">
+</div>
+<div class="thumbnail" onclick="changeImage('coco',3)">
+<video muted autoplay loop playsinline src="package/coco.mp4"></video>
+</div>
+</div>
+</div>
 
-      requestAnimationFrame(alignCaptions);
-    }
+<p class="caption">Concept design created in Adobe Illustrator.</p>
 
-    function prevImage(galleryId) {
-      const g = galleries[galleryId];
-      let i = g.currentIndex - 1;
-      if (i < 0) i = g.images.length - 1;
-      changeImage(galleryId, i);
-    }
-    function nextImage(galleryId) {
-      const g = galleries[galleryId];
-      let i = g.currentIndex + 1;
-      if (i >= g.images.length) i = 0;
-      changeImage(galleryId, i);
-    }
+<a href="index.html" class="back-link">Back</a>
 
-    // Keyboard nav (acts on gallery of the last clicked thumbnail)
-    document.addEventListener('keydown', function(e) {
-      const activeThumb = document.querySelector('.thumbnail.active');
-      if (!activeThumb) return;
-      const activeGallery = activeThumb.closest('.product-gallery');
-      if (!activeGallery) return;
-      const id = activeGallery.id.replace('-gallery','');
-      if (e.key === 'ArrowLeft') prevImage(id);
-      if (e.key === 'ArrowRight') nextImage(id);
-    });
+<script>
+const galleries={
+cards:{
+images:[
+{src:"package/cards.jpg"},
+{src:"package/kaardipakk.png"},
+{src:"package/cardsblender.png"}
+],currentIndex:0},
 
-    // Caption alignment: use the next .caption after each gallery
-    function alignCaptions(){
-      document.querySelectorAll('.product-gallery').forEach(gal=>{
-        // find its caption (immediately after, as in your markup)
-        let cap = gal.nextElementSibling;
-        if (!cap || !cap.classList.contains('caption')) return;
+kiikaboo:{
+images:[
+{src:"package/kiikaboo white.png"},
+{src:"package/kiikaboo green.png"},
+{src:"package/peeekaboo.png"}
+],currentIndex:0},
 
-        const thumbs   = gal.querySelector('.thumbnail-container');
-        const mainWrap = gal.querySelector('.main-image-container');
-        if (!thumbs || !mainWrap) return;
+serum:{
+images:[
+{src:"package/serumblender.png"},
+{src:"package/full lilla.png"}
+],currentIndex:0},
 
-        const gRect = gal.getBoundingClientRect();
-        const tRect = thumbs.getBoundingClientRect();
-        const mRect = mainWrap.getBoundingClientRect();
+dragon:{
+images:[
+{src:"package/lil dragon box.png"},
+{src:"package/box lil dragon out.png"},
+{src:"package/box lil dragon inside.png"}
+],currentIndex:0},
 
-        const leftOffset = Math.max(0, Math.round(tRect.left - gRect.left));
-        const safety   = 16; // px gap before the right arrow
-        const rightLim = Math.round(mRect.right - gRect.left) - safety;
-        const width    = Math.max(0, rightLim - leftOffset);
+coco:{
+images:[
+{src:"package/dark coco out.png"},
+{src:"package/dark coco inside.png"},
+{src:"package/coco.jpg"},
+{type:"video",src:"package/coco.mp4"}
+],currentIndex:0}
+};
 
-        cap.style.marginLeft = leftOffset + 'px';
-        cap.style.marginRight = '0';
-        cap.style.width = width + 'px';
-        cap.style.maxWidth = 'none';
-      });
-    }
+function changeImage(id,index){
+const g=galleries[id];
+g.currentIndex=index;
 
-    window.addEventListener('load', alignCaptions);
-    window.addEventListener('resize', alignCaptions);
-  </script>
+const container=document.querySelector(`#${id}-gallery .main-image-container`);
+container.innerHTML="";
+
+const item=g.images[index];
+let el;
+
+if(item.type==="video"){
+el=document.createElement("video");
+el.src=item.src;
+el.className="main-image";
+el.controls=true;
+el.autoplay=true;
+el.muted=true;
+el.loop=true;
+el.setAttribute("playsinline","");
+}else{
+el=document.createElement("img");
+el.src=item.src;
+el.className="main-image";
+}
+
+const prev=document.createElement("div");
+prev.className="nav-button prev";
+prev.textContent="❮";
+prev.onclick=()=>prevImage(id);
+
+const next=document.createElement("div");
+next.className="nav-button next";
+next.textContent="❯";
+next.onclick=()=>nextImage(id);
+
+container.append(el,prev,next);
+
+document
+.querySelectorAll(`#${id}-gallery .thumbnail`)
+.forEach((t,i)=>t.classList.toggle("active",i===index));
+}
+
+function prevImage(id){
+let g=galleries[id];
+let i=g.currentIndex-1;
+if(i<0)i=g.images.length-1;
+changeImage(id,i);
+}
+
+function nextImage(id){
+let g=galleries[id];
+let i=g.currentIndex+1;
+if(i>=g.images.length)i=0;
+changeImage(id,i);
+}
+
+document.addEventListener("keydown",e=>{
+const active=document.querySelector(".thumbnail.active");
+if(!active)return;
+const gal=active.closest(".product-gallery").id.replace("-gallery","");
+if(e.key==="ArrowLeft")prevImage(gal);
+if(e.key==="ArrowRight")nextImage(gal);
+});
+</script>
+
 </body>
 </html>
