@@ -19,12 +19,51 @@
   }
   
   body {
-    font-family: 'Inknut Antiqua', serif; /* site body font */
+    font-family: 'Mansalva', cursive;
     background-color: var(--white);
     color: var(--dark-green);
     overflow-x: hidden;
     line-height: 1.6;
-  }
+}
+
+section {
+    min-height: 100vh;
+    width: 100vw;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+/* Page 1 - Title */
+#title {
+    background-color: var(--white);
+}
+
+#title h1 {
+    font-family: 'Inknut Antiqua', serif;
+    /* Smaller minimum so phones don't overflow; responsive sweet spot via 12vw */
+    font-size: clamp(42px, 12vw, 160px);
+    color: var(--dark-green);
+    margin: 0 0 0.5em 0;
+    line-height: 0.95;
+    /* Limit line length and add side breathing room */
+    max-width: 12ch;
+    padding-inline: 4vw;
+    text-wrap: balance;
+    text-align: center;
+}
+
+#title h2 {
+    font-size: clamp(28px, 6.5vw, 110px);
+    color: var(--medium-green);
+    max-width: 20ch;
+    padding-inline: 4vw;
+    text-wrap: balance;
+}
   
   /* Fullscreen sections (only for the hero/portfolio page) */
   section {
