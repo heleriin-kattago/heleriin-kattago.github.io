@@ -1,12 +1,7 @@
-window.addEventListener("load", () => {
-    const loader = document.getElementById("loader");
+window.addEventListener("load", function () {
+  const loader = document.getElementById("loader");
 
-    setTimeout(() => {
-        loader.classList.add("fade-out");
-
-        setTimeout(() => {
-            loader.style.display = "none";
-        }, 1600);
-
-    }, 3000);
+  setTimeout(function () {
+    loader.classList.add("fade-out");
+  }, 3000);
 });
