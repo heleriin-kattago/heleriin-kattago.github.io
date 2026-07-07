@@ -1,0 +1,280 @@
+/* ═══════════════════════════════════════════
+   Heleriin Kattago — portfolio v2
+   Design: Figma "g" / Desktop 6 & 7 (1440px)
+   ═══════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+}
+
+body {
+    font-family: 'MedievalSharp', cursive;
+    background: #000;
+}
+
+/* no scrolling while the loader is up */
+body.is-loading {
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* ══════════ LOADING PAGE ══════════ */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000 url('1/bg-loading.jpg') center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+/* fade away once the site is ready */
+#loader.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-star {
+    width: min(92vmin, 938px);
+    height: auto;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.loader-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #464644;
+    font-size: 16px;
+    letter-spacing: 1.44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-star { animation: none; }
+}
+
+/* ══════════ MAIN SITE ══════════ */
+
+/* one background image flows across both scroll pages */
+#site {
+    background: #1c2a17 url('1/bg-main.jpg') top center / cover no-repeat;
+}
+
+.page {
+    position: relative;
+    min-height: 100vh;
+    scroll-snap-align: start;
+    overflow: hidden;
+}
+
+/* ── Page 1 : landing ── */
+
+.top-nav {
+    position: absolute;
+    top: 6.5vh;
+    left: 7.5%;
+    right: 7.5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.2%;
+}
+
+.nav-box {
+    width: 16.75%;
+    transition: background-color 0.3s ease;
+}
+
+.nav-box:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-box:active {
+    background-color: rgba(26, 53, 34, 0.8);
+}
+
+.nav-box img {
+    width: 100%;
+    height: auto;
+}
+
+.name-logo {
+    width: 24.2%;
+    height: auto;
+}
+
+.portfolio-title {
+    position: absolute;
+    top: 24vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 63.7%;
+    max-width: 917px;
+    height: auto;
+}
+
+.intro {
+    position: absolute;
+    width: 39.2%;
+    max-width: 565px;
+    height: auto;
+}
+
+.intro-left {
+    top: 56vh;
+    left: 7.5%;
+}
+
+.intro-right {
+    top: 71vh;
+    right: 5.5%;
+}
+
+/* ── Page 2 : projects ── */
+
+.project-grid {
+    position: absolute;
+    top: 9vh;
+    left: 14.3%;
+    width: 73.4%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 6.7%;
+    row-gap: 5vh;
+}
+
+.project-button {
+    min-height: 15.8vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1em;
+
+    border: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+
+    color: #fff;
+    font-size: clamp(18px, 2.22vw, 32px);
+    letter-spacing: 0.09em;
+    line-height: 1.4;
+    text-decoration: none;
+
+    transition: background-color 0.3s ease;
+}
+
+.project-button:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+.project-button:active {
+    background-color: rgba(26, 53, 34, 0.8);
+}
+
+.thankyou {
+    position: absolute;
+    top: 54vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40.5%;
+    max-width: 584px;
+    height: auto;
+}
+
+/* ══════════ MOBILE ══════════ */
+
+@media (max-width: 760px) {
+
+    html {
+        scroll-snap-type: none;
+    }
+
+    .page {
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    /* landing becomes a simple stacked flow */
+    .landing {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6vh;
+        padding: 5vh 6% 8vh;
+    }
+
+    .top-nav {
+        position: static;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .name-logo {
+        order: -1;
+        width: 70%;
+        margin-bottom: 10px;
+    }
+
+    .nav-box {
+        width: 45%;
+    }
+
+    .portfolio-title,
+    .intro {
+        position: static;
+        transform: none;
+        width: 88%;
+    }
+
+    .projects {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8vh;
+        padding: 8vh 6%;
+    }
+
+    .project-grid {
+        position: static;
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 12px;
+        row-gap: 12px;
+    }
+
+    .project-button {
+        min-height: 90px;
+        font-size: 17px;
+    }
+
+    .thankyou {
+        position: static;
+        transform: none;
+        width: 85%;
+    }
+}

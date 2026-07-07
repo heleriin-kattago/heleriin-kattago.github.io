@@ -1,87 +1,75 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heleriin Kattago | Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Portfolio</title>
 
-    <link rel="icon" type="image/svg+xml" href="1/bnwstar.svg">
+  <link rel="stylesheet" href="css-v2/style-v2.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body>
+<body class="is-loading">
 
-    <div id="loader">
-        <img src="1/bnwback.svg" alt="" class="loader-bg">
-
-        <div class="loader-content">
-            <img src="1/bnwstar.svg" alt="" class="loader-star">
-            <p>Loading...</p>
-        </div>
+  <!-- LOADING PAGE -->
+  <div id="loader">
+    <div class="loader-center">
+      <img src="1/bnwstar.svg" alt="" class="loader-star">
+      <p class="loader-text">loading</p>
     </div>
+  </div>
 
-    <main id="site">
+  <!-- MAIN WEBSITE -->
+  <main id="site">
 
-        <section class="landing" id="home">
+    <!-- HOME PAGE / FIRST SCROLL -->
+    <section class="home-page">
 
-            <nav class="top-nav">
-                <div class="nav-side">
-                    <a href="#about" class="nav-box">
-                        <img src="1/about.svg" alt="About">
-                    </a>
+      <nav class="top-nav">
+        <a href="#about" class="nav-box">
+          <img src="1/about.svg" alt="About">
+        </a>
 
-                    <a href="#home" class="nav-box">
-                        <img src="1/home.svg" alt="Home">
-                    </a>
-                </div>
+        <a href="#contact" class="nav-box">
+          <img src="1/contact.svg" alt="Contact">
+        </a>
 
-                <img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo">
+        <img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo">
 
-                <div class="nav-side">
-                    <a href="#shop" class="nav-box">
-                        <img src="1/shop.svg" alt="Shop">
-                    </a>
+        <a href="#home" class="nav-box">
+          <img src="1/home.svg" alt="Home">
+        </a>
 
-                    <a href="#contact" class="nav-box">
-                        <img src="1/contact.svg" alt="Contact">
-                    </a>
-                </div>
-            </nav>
+        <a href="#shop" class="nav-box">
+          <img src="1/shop.svg" alt="Shop">
+        </a>
+      </nav>
 
-            <img src="1/portfolio.svg" alt="Portfolio" class="portfolio-title">
+      <img src="1/portfolio.svg" alt="Portfolio" class="portfolio-title">
 
-            <img src="1/hi!my name.svg" alt="Hi! My name is Heleriin..." class="intro intro-left">
-            <img src="1/my heart.svg" alt="My heart beats for art..." class="intro intro-right">
+      <img src="1/hi!my%20name.svg" alt="" class="hi-text">
+      <img src="1/my%20heart.svg" alt="" class="heart-text">
 
-            <div class="project-grid">
-                <a href="drawings.html" class="project-button">Paintings & drawings</a>
-                <a href="logos.html" class="project-button">Logos</a>
-                <a href="photography.html" class="project-button">Photography</a>
-                <a href="package.html" class="project-button">Product and packaging design</a>
-                <a href="fun.html" class="project-button">More fun stuff</a>
-                <a href="play.html" class="project-button">Let&apos;s play baby!</a>
-            </div>
+    </section>
 
-            <img src="1/thankyou.svg" alt="Thank you" class="thankyou">
+    <!-- SECOND SCROLL PAGE -->
+    <section class="portfolio-page">
 
-        </section>
+      <div class="project-grid">
+        <a href="drawings.html" class="project-button">Paintings<br>&amp; Illustrations</a>
+        <a href="logos.html" class="project-button">Logos<br>&amp; Brand Design</a>
+        <a href="package.html" class="project-button">Package<br>Design</a>
+        <a href="play.html" class="project-button">Let&apos;s Play!</a>
+        <a href="photography.html" class="project-button">Photography</a>
+        <a href="fun.html" class="project-button">Information<br>Design</a>
+      </div>
 
-        <section class="second-page" id="about">
-            <div class="second-content">
-                <h1>About</h1>
-                <p>
-                    This can become your second scroll page: about text, contact,
-                    featured work, or a softer ending section.
-                </p>
-            </div>
-        </section>
+      <img src="1/thank%20you.svg" alt="" class="thankyou">
 
-    </main>
+    </section>
 
-    <script src="js-v2/script-v2.js"></script>
+  </main>
+
+  <script src="js-v2/script-v2.js"></script>
 </body>
 </html>
