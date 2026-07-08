@@ -14,37 +14,40 @@
   <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body class="subpage">
+<body class="subpage" data-title-key="title.about">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
-    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
-    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
     <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
-    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <main>
-    <h1 class="page-title">About</h1>
+    <h1 class="page-title" data-i18n="about.title">About</h1>
 
     <div class="intro-plate">
       <img src="1/hi!my%20name.svg" alt="Hi! My name is Heleriin and I have an eye for creative solutions." class="intro-figure">
       <img src="1/my%20heart.svg" alt="My heart beats for art and everything beautiful in this life. Thank you for being here, take a look around." class="intro-figure">
     </div>
 
-    <p class="statement" style="margin-top: 6vh;">
+    <p class="statement" style="margin-top: 6vh;" data-i18n="about.statement">
       Paintings, drawings, logos, packaging, photography —
       if it can be made beautiful, I want to make it.
     </p>
 
     <div class="button-row">
-      <a href="index-v2.html#projects" class="page-button">See my work</a>
-      <a href="contact.html" class="page-button">Say hi</a>
+      <a href="index-v2.html#projects" class="page-button" data-i18n="about.seework">See my work</a>
+      <a href="contact.html" class="page-button" data-i18n="about.sayhi">Say hi</a>
     </div>
 
-    <p class="credit">This whole site was designed and created by me ✦ Heleriin Kattago ✦</p>
+    <p class="credit" data-i18n="credit">This whole site was designed and created by me ✦ Heleriin Kattago ✦</p>
   </main>
 
+  <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
 </body>
 </html>

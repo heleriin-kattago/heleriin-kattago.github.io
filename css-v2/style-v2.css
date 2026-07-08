@@ -19,7 +19,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
 }
 
 body {
@@ -35,6 +34,27 @@ body.is-loading {
 img {
     display: block;
     max-width: 100%;
+}
+
+/* ══════════ LANGUAGE TOGGLE ══════════ */
+
+.lang-toggle {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 150;
+    border: 1px solid #fff;
+    background-color: rgba(16, 26, 4, 0.6);
+    color: #fff;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 13px;
+    letter-spacing: 1.4px;
+    padding: 6px 14px;
+    transition: background-color 0.3s ease;
+}
+
+.lang-toggle:hover {
+    background-color: rgba(16, 26, 4, 0.9);
 }
 
 /* ══════════ LOADING PAGE ══════════ */
@@ -93,34 +113,38 @@ img {
 
 /* ══════════ MAIN SITE (index) ══════════ */
 
-/* one background image flows across both scroll pages */
+/* one background image flows across the whole scroll */
 #site {
     background: #1c2a17 url('../1/bg-main.jpg') top center / cover no-repeat;
-}
-
-.home-page,
-.portfolio-page {
-    position: relative;
-    min-height: 100vh;
-    scroll-snap-align: start;
-    overflow: hidden;
 }
 
 /* ── top navigation (index + sub pages) ── */
 
 .top-nav {
-    position: absolute;
-    top: 6.5vh;
-    left: 7.5%;
-    right: 7.5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2.2%;
+    gap: 14px;
+    width: 100%;
 }
 
 .nav-box {
-    width: 16.75%;
+    flex: 0 1 140px;
+    min-width: 0;
+    padding: 8px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    text-transform: lowercase;
+    white-space: nowrap;
+    overflow: hidden;
+
     transition: background-color 0.3s ease;
 }
 
@@ -132,69 +156,78 @@ img {
     background-color: var(--click-green);
 }
 
-.nav-box img {
-    width: 100%;
-    height: auto;
+a.name-link {
+    flex: 0 1 240px;
+    min-width: 0;
+    margin: 0 1%;
 }
 
 .name-logo {
-    width: 24.2%;
-    height: auto;
-}
-
-a.name-link {
-    width: 24.2%;
-}
-
-a.name-link .name-logo {
     width: 100%;
+    height: auto;
 }
 
-/* ── landing page ── */
+/* ── landing page (natural flow, no forced screen heights) ── */
 
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 6vh 7.5% 8vh;
+}
+
+/* title + intro sit as one group, vertically centered in the leftover space */
 .portfolio-title {
-    position: absolute;
-    top: 24vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 63.7%;
-    max-width: 917px;
+    display: block;
+    width: min(66%, 820px);
     height: auto;
+    margin: auto auto 0;   /* top auto pushes the group down from the nav */
 }
 
-.hi-text,
-.heart-text {
-    position: absolute;
-    width: 39.2%;
-    max-width: 565px;
-    height: auto;
-}
-
+/* intro texts staggered like the design: hi on the left, heart on the right */
 .hi-text {
-    top: 56vh;
-    left: 7.5%;
+    align-self: flex-start;
+    width: min(565px, 46%);
+    height: auto;
+    margin-top: 9vh;
 }
 
 .heart-text {
-    top: 71vh;
-    right: 5.5%;
+    align-self: flex-end;
+    width: min(565px, 46%);
+    height: auto;
+    margin: 7vh 0 auto;   /* bottom auto balances the title centering */
 }
 
-/* ── projects page ── */
+.intro-text {
+    color: #fff;
+    font-size: clamp(15px, 1.5vw, 21px);
+    letter-spacing: 0.09em;
+    line-height: 1.9;
+    text-align: center;
+    max-width: 565px;
+}
+
+/* ── projects section ── */
+
+.portfolio-page {
+    display: flex;
+    flex-direction: column;
+    padding: 9vh 7.5% 12vh;
+}
 
 .project-grid {
-    position: absolute;
-    top: 9vh;
-    left: 14.3%;
-    width: 73.4%;
+    width: 100%;
+    max-width: 1057px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 6.7%;
-    row-gap: 5vh;
+    row-gap: 6vh;
 }
 
 .project-button {
-    min-height: 15.8vh;
+    min-height: clamp(120px, 16vh, 161px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -221,14 +254,13 @@ a.name-link .name-logo {
     background-color: var(--click-green);
 }
 
-.thankyou {
-    position: absolute;
-    top: 54vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40.5%;
-    max-width: 584px;
-    height: auto;
+.thankyou-text {
+    color: #fff;
+    text-align: center;
+    font-size: clamp(17px, 1.9vw, 26px);
+    letter-spacing: 0.09em;
+    line-height: 2.1;
+    margin: 12vh auto 2vh;
 }
 
 /* ══════════ SUB PAGES ══════════ */
@@ -244,24 +276,10 @@ body.subpage {
     padding-bottom: 10vh;
 }
 
-/* nav flows with the page instead of floating;
-   the whole bar is one dark strip so the white nav SVGs stay readable */
+/* the whole nav bar is one dark strip so the white boxes stay readable */
 .subpage .top-nav {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    margin: 0;
     padding: 2.4vh 7.5%;
     background-color: rgba(16, 26, 4, 0.78);
-}
-
-.subpage .nav-box:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.subpage .nav-box:active {
-    background-color: var(--click-green);
 }
 
 .subpage main {
@@ -344,7 +362,6 @@ body.subpage {
     background-color: rgba(255, 255, 255, 0.85);
 }
 
-/* borderless variant, e.g. logos on transparent backgrounds */
 .frame.bare {
     border: none;
     background: none;
@@ -412,7 +429,6 @@ body.subpage {
     color: var(--ink);
 }
 
-/* Flickity arrows in theme colors */
 .flickity-button {
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid var(--mid-green);
@@ -660,77 +676,69 @@ video.main-image {
     font-family: inherit;
 }
 
-/* ══════════ MOBILE ══════════ */
+/* ══════════ SMALLER SCREENS ══════════ */
+
+/* mid-size screens: nav boxes shrink smoothly */
+@media (max-width: 1100px) {
+    .nav-box {
+        flex-basis: 120px;
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+
+    a.name-link {
+        flex-basis: 210px;
+    }
+}
 
 @media (max-width: 760px) {
 
-    html {
-        scroll-snap-type: none;
-    }
-
-    .home-page,
-    .portfolio-page {
-        overflow: visible;
-    }
-
-    /* landing becomes a simple stacked flow */
-    .home-page {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6vh;
-        padding: 5vh 6% 8vh;
-    }
-
+    /* compact nav: small boxes that fit their words */
     .top-nav {
-        position: static;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 12px;
-        width: 100%;
-    }
-
-    .subpage .top-nav {
-        margin: 0;
-        padding: 2vh 6%;
-        width: auto;
-    }
-
-    .name-logo,
-    a.name-link {
-        order: -1;
-        width: 70%;
-        margin-bottom: 10px;
-    }
-
-    a.name-link .name-logo {
-        width: 100%;
-        margin-bottom: 0;
+        gap: 10px;
     }
 
     .nav-box {
-        width: 45%;
+        flex: 0 0 auto;
+        width: auto;
+        padding: 5px 12px;
+        font-size: 12px;
+        letter-spacing: 0.8px;
     }
 
-    .portfolio-title,
+    a.name-link {
+        order: -1;
+        flex: 0 0 100%;
+        max-width: 240px;
+        margin: 0 auto 6px;
+    }
+
+    .subpage .top-nav {
+        padding: 2vh 5%;
+    }
+
+    /* landing */
+    .home-page {
+        padding: 4vh 6% 8vh;
+    }
+
+    .portfolio-title {
+        width: 92%;
+    }
+
     .hi-text,
     .heart-text {
-        position: static;
-        transform: none;
-        width: 88%;
+        width: 78%;
+        margin-top: 5vh;
     }
 
     .portfolio-page {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8vh;
-        padding: 8vh 6%;
+        padding: 6vh 6% 10vh;
     }
 
     .project-grid {
-        position: static;
-        width: 100%;
         grid-template-columns: 1fr 1fr;
         column-gap: 12px;
         row-gap: 12px;
@@ -741,10 +749,8 @@ video.main-image {
         font-size: 17px;
     }
 
-    .thankyou {
-        position: static;
-        transform: none;
-        width: 85%;
+    .thankyou-text {
+        margin-top: 8vh;
     }
 
     /* sub pages */

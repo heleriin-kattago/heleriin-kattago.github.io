@@ -14,21 +14,23 @@
   <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body class="subpage">
+<body class="subpage" data-title-key="title.fun">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
-    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
-    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
     <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
-    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <main>
-    <h1 class="page-title">Information Design</h1>
+    <h1 class="page-title" data-i18n="fun.title">Information Design</h1>
 
     <!-- ── Solubility table ── -->
-    <h2 class="section-title">Solubility Table</h2>
+    <h2 class="section-title" data-i18n="fun.table">Solubility Table</h2>
     <div class="product-gallery" id="table-gallery">
       <div class="main-image-container">
         <img class="main-image" src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt="Solubility table">
@@ -40,11 +42,11 @@
         <div class="thumbnail" onclick="changeImage('table',1)"><img src="fun-stuff/LAHUSTUVUSTABEL.est.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('table',2)"><img src="fun-stuff/LAHUSTUVUSTABEL.eng.png" alt=""></div>
       </div>
-      <p class="caption">Solubility table design, because others were unjoyous to look at. I made a few versions.</p>
+      <p class="caption" data-i18n="fun.tablecap">Solubility table design, because others were unjoyous to look at. I made a few versions.</p>
     </div>
 
     <!-- ── Certificate of Authenticity ── -->
-    <h2 class="section-title">Certificate of Authenticity</h2>
+    <h2 class="section-title" data-i18n="fun.coa">Certificate of Authenticity</h2>
     <div class="product-gallery" id="coa-gallery">
       <div class="main-image-container">
         <img class="main-image" src="fun-stuff/coa.png" alt="Certificate of Authenticity (render)">
@@ -57,14 +59,14 @@
           <video class="thumb-video" src="fun-stuff/coa.mp4" poster="fun-stuff/coa.png" muted autoplay playsinline loop preload="metadata"></video>
         </div>
       </div>
-      <p class="caption">
+      <p class="caption" data-i18n="fun.coacap">
         Card designed in Illustrator. Modeled and rendered in Blender; certificate later encrypted.
         Includes a short animation.
       </p>
     </div>
 
     <!-- ── Brochure ── -->
-    <h2 class="section-title">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
+    <h2 class="section-title" data-i18n="fun.brochure">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
     <div class="product-gallery" id="brochure-gallery">
       <div class="main-image-container">
         <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">
@@ -77,14 +79,14 @@
         <div class="thumbnail active" onclick="changeImage('brochure',0)"><img src="fun-stuff/brosuurkeelevahetusega-EST.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('brochure',1)"><img src="fun-stuff/brosuurkeelevahetusega-ENG.png" alt=""></div>
       </div>
-      <p class="caption">
+      <p class="caption" data-i18n="fun.brochurecap">
         Brochure design in Estonian &amp; English
         (<a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">opens a Google Drive folder</a>).
       </p>
     </div>
 
     <!-- ── Birthday hoodie ── -->
-    <h2 class="section-title">Birthday Hoodie</h2>
+    <h2 class="section-title" data-i18n="fun.bdayhoodie">Birthday Hoodie</h2>
     <div class="product-gallery" id="hoodie-gallery">
       <div class="main-image-container">
         <img class="main-image" src="fun-stuff/butterflyhoodie1.png" alt="Birthday hoodie">
@@ -96,11 +98,11 @@
         <div class="thumbnail" onclick="changeImage('hoodie',1)"><img src="fun-stuff/butterfly hoodie 2.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('hoodie',2)"><img src="fun-stuff/butterfly.png" alt=""></div>
       </div>
-      <p class="caption">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</p>
+      <p class="caption" data-i18n="fun.bdayhoodiecap">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</p>
     </div>
 
     <!-- ── Sword hoodie ── -->
-    <h2 class="section-title">Sword Hoodie</h2>
+    <h2 class="section-title" data-i18n="fun.swordhoodie">Sword Hoodie</h2>
     <div class="product-gallery" id="sword-gallery">
       <div class="main-image-container">
         <img class="main-image" src="fun-stuff/sword hoodie.png" alt="Sword hoodie">
@@ -111,11 +113,11 @@
         <div class="thumbnail active" onclick="changeImage('sword',0)"><img src="fun-stuff/sword hoodie.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('sword',1)"><img src="fun-stuff/sword.PNG" alt=""></div>
       </div>
-      <p class="caption">Hoodie I designed as a gift. DTG print on 100% cotton material.</p>
+      <p class="caption" data-i18n="fun.swordhoodiecap">Hoodie I designed as a gift. DTG print on 100% cotton material.</p>
     </div>
 
     <!-- ── Tote bags ── -->
-    <h2 class="section-title">Tote Bags</h2>
+    <h2 class="section-title" data-i18n="fun.tote">Tote Bags</h2>
     <div class="product-gallery" id="tote-gallery">
       <div class="main-image-container">
         <img class="main-image" src="fun-stuff/heartbag.png" alt="Heart tote bag">
@@ -126,11 +128,11 @@
         <div class="thumbnail active" onclick="changeImage('tote',0)"><img src="fun-stuff/heartbag.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('tote',1)"><img src="fun-stuff/jamaica.png" alt=""></div>
       </div>
-      <p class="caption">Some examples of my designs on tote bags. DTG print on 100% cotton material.</p>
+      <p class="caption" data-i18n="fun.totecap">Some examples of my designs on tote bags. DTG print on 100% cotton material.</p>
     </div>
 
     <!-- ── Notebook ── -->
-    <h2 class="section-title">Handmade Notebook</h2>
+    <h2 class="section-title" data-i18n="fun.notebook">Handmade Notebook</h2>
     <div class="product-gallery" id="notebook-gallery">
       <div class="main-image-container">
         <video class="main-image" muted autoplay playsinline loop controls>
@@ -146,7 +148,7 @@
         <div class="thumbnail" onclick="changeImage('notebook',1)"><img src="fun-stuff/frontnoteb.jpg" alt=""></div>
         <div class="thumbnail" onclick="changeImage('notebook',2)"><img src="fun-stuff/backnoteb.jpg" alt=""></div>
       </div>
-      <p class="caption">
+      <p class="caption" data-i18n="fun.notebookcap">
         Pages, spine and cover were cut on a guillotine. Used cardboard for cover + spine.
         The cover image is my photograph, printed as a sticker on Roland and applied by hand.
         Glued, pressed, and assembled manually.
@@ -154,10 +156,12 @@
     </div>
 
     <div class="button-row">
-      <a href="index-v2.html#projects" class="page-button">Back</a>
+      <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
     </div>
   </main>
 
+  <script src="js-v2/translations.js"></script>
+  <script src="js-v2/script-v2.js"></script>
   <script>
     const galleries = {
       table: { images: [

@@ -14,21 +14,23 @@
   <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body class="subpage">
+<body class="subpage" data-title-key="title.package">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
-    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
-    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
     <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
-    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <main>
-    <h1 class="page-title">Package Design</h1>
+    <h1 class="page-title" data-i18n="package.title">Package Design</h1>
 
     <!-- ── Cards ── -->
-    <h2 class="section-title">Heart of the Lamb deck &mdash; playing cards</h2>
+    <h2 class="section-title" data-i18n="package.cards">Heart of the Lamb deck &mdash; playing cards</h2>
     <div class="product-gallery" id="cards-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/cards.jpg" alt="Heart of the Lamb playing cards">
@@ -40,11 +42,11 @@
         <div class="thumbnail" onclick="changeImage('cards',1)"><img src="package/kaardipakk.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('cards',2)"><img src="package/cardsblender.png" alt=""></div>
       </div>
-      <p class="caption">Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.</p>
+      <p class="caption" data-i18n="package.cardscap">Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.</p>
     </div>
 
     <!-- ── Holiday box ── -->
-    <h2 class="section-title">Holiday gift box &amp; Nut Butter</h2>
+    <h2 class="section-title" data-i18n="package.xmas">Holiday gift box &amp; Nut Butter</h2>
     <div class="product-gallery" id="xmas-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/xmasbox4.jpg" alt="Holiday gift box">
@@ -55,7 +57,7 @@
         <div class="thumbnail active" onclick="changeImage('xmas',0)"><img src="package/xmasbox4.jpg" alt=""></div>
         <div class="thumbnail" onclick="changeImage('xmas',1)"><img src="package/boxwhite.png" alt=""></div>
       </div>
-      <p class="caption">
+      <p class="caption" data-i18n="package.xmascap">
         I've gotten into the habit of gifting festive holiday cards to friends and family, and this year
         I wanted to make something a little more functional. I illustrated a seasonal box in Procreate,
         built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself.
@@ -65,7 +67,7 @@
     </div>
 
     <!-- ── Kiikaboo ── -->
-    <h2 class="section-title">Kiikaboo bread</h2>
+    <h2 class="section-title" data-i18n="package.kiikaboo">Kiikaboo bread</h2>
     <div class="product-gallery" id="kiikaboo-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/kiikaboo white.png" alt="Kiikaboo bread packaging">
@@ -77,11 +79,11 @@
         <div class="thumbnail" onclick="changeImage('kiikaboo',1)"><img src="package/kiikaboo green.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('kiikaboo',2)"><img src="package/peeekaboo.png" alt=""></div>
       </div>
-      <p class="caption">Packaging designed in Adobe Illustrator.</p>
+      <p class="caption" data-i18n="package.illustrator">Packaging designed in Adobe Illustrator.</p>
     </div>
 
     <!-- ── Serum ── -->
-    <h2 class="section-title">Theoremaly Serum</h2>
+    <h2 class="section-title" data-i18n="package.serum">Theoremaly Serum</h2>
     <div class="product-gallery" id="serum-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/serumblender.png" alt="Theoremaly serum">
@@ -92,11 +94,11 @@
         <div class="thumbnail active" onclick="changeImage('serum',0)"><img src="package/serumblender.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('serum',1)"><img src="package/full lilla.png" alt=""></div>
       </div>
-      <p class="caption">Packaging designed in Adobe Illustrator.</p>
+      <p class="caption" data-i18n="package.illustrator">Packaging designed in Adobe Illustrator.</p>
     </div>
 
     <!-- ── Dragon box ── -->
-    <h2 class="section-title">Little Dragon Chocolate Box</h2>
+    <h2 class="section-title" data-i18n="package.dragon">Little Dragon Chocolate Box</h2>
     <div class="product-gallery" id="dragon-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/lil dragon box.png" alt="Little Dragon chocolate box">
@@ -108,11 +110,11 @@
         <div class="thumbnail" onclick="changeImage('dragon',1)"><img src="package/box lil dragon out.png" alt=""></div>
         <div class="thumbnail" onclick="changeImage('dragon',2)"><img src="package/box lil dragon inside.png" alt=""></div>
       </div>
-      <p class="caption">Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.</p>
+      <p class="caption" data-i18n="package.dragoncap">Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.</p>
     </div>
 
     <!-- ── Dark chocolate ── -->
-    <h2 class="section-title">Dark Chocolate package design idea</h2>
+    <h2 class="section-title" data-i18n="package.coco">Dark Chocolate package design idea</h2>
     <div class="product-gallery" id="coco-gallery">
       <div class="main-image-container">
         <img class="main-image" src="package/dark coco out.png" alt="Dark chocolate packaging">
@@ -127,14 +129,16 @@
           <video class="thumb-video" src="package/coco.mp4" muted autoplay loop playsinline></video>
         </div>
       </div>
-      <p class="caption">Concept design created in Adobe Illustrator.</p>
+      <p class="caption" data-i18n="package.cococap">Concept design created in Adobe Illustrator.</p>
     </div>
 
     <div class="button-row">
-      <a href="index-v2.html#projects" class="page-button">Back</a>
+      <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
     </div>
   </main>
 
+  <script src="js-v2/translations.js"></script>
+  <script src="js-v2/script-v2.js"></script>
   <script>
     const galleries = {
       cards: { images: [

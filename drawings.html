@@ -90,21 +90,23 @@
   </style>
 </head>
 
-<body class="subpage">
+<body class="subpage" data-title-key="title.drawings">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
-    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
-    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
     <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
-    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <main>
-    <h1 class="page-title">Paintings &amp; Illustrations</h1>
+    <h1 class="page-title" data-i18n="drawings.title">Paintings &amp; Illustrations</h1>
 
     <!-- ── Paintings carousel ── -->
-    <h2 class="section-title">Paintings</h2>
+    <h2 class="section-title" data-i18n="drawings.paintings">Paintings</h2>
     <div class="main-carousel" data-flickity='{
         "autoPlay": 3000,
         "wrapAround": true,
@@ -114,24 +116,24 @@
     }'>
       <div class="carousel-cell">
         <img src="artwork/paintingB.jpg" alt="Little Bat - full painting">
-        <div class="carousel-caption">Little Bat, oil painting 2024</div>
+        <div class="carousel-caption" data-i18n="cap.littlebat">Little Bat, oil painting 2024</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/paintingS.jpg" alt="Little Bat - detail">
-        <div class="carousel-caption">Little Bat, oil painting 2024</div>
+        <div class="carousel-caption" data-i18n="cap.littlebat">Little Bat, oil painting 2024</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/goodess.jpg" alt="Goddess painting">
-        <div class="carousel-caption">Oil painting on 70 x 80 cm canvas, 2025</div>
+        <div class="carousel-caption" data-i18n="cap.goddess">Oil painting on 70 x 80 cm canvas, 2025</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/Springpainting.png" alt="Spring painting">
-        <div class="carousel-caption">Spring, acrylic painting, 2025</div>
+        <div class="carousel-caption" data-i18n="cap.spring">Spring, acrylic painting, 2025</div>
       </div>
     </div>
 
     <!-- ── Card illustrations carousel ── -->
-    <h2 class="section-title">Card Illustrations</h2>
+    <h2 class="section-title" data-i18n="drawings.cards">Card Illustrations</h2>
     <div class="cards-carousel" data-flickity='{
         "autoPlay": 3500,
         "wrapAround": true,
@@ -141,29 +143,29 @@
     }'>
       <div class="carousel-cell">
         <img src="artwork/xmas2024frontcard.png" alt="2024 Christmas card front">
-        <div class="carousel-caption">2024 Christmas Card (Front)</div>
+        <div class="carousel-caption" data-i18n="cap.xmas24front">2024 Christmas Card (Front)</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/xmas2024backcard.png" alt="2024 Christmas card back">
-        <div class="carousel-caption">2024 Christmas Card (Back)</div>
+        <div class="carousel-caption" data-i18n="cap.xmas24back">2024 Christmas Card (Back)</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/xmasfront2023card.PNG" alt="2023 Christmas card front">
-        <div class="carousel-caption">2023 Christmas Card (Front)</div>
+        <div class="carousel-caption" data-i18n="cap.xmas23front">2023 Christmas Card (Front)</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/xmas2023backcard.PNG" alt="2023 Christmas card back">
-        <div class="carousel-caption">2023 Christmas Card (Back)</div>
+        <div class="carousel-caption" data-i18n="cap.xmas23back">2023 Christmas Card (Back)</div>
       </div>
       <div class="carousel-cell">
         <img src="artwork/coco.png" alt="Coco illustration">
-        <div class="carousel-caption">Card Illustration</div>
+        <div class="carousel-caption" data-i18n="cap.cardillu">Card Illustration</div>
       </div>
     </div>
 
     <!-- ── Digital art wall ── -->
-    <h2 class="section-title">Digital Drawings &amp; Paintings</h2>
-    <p class="caption">Digital drawings and paintings made in Procreate, 2022&ndash;2025. Click any picture to see it up close.</p>
+    <h2 class="section-title" data-i18n="drawings.digital">Digital Drawings &amp; Paintings</h2>
+    <p class="caption" data-i18n="drawings.digitalinfo">Digital drawings and paintings made in Procreate, 2022&ndash;2025. Click any picture to see it up close.</p>
 
     <div class="digital-gallery">
       <div class="digital-item"><img src="artwork/mermie.png" loading="lazy" alt="Mermie" class="mermie"></div>
@@ -186,11 +188,13 @@
     </div>
 
     <div class="button-row">
-      <a href="index-v2.html#projects" class="page-button">Back</a>
+      <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
     </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
+  <script src="js-v2/translations.js"></script>
+  <script src="js-v2/script-v2.js"></script>
   <script>
     // modal zoom for the digital wall
     document.addEventListener('DOMContentLoaded', function () {

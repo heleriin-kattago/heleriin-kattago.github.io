@@ -5,11 +5,54 @@ window.addEventListener("load", function () {
   var loader = document.getElementById("loader");
   if (loader) {
     setTimeout(function () {
-      loader.classList.add("hide");
+      loader.classList.add("hide", "hide-loader");
       document.body.classList.remove("is-loading");
+      document.body.classList.add("loaded");
     }, 3000);
   }
 });
+
+// ── Language switcher (English ⇄ Estonian) ──
+// Elements with data-i18n="key" get their text from js-v2/translations.js.
+// The chosen language is remembered between visits.
+(function () {
+  function currentLang() {
+    var saved = null;
+    try { saved = localStorage.getItem("lang"); } catch (e) {}
+    return saved === "et" ? "et" : "en";
+  }
+
+  function applyLang(lang) {
+    if (!window.I18N) return;
+    var dict = window.I18N[lang] || window.I18N.en;
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+
+    var titleKey = document.body.getAttribute("data-title-key");
+    if (titleKey && dict[titleKey]) document.title = dict[titleKey];
+  }
+
+  window.setLang = function (lang) {
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    applyLang(lang);
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // build the toggle chip if the page has a spot for it
+    var toggle = document.getElementById("langToggle");
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        window.setLang(currentLang() === "en" ? "et" : "en");
+      });
+    }
+    applyLang(currentLang());
+  });
+})();
 
 // ── Lightbox (sub pages) ──
 // Click any framed image to see it big; click anywhere to close.

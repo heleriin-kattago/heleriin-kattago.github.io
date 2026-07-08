@@ -14,19 +14,21 @@
   <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body class="subpage">
+<body class="subpage" data-title-key="title.photo">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
-    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
-    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
     <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
-    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <main>
-    <h1 class="page-title">Photography</h1>
-    <p class="page-intro">
+    <h1 class="page-title" data-i18n="photo.title">Photography</h1>
+    <p class="page-intro" data-i18n="photo.intro">
       Welcome to my mini photowall! All (except the first 2 pictures &mdash; taken by
       Viktoria Kovalenko) are taken by me. I have edited all the pictures, and I am
       also the model on these. Click any picture to see it up close.
@@ -53,10 +55,11 @@
     </div>
 
     <div class="button-row">
-      <a href="index-v2.html#projects" class="page-button">I wanna go back</a>
+      <a href="index-v2.html#projects" class="page-button" data-i18n="back.photo">I wanna go back</a>
     </div>
   </main>
 
+  <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
 </body>
 </html>

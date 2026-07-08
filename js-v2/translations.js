@@ -1,0 +1,230 @@
+// ── English ⇄ Estonian translations ──
+// Every element with data-i18n="key" gets swapped when the language changes.
+window.I18N = {
+
+  en: {
+    "lang.switch": "EST",
+
+    // nav
+    "nav.about": "about",
+    "nav.contact": "contact",
+    "nav.home": "home",
+    "nav.shop": "shop",
+
+    // loading
+    "loading": "loading",
+
+    // index
+    "title.index": "Heleriin Kattago | Portfolio",
+    "index.hi": "Hi! My name is Heleriin and I have an eye for creative solutions.",
+    "index.heart": "My heart beats for art and everything beautiful in this life.<br>Thank you for being here, take a look around.",
+    "index.thanks": "Thank you again,<br>for checking out my work<br>I'd give you a hug,<br>but you're too far away<br>and I'm a professional anyway.",
+    "btn.paintings": "Paintings<br>&amp;<br>Illustrations",
+    "btn.logos": "Logos<br>&amp; Brand Design",
+    "btn.package": "Package<br>Design",
+    "btn.play": "Let's Play!",
+    "btn.photo": "Photography",
+    "btn.info": "Information<br>Design",
+
+    // shared
+    "back": "Back",
+    "back.photo": "I wanna go back",
+    "back.home": "Back home",
+    "clickzoom": "Click any picture to see it up close.",
+
+    // about
+    "title.about": "Heleriin Kattago | About",
+    "about.title": "About",
+    "about.statement": "Paintings, drawings, logos, packaging, photography — if it can be made beautiful, I want to make it.",
+    "about.seework": "See my work",
+    "about.sayhi": "Say hi",
+    "credit": "This whole site was designed and created by me ✦ Heleriin Kattago ✦",
+
+    // contact
+    "title.contact": "Heleriin Kattago | Contact",
+    "contact.title": "Contact",
+    "contact.where": "where, oh where could u find me?",
+    "contact.search": "Search for Heleriin Kattago or",
+    "contact.email": "or send me an email at",
+    "contact.number": "I can't give my number to anyone, ya know?",
+    "contact.emailme": "Email me",
+
+    // shop
+    "title.shop": "Heleriin Kattago | Shop",
+    "shop.title": "Shop",
+    "shop.brewing": "The shop is still brewing&hellip;<br><br>Prints, cards, and other handmade lovelies are on their way. Until then, come say hi on <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagram</a> &mdash; that's where news lands first.",
+
+    // drawings
+    "title.drawings": "Heleriin Kattago | Paintings & Illustrations",
+    "drawings.title": "Paintings &amp; Illustrations",
+    "drawings.paintings": "Paintings",
+    "drawings.cards": "Card Illustrations",
+    "drawings.digital": "Digital Drawings &amp; Paintings",
+    "drawings.digitalinfo": "Digital drawings and paintings made in Procreate, 2022&ndash;2025. Click any picture to see it up close.",
+    "cap.littlebat": "Little Bat, oil painting 2024",
+    "cap.goddess": "Oil painting on 70 x 80 cm canvas, 2025",
+    "cap.spring": "Spring, acrylic painting, 2025",
+    "cap.xmas24front": "2024 Christmas Card (Front)",
+    "cap.xmas24back": "2024 Christmas Card (Back)",
+    "cap.xmas23front": "2023 Christmas Card (Front)",
+    "cap.xmas23back": "2023 Christmas Card (Back)",
+    "cap.cardillu": "Card Illustration",
+
+    // photography
+    "title.photo": "Heleriin Kattago | Photography",
+    "photo.title": "Photography",
+    "photo.intro": "Welcome to my mini photowall! All (except the first 2 pictures &mdash; taken by Viktoria Kovalenko) are taken by me. I have edited all the pictures, and I am also the model on these. Click any picture to see it up close.",
+
+    // package
+    "title.package": "Heleriin Kattago | Package Design",
+    "package.title": "Package Design",
+    "package.cards": "Heart of the Lamb deck &mdash; playing cards",
+    "package.cardscap": "Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.",
+    "package.xmas": "Holiday gift box &amp; Nut Butter",
+    "package.xmascap": "I've gotten into the habit of gifting festive holiday cards to friends and family, and this year I wanted to make something a little more functional. I illustrated a seasonal box in Procreate, built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself. To go with it, I made homemade nut butter and designed matching labels for the glass jars, creating a small, personal holiday gift set.",
+    "package.kiikaboo": "Kiikaboo bread",
+    "package.illustrator": "Packaging designed in Adobe Illustrator.",
+    "package.serum": "Theoremaly Serum",
+    "package.dragon": "Little Dragon Chocolate Box",
+    "package.dragoncap": "Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.",
+    "package.coco": "Dark Chocolate package design idea",
+    "package.cococap": "Concept design created in Adobe Illustrator.",
+
+    // information design (fun)
+    "title.fun": "Heleriin Kattago | Information Design",
+    "fun.title": "Information Design",
+    "fun.table": "Solubility Table",
+    "fun.tablecap": "Solubility table design, because others were unjoyous to look at. I made a few versions.",
+    "fun.coa": "Certificate of Authenticity",
+    "fun.coacap": "Card designed in Illustrator. Modeled and rendered in Blender; certificate later encrypted. Includes a short animation.",
+    "fun.brochure": "Brochure about Van der Waals forces and how Geckos Stick to Walls",
+    "fun.brochurecap": "Brochure design in Estonian &amp; English (<a href=\"https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link\" target=\"_blank\" rel=\"noopener noreferrer\">opens a Google Drive folder</a>).",
+    "fun.bdayhoodie": "Birthday Hoodie",
+    "fun.bdayhoodiecap": "Designed it for myself as a birthday gift. DTG print on 100% cotton material.",
+    "fun.swordhoodie": "Sword Hoodie",
+    "fun.swordhoodiecap": "Hoodie I designed as a gift. DTG print on 100% cotton material.",
+    "fun.tote": "Tote Bags",
+    "fun.totecap": "Some examples of my designs on tote bags. DTG print on 100% cotton material.",
+    "fun.notebook": "Handmade Notebook",
+    "fun.notebookcap": "Pages, spine and cover were cut on a guillotine. Used cardboard for cover + spine. The cover image is my photograph, printed as a sticker on Roland and applied by hand. Glued, pressed, and assembled manually.",
+
+    // logos
+    "title.logos": "Heleriin Kattago | Logos & Brand Design",
+    "logos.title": "Logos &amp; Brand Design",
+    "logos.loovkaaren": "Logo and font for Loovkaaren",
+    "logos.casa": "Logo for Casa Granado"
+  },
+
+  et: {
+    "lang.switch": "ENG",
+
+    // nav
+    "nav.about": "minust",
+    "nav.contact": "kontakt",
+    "nav.home": "avaleht",
+    "nav.shop": "pood",
+
+    // loading
+    "loading": "laen",
+
+    // index
+    "title.index": "Heleriin Kattago | Portfoolio",
+    "index.hi": "Tere! Minu nimi on Heleriin ja mul on silma loovate lahenduste jaoks.",
+    "index.heart": "Mu süda tuksub kunsti ja kõige ilusa jaoks siin elus.<br>Aitäh, et siin oled — vaata ringi.",
+    "index.thanks": "Aitäh veel kord,<br>et mu töödega tutvusid<br>Kallistaksin sind,<br>aga sa oled liiga kaugel<br>ja ma olen niikuinii professionaal.",
+    "btn.paintings": "Maalid<br>&amp;<br>illustratsioonid",
+    "btn.logos": "Logod<br>&amp; brändidisain",
+    "btn.package": "Pakendi-<br>disain",
+    "btn.play": "Mängime!",
+    "btn.photo": "Fotograafia",
+    "btn.info": "Infodisain",
+
+    // shared
+    "back": "Tagasi",
+    "back.photo": "Tahan tagasi",
+    "back.home": "Tagasi avalehele",
+    "clickzoom": "Klõpsa pildil, et seda lähemalt vaadata.",
+
+    // about
+    "title.about": "Heleriin Kattago | Minust",
+    "about.title": "Minust",
+    "about.statement": "Maalid, joonistused, logod, pakendid, fotograafia — kui midagi saab teha ilusaks, siis ma tahan seda teha.",
+    "about.seework": "Vaata mu töid",
+    "about.sayhi": "Ütle tere",
+    "credit": "Kogu selle lehe kujundasin ja lõin mina ✦ Heleriin Kattago ✦",
+
+    // contact
+    "title.contact": "Heleriin Kattago | Kontakt",
+    "contact.title": "Kontakt",
+    "contact.where": "kust, oh kust võiksid sa mind leida?",
+    "contact.search": "Otsi nime Heleriin Kattago või",
+    "contact.email": "või saada mulle kiri",
+    "contact.number": "Ma ei saa ju oma numbrit igaühele anda, eks?",
+    "contact.emailme": "Kirjuta mulle",
+
+    // shop
+    "title.shop": "Heleriin Kattago | Pood",
+    "shop.title": "Pood",
+    "shop.brewing": "Pood on alles valmimas&hellip;<br><br>Prindid, kaardid ja muud käsitöö-armsused on teel. Seni tule ütle tere <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagramis</a> &mdash; sinna jõuavad uudised kõige enne.",
+
+    // drawings
+    "title.drawings": "Heleriin Kattago | Maalid & illustratsioonid",
+    "drawings.title": "Maalid &amp; illustratsioonid",
+    "drawings.paintings": "Maalid",
+    "drawings.cards": "Kaardi-illustratsioonid",
+    "drawings.digital": "Digitaalsed joonistused &amp; maalid",
+    "drawings.digitalinfo": "Digitaalsed joonistused ja maalid, tehtud Procreate'is 2022&ndash;2025. Klõpsa pildil, et seda lähemalt vaadata.",
+    "cap.littlebat": "Väike Nahkhiir, õlimaal 2024",
+    "cap.goddess": "Õlimaal 70 x 80 cm lõuendil, 2025",
+    "cap.spring": "Kevad, akrüülmaal, 2025",
+    "cap.xmas24front": "2024. aasta jõulukaart (esikülg)",
+    "cap.xmas24back": "2024. aasta jõulukaart (tagakülg)",
+    "cap.xmas23front": "2023. aasta jõulukaart (esikülg)",
+    "cap.xmas23back": "2023. aasta jõulukaart (tagakülg)",
+    "cap.cardillu": "Kaardi illustratsioon",
+
+    // photography
+    "title.photo": "Heleriin Kattago | Fotograafia",
+    "photo.title": "Fotograafia",
+    "photo.intro": "Tere tulemast mu väiksele fotoseinale! Kõik pildid (peale kahe esimese, mille tegi Viktoria Kovalenko) olen teinud mina. Olen kõik pildid ise töödelnud ja olen neil ka ise modelliks. Klõpsa pildil, et seda lähemalt vaadata.",
+
+    // package
+    "title.package": "Heleriin Kattago | Pakendidisain",
+    "package.title": "Pakendidisain",
+    "package.cards": "Heart of the Lamb &mdash; mängukaardid",
+    "package.cardscap": "Kaardikarbi kunst on käsitsi joonistatud Procreate'is ning kokku pandud ja viimistletud Adobe Illustratoris.",
+    "package.xmas": "Pühade kinkekarp &amp; pähklivõi",
+    "package.xmascap": "Mul on kombeks kinkida sõpradele ja perele pidulikke jõulukaarte ning sel aastal tahtsin teha midagi praktilisemat. Illustreerisin hooajalise karbi Procreate'is, ehitasin pakendi Adobe Illustratoris ning printisin, lamineerisin ja panin selle käsitsi kokku. Kõrvale valmistasin kodust pähklivõid ja kujundasin purkidele sobivad sildid — väike isiklik pühadekomplekt.",
+    "package.kiikaboo": "Kiikaboo leib",
+    "package.illustrator": "Pakend kujundatud Adobe Illustratoris.",
+    "package.serum": "Theoremaly seerum",
+    "package.dragon": "Väikese Draakoni šokolaadikarp",
+    "package.dragoncap": "Draakoni embleem käsitsi joonistatud Procreate'is; pakend viimistletud Illustratoris.",
+    "package.coco": "Tumeda šokolaadi pakendidisaini idee",
+    "package.cococap": "Kontseptsioon loodud Adobe Illustratoris.",
+
+    // information design (fun)
+    "title.fun": "Heleriin Kattago | Infodisain",
+    "fun.title": "Infodisain",
+    "fun.table": "Lahustuvustabel",
+    "fun.tablecap": "Lahustuvustabeli disain, sest teised olid rõõmutud vaadata. Tegin mitu versiooni.",
+    "fun.coa": "Ehtsussertifikaat",
+    "fun.coacap": "Kaart kujundatud Illustratoris. Modelleeritud ja renderdatud Blenderis; sertifikaat hiljem krüpteeritud. Sisaldab lühikest animatsiooni.",
+    "fun.brochure": "Brošüür Van der Waalsi jõududest ja sellest, kuidas gekod seintel püsivad",
+    "fun.brochurecap": "Brošüüri disain eesti ja inglise keeles (<a href=\"https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link\" target=\"_blank\" rel=\"noopener noreferrer\">avab Google Drive'i kausta</a>).",
+    "fun.bdayhoodie": "Sünnipäevapusa",
+    "fun.bdayhoodiecap": "Kujundasin endale sünnipäevakingiks. DTG-trükk 100% puuvillasel materjalil.",
+    "fun.swordhoodie": "Mõõgapusa",
+    "fun.swordhoodiecap": "Pusa, mille kujundasin kingituseks. DTG-trükk 100% puuvillasel materjalil.",
+    "fun.tote": "Riidekotid",
+    "fun.totecap": "Mõned näited mu disainidest riidekottidel. DTG-trükk 100% puuvillasel materjalil.",
+    "fun.notebook": "Käsitöömärkmik",
+    "fun.notebookcap": "Lehed, selg ja kaaned lõigatud giljotiiniga. Kaante ja selja jaoks kasutasin pappi. Kaanepilt on minu foto, prinditud Rolandil kleebisena ja käsitsi peale kantud. Liimitud, pressitud ja kokku pandud käsitsi.",
+
+    // logos
+    "title.logos": "Heleriin Kattago | Logod & brändidisain",
+    "logos.title": "Logod &amp; brändidisain",
+    "logos.loovkaaren": "Logo ja font Loovkaarenile",
+    "logos.casa": "Logo Casa Granadole"
+  }
+};
