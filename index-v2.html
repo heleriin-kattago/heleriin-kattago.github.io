@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Heleriin Kattago | Portfolio</title>
 
+  <link rel="icon" type="image/png" href="1/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <!-- preload the main background while the loader spins, so the reveal is instant -->
+  <link rel="preload" as="image" href="1/bg-main.jpg">
+
   <link rel="stylesheet" href="css-v2/style-v2.css">
 
 </head>
@@ -14,7 +23,7 @@
   <!-- LOADING PAGE -->
   <div id="loader">
     <div class="loader-center">
-      <img src="1/bnwstar.svg" alt="" class="loader-star">
+      <img src="1/star.png" alt="" class="loader-star">
       <p class="loader-text">loading</p>
     </div>
   </div>
@@ -23,14 +32,14 @@
   <main id="site">
 
     <!-- HOME PAGE / FIRST SCROLL -->
-    <section class="home-page">
+    <section class="home-page" id="home">
 
       <nav class="top-nav">
-        <a href="#about" class="nav-box">
+        <a href="about.html" class="nav-box">
           <img src="1/about.svg" alt="About">
         </a>
 
-        <a href="#contact" class="nav-box">
+        <a href="contact.html" class="nav-box">
           <img src="1/contact.svg" alt="Contact">
         </a>
 
@@ -40,7 +49,7 @@
           <img src="1/home.svg" alt="Home">
         </a>
 
-        <a href="#shop" class="nav-box">
+        <a href="shop.html" class="nav-box">
           <img src="1/shop.svg" alt="Shop">
         </a>
       </nav>
@@ -53,7 +62,7 @@
     </section>
 
     <!-- SECOND SCROLL PAGE -->
-    <section class="portfolio-page">
+    <section class="portfolio-page" id="projects">
 
       <div class="project-grid">
         <a href="drawings.html" class="project-button">Paintings<br>&amp; Illustrations</a>

@@ -1,328 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Heleriin Kattago | More fun stuff</title>
-  <link rel="icon" type="image/png" href="pics/favicongreen.png">
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Information Design</title>
 
-  <style>
-    :root{
-      --white:#F6F6F6;
-      --dark-green:#101A04;   /* your original */
-      --medium-green:#536340; /* your original */
-    }
+  <link rel="icon" type="image/png" href="1/favicon.png">
 
-    *{ margin:0; padding:0; box-sizing:border-box; cursor:url('pics/cursor.svg'), auto; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 
-    body{
-      font-family:'Inknut Antiqua', serif;
-      background:var(--white); color:var(--dark-green);
-      padding:2rem; max-width:1200px; margin:0 auto; line-height:1.5;
-    }
-
-    h1{
-      font-family:'Mansalva', cursive;
-      font-size:64px; margin-bottom:2rem; text-align:center;
-    }
-
-    .section-title{
-      font-size:32px; margin:3rem 0 1.25rem; padding-bottom:.5rem;
-      border-bottom:2px solid var(--medium-green);
-      max-width:80ch; margin-left:auto; margin-right:auto; text-wrap:balance;
-    }
-
-    .product-gallery{ margin-bottom:2.5rem; }
-
-    .main-image-container{
-      position:relative; width:100%; height:440px; margin-bottom:.75rem;
-      background:var(--white); display:flex; justify-content:center; align-items:center; overflow:hidden;
-    }
-
-    .main-image{ max-width:100%; max-height:100%; object-fit:contain; }
-    video.main-image{ max-height:100%; max-width:100%; }
-
-    /* LEFT-aligned thumbnails (no centering) */
-    .thumbnail-container{
-      display:flex; gap:10px; overflow-x:auto; padding-bottom:10px;
-      scrollbar-width:thin; scrollbar-color:var(--medium-green) var(--white);
-      width:100%; margin:0; justify-content:flex-start;
-    }
-    .thumbnail-container::-webkit-scrollbar{ height:6px; }
-    .thumbnail-container::-webkit-scrollbar-track{ background:var(--white); }
-    .thumbnail-container::-webkit-scrollbar-thumb{ background:var(--medium-green); border-radius:3px; }
-
-    .thumbnail{
-      width:100px; height:100px; min-width:100px; background:var(--white);
-      border:2px solid var(--medium-green); border-radius:8px; padding:6px; cursor:pointer;
-      transition:.2s; display:flex; justify-content:center; align-items:center;
-    }
-    .thumbnail:hover{ border-color:var(--dark-green); transform:scale(1.03); }
-    .thumbnail.active{ border-color:var(--dark-green); }
-
-    .thumbnail img,
-    .thumbnail .thumb-video{
-      max-width:100%; max-height:100%; object-fit:cover; display:block; border-radius:4px;
-    }
-    .thumbnail .thumb-video{ pointer-events:none; }
-
-    /* Caption – JS sets left margin + width so it lines up with thumbs and right arrow */
-    .image-caption{
-      font-family:'Inknut Antiqua', serif;
-      font-size:15px; line-height:1.5; text-align:left;
-      margin-top:.75rem;
-      max-width:75ch; /* fallback if JS is off */
-    }
-
-    .nav-button{
-      position:absolute; top:50%; transform:translateY(-50%);
-      width:36px; height:36px; background:rgba(255,255,255,.75);
-      border:2px solid var(--medium-green); border-radius:50%;
-      display:flex; justify-content:center; align-items:center;
-      cursor:pointer; z-index:10; font-size:18px; color:var(--dark-green); user-select:none;
-    }
-    .nav-button:hover{ background:var(--medium-green); color:#fff; }
-    .prev{ left:8px; } .next{ right:8px; }
-
-    .back-link{
-      display:inline-block; margin-top:2.25rem; font-size:22px; color:var(--medium-green);
-      text-decoration:none; border:2px solid var(--medium-green);
-      padding:.5rem 1.25rem; border-radius:4px; transition:.3s;
-    }
-    .back-link:hover{ background:var(--medium-green); color:#fff; }
-
-    /* Tablet */
-    @media (max-width:768px){
-      h1{ font-size:40px; }
-      .section-title{ font-size:24px; }
-      .main-image-container{ height:320px; }
-      .image-caption{ font-size:13px; }
-      .thumbnail{ width:88px; height:88px; min-width:88px; }
-      .nav-button{ width:34px; height:34px; font-size:17px; }
-    }
-
-    /* Mobile */
-    @media (max-width:480px){
-      body{ padding:1.25rem; }
-      h1{ font-size:28px; margin-bottom:1rem; }
-      .section-title{ font-size:20px; margin:1.75rem 0 1rem; }
-      .main-image-container{ height:240px; }
-      .thumbnail{ width:76px; height:76px; min-width:76px; }
-      .nav-button{ width:32px; height:32px; font-size:16px; }
-      .back-link{ font-size:18px; margin-top:1.75rem; }
-      .image-caption{ font-size:12px; }
-    }
-  </style>
+  <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
-<body>
-  <h1>Fun Stuff</h1>
 
-  <!-- 1) Solubility table -->
-  <div class="section-title">Solubility Table</div>
-  <div class="product-gallery" id="table-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt="Solubility Table">
-      <div class="nav-button prev" onclick="prevImage('table')">❮</div>
-      <div class="nav-button next" onclick="nextImage('table')">❯</div>
-      </div>
-      <div class="thumbnail" onclick="changeImage('table',0)">
-        <img src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt="Solubility Table in English">
-      </div>
-    </div>
-    <div class="image-caption">Solubility table design, because others were unjoyous to look at. I made few versions.</div>
-  </div>
+<body class="subpage">
 
-  <!-- 2) Certificate of Authenticity -->
-  <div class="section-title">Certificate of Authenticity</div>
-  <div class="product-gallery" id="coa-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="fun-stuff/coa.png" alt="Certificate of Authenticity (render)">
-      <div class="nav-button prev" onclick="prevImage('coa')">❮</div>
-      <div class="nav-button next" onclick="nextImage('coa')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('coa',0)">
-        <img src="fun-stuff/coa.png" alt="CoA still (Blender render)">
-      </div>
-      <div class="thumbnail" onclick="changeImage('coa',1)">
-        <video class="thumb-video"
-               src="fun-stuff/coa.mp4"
-               poster="fun-stuff/coa.png"
-               muted autoplay playsinline loop preload="metadata"></video>
-      </div>
-    </div>
-    <div class="image-caption">
-      Card designed in Illustrator. Modeled and rendered in Blender; certificate later encrypted. Includes a short animation.
-    </div>
-  </div>
+  <nav class="top-nav">
+    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
+    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
+    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
+    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+  </nav>
 
-  <!-- 3) Brochure -->
-  <div class="section-title">Brochure about Van der Waals forces and how Geckos Stick to Walls</div>
-  <div class="product-gallery" id="brochure-gallery">
-    <div class="main-image-container">
-      <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">
-        <img class="main-image" src="fun-stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
-      </a>
-      <div class="nav-button prev" onclick="prevImage('brochure')">❮</div>
-      <div class="nav-button next" onclick="nextImage('brochure')">❯</div>
+  <main>
+    <h1 class="page-title">Information Design</h1>
+
+    <!-- ── Solubility table ── -->
+    <h2 class="section-title">Solubility Table</h2>
+    <div class="product-gallery" id="table-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt="Solubility table">
+        <div class="nav-button prev" onclick="prevImage('table')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('table')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('table',0)"><img src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('table',1)"><img src="fun-stuff/LAHUSTUVUSTABEL.est.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('table',2)"><img src="fun-stuff/LAHUSTUVUSTABEL.eng.png" alt=""></div>
+      </div>
+      <p class="caption">Solubility table design, because others were unjoyous to look at. I made a few versions.</p>
     </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('brochure',0)">
+
+    <!-- ── Certificate of Authenticity ── -->
+    <h2 class="section-title">Certificate of Authenticity</h2>
+    <div class="product-gallery" id="coa-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="fun-stuff/coa.png" alt="Certificate of Authenticity (render)">
+        <div class="nav-button prev" onclick="prevImage('coa')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('coa')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('coa',0)"><img src="fun-stuff/coa.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('coa',1)">
+          <video class="thumb-video" src="fun-stuff/coa.mp4" poster="fun-stuff/coa.png" muted autoplay playsinline loop preload="metadata"></video>
+        </div>
+      </div>
+      <p class="caption">
+        Card designed in Illustrator. Modeled and rendered in Blender; certificate later encrypted.
+        Includes a short animation.
+      </p>
+    </div>
+
+    <!-- ── Brochure ── -->
+    <h2 class="section-title">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
+    <div class="product-gallery" id="brochure-gallery">
+      <div class="main-image-container">
         <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">
-          <img src="fun-stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
+          <img class="main-image" src="fun-stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
         </a>
+        <div class="nav-button prev" onclick="prevImage('brochure')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('brochure')">&#10095;</div>
       </div>
-      <div class="thumbnail" onclick="changeImage('brochure',1)">
-        <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">
-          <img src="fun-stuff/brosuurkeelevahetusega-ENG.png" alt="Brochure in English">
-        </a>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('brochure',0)"><img src="fun-stuff/brosuurkeelevahetusega-EST.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('brochure',1)"><img src="fun-stuff/brosuurkeelevahetusega-ENG.png" alt=""></div>
       </div>
-    </div>
-    <div class="image-caption">Brochure design in Estonian & English (opens Google Drive folder).</div>
-  </div>
-
-  <!-- 4) Birthday Hoodie -->
-  <div class="section-title">Birthday Hoodie</div>
-  <div class="product-gallery" id="hoodie-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="fun-stuff/butterflyhoodie1.png" alt="Birthday Hoodie">
-      <div class="nav-button prev" onclick="prevImage('hoodie')">❮</div>
-      <div class="nav-button next" onclick="nextImage('hoodie')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('hoodie',0)">
-        <img src="fun-stuff/butterflyhoodie1.png" alt="Birthday Hoodie front">
-      </div>
-      <div class="thumbnail" onclick="changeImage('hoodie',1)">
-        <img src="fun-stuff/butterfly hoodie 2.png" alt="Birthday Hoodie back">
-      </div>
-      <div class="thumbnail" onclick="changeImage('hoodie',2)">
-        <img src="fun-stuff/butterfly.png" alt="Butterfly design">
-      </div>
-    </div>
-    <div class="image-caption">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</div>
-  </div>
-
-  <!-- 5) Sword Hoodie -->
-  <div class="section-title">Sword Hoodie</div>
-  <div class="product-gallery" id="sword-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="fun-stuff/sword hoodie.png" alt="Sword Hoodie">
-      <div class="nav-button prev" onclick="prevImage('sword')">❮</div>
-      <div class="nav-button next" onclick="nextImage('sword')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('sword',0)">
-        <img src="fun-stuff/sword hoodie.png" alt="Sword Hoodie">
-      </div>
-      <div class="thumbnail" onclick="changeImage('sword',1)">
-        <img src="fun-stuff/sword.PNG" alt="Sword design">
-      </div>
-    </div>
-    <div class="image-caption">Hoodie I designed as a gift. DTG print on 100% cotton material.</div>
-  </div>
-
-  <!-- 6) Tote Bags -->
-  <div class="section-title">Tote Bags</div>
-  <div class="product-gallery" id="tote-gallery">
-    <div class="main-image-container">
-      <img class="main-image" src="fun-stuff/heartbag.png" alt="Heart Tote Bag">
-      <div class="nav-button prev" onclick="prevImage('tote')">❮</div>
-      <div class="nav-button next" onclick="nextImage('tote')">❯</div>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('tote',0)">
-        <img src="fun-stuff/heartbag.png" alt="Heart Tote Bag">
-      </div>
-      <div class="thumbnail" onclick="changeImage('tote',1)">
-        <img src="fun-stuff/jamaica.png" alt="Jamaica Tote Bag">
-      </div>
-    </div>
-    <div class="image-caption">Some examples of my designs on tote bags. DTG print on 100% cotton material.</div>
-  </div>
-
-  <!-- 7) Handmade Notebook (video first + front/back images) -->
-  <div class="section-title">Handmade Notebook</div>
-  <div class="product-gallery" id="notebook-gallery">
-    <div class="main-image-container">
-      <!-- Start with the VIDEO as the main media -->
-      <video class="main-image" muted autoplay playsinline loop controls>
-        <source src="fun-stuff/notebook.MOV" type="video/quicktime">
-        <!-- If you export MP4 later, add it as first source:
-        <source src="fun-stuff/notebook.mp4" type="video/mp4"> -->
-      </video>
-      <div class="nav-button prev" onclick="prevImage('notebook')">❮</div>
-      <div class="nav-button next" onclick="nextImage('notebook')">❯</div>
+      <p class="caption">
+        Brochure design in Estonian &amp; English
+        (<a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">opens a Google Drive folder</a>).
+      </p>
     </div>
 
-    <div class="thumbnail-container">
-      <div class="thumbnail active" onclick="changeImage('notebook',0)">
-        <video class="thumb-video"
-               src="fun-stuff/notebook.MOV"
-               muted autoplay playsinline loop preload="metadata"></video>
+    <!-- ── Birthday hoodie ── -->
+    <h2 class="section-title">Birthday Hoodie</h2>
+    <div class="product-gallery" id="hoodie-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="fun-stuff/butterflyhoodie1.png" alt="Birthday hoodie">
+        <div class="nav-button prev" onclick="prevImage('hoodie')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('hoodie')">&#10095;</div>
       </div>
-      <div class="thumbnail" onclick="changeImage('notebook',1)">
-        <img src="fun-stuff/frontnoteb.jpg" alt="Notebook front cover">
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('hoodie',0)"><img src="fun-stuff/butterflyhoodie1.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('hoodie',1)"><img src="fun-stuff/butterfly hoodie 2.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('hoodie',2)"><img src="fun-stuff/butterfly.png" alt=""></div>
       </div>
-      <div class="thumbnail" onclick="changeImage('notebook',2)">
-        <img src="fun-stuff/backnoteb.jpg" alt="Notebook back cover">
-      </div>
+      <p class="caption">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</p>
     </div>
 
-    <div class="image-caption">
-      Pages, spine and cover were cut on a guillotine. Used cardboard for cover + spine.
-      The cover image is my photograph, printed as a sticker on Roland and applied by hand.
-      Glued, pressed, and assembled manually.
+    <!-- ── Sword hoodie ── -->
+    <h2 class="section-title">Sword Hoodie</h2>
+    <div class="product-gallery" id="sword-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="fun-stuff/sword hoodie.png" alt="Sword hoodie">
+        <div class="nav-button prev" onclick="prevImage('sword')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('sword')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('sword',0)"><img src="fun-stuff/sword hoodie.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('sword',1)"><img src="fun-stuff/sword.PNG" alt=""></div>
+      </div>
+      <p class="caption">Hoodie I designed as a gift. DTG print on 100% cotton material.</p>
     </div>
-  </div>
 
-  <a href="index.html" class="back-link">Back</a>
+    <!-- ── Tote bags ── -->
+    <h2 class="section-title">Tote Bags</h2>
+    <div class="product-gallery" id="tote-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="fun-stuff/heartbag.png" alt="Heart tote bag">
+        <div class="nav-button prev" onclick="prevImage('tote')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('tote')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('tote',0)"><img src="fun-stuff/heartbag.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('tote',1)"><img src="fun-stuff/jamaica.png" alt=""></div>
+      </div>
+      <p class="caption">Some examples of my designs on tote bags. DTG print on 100% cotton material.</p>
+    </div>
+
+    <!-- ── Notebook ── -->
+    <h2 class="section-title">Handmade Notebook</h2>
+    <div class="product-gallery" id="notebook-gallery">
+      <div class="main-image-container">
+        <video class="main-image" muted autoplay playsinline loop controls>
+          <source src="fun-stuff/notebook.MOV" type="video/quicktime">
+        </video>
+        <div class="nav-button prev" onclick="prevImage('notebook')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('notebook')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('notebook',0)">
+          <video class="thumb-video" src="fun-stuff/notebook.MOV" muted autoplay playsinline loop preload="metadata"></video>
+        </div>
+        <div class="thumbnail" onclick="changeImage('notebook',1)"><img src="fun-stuff/frontnoteb.jpg" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('notebook',2)"><img src="fun-stuff/backnoteb.jpg" alt=""></div>
+      </div>
+      <p class="caption">
+        Pages, spine and cover were cut on a guillotine. Used cardboard for cover + spine.
+        The cover image is my photograph, printed as a sticker on Roland and applied by hand.
+        Glued, pressed, and assembled manually.
+      </p>
+    </div>
+
+    <div class="button-row">
+      <a href="index-v2.html#projects" class="page-button">Back</a>
+    </div>
+  </main>
 
   <script>
-    // Gallery data (Notebook: video first, then front/back)
     const galleries = {
-      table:{ images:[
-        { src:"fun-stuff/LAHUSTUVUSTABEL.est.png", alt:"Solubility Table in Estonian" },
-        { src:"fun-stuff/LAHUSTUVUSTABEL.eng.png", alt:"Solubility Table in English" }
-      ], currentIndex:0 },
+      table: { images: [
+        { src: "fun-stuff/uusLAHUSTUVUSTABEL.png", alt: "Solubility table" },
+        { src: "fun-stuff/LAHUSTUVUSTABEL.est.png", alt: "Solubility table in Estonian" },
+        { src: "fun-stuff/LAHUSTUVUSTABEL.eng.png", alt: "Solubility table in English" }
+      ], currentIndex: 0 },
 
-      coa:{ images:[
-        { src:"fun-stuff/coa.png", alt:"Certificate of Authenticity (render)" },
-        { type:"video", src:"fun-stuff/coa.mp4", alt:"Certificate of Authenticity (animation)", poster:"fun-stuff/coa.png" }
-      ], currentIndex:0 },
+      coa: { images: [
+        { src: "fun-stuff/coa.png", alt: "Certificate of Authenticity (render)" },
+        { type: "video", src: "fun-stuff/coa.mp4", alt: "Certificate of Authenticity (animation)", poster: "fun-stuff/coa.png" }
+      ], currentIndex: 0 },
 
-      brochure:{ images:[
-        { src:"fun-stuff/brosuurkeelevahetusega-EST.png", alt:"Brochure in Estonian" },
-        { src:"fun-stuff/brosuurkeelevahetusega-ENG.png", alt:"Brochure in English" }
-      ], currentIndex:0 },
+      brochure: { images: [
+        { src: "fun-stuff/brosuurkeelevahetusega-EST.png", alt: "Brochure in Estonian" },
+        { src: "fun-stuff/brosuurkeelevahetusega-ENG.png", alt: "Brochure in English" }
+      ], currentIndex: 0 },
 
-      hoodie:{ images:[
-        { src:"fun-stuff/butterflyhoodie1.png", alt:"Birthday Hoodie front" },
-        { src:"fun-stuff/butterfly hoodie 2.png", alt:"Birthday Hoodie back" },
-        { src:"fun-stuff/butterfly.png", alt:"Butterfly design" }
-      ], currentIndex:0 },
+      hoodie: { images: [
+        { src: "fun-stuff/butterflyhoodie1.png", alt: "Birthday hoodie front" },
+        { src: "fun-stuff/butterfly hoodie 2.png", alt: "Birthday hoodie back" },
+        { src: "fun-stuff/butterfly.png", alt: "Butterfly design" }
+      ], currentIndex: 0 },
 
-      sword:{ images:[
-        { src:"fun-stuff/sword hoodie.png", alt:"Sword Hoodie" },
-        { src:"fun-stuff/sword.PNG", alt:"Sword design" }
-      ], currentIndex:0 },
+      sword: { images: [
+        { src: "fun-stuff/sword hoodie.png", alt: "Sword hoodie" },
+        { src: "fun-stuff/sword.PNG", alt: "Sword design" }
+      ], currentIndex: 0 },
 
-      tote:{ images:[
-        { src:"fun-stuff/heartbag.png", alt:"Heart Tote Bag" },
-        { src:"fun-stuff/jamaica.png", alt:"Jamaica Tote Bag" }
-      ], currentIndex:0 },
+      tote: { images: [
+        { src: "fun-stuff/heartbag.png", alt: "Heart tote bag" },
+        { src: "fun-stuff/jamaica.png", alt: "Jamaica tote bag" }
+      ], currentIndex: 0 },
 
-      notebook:{ images:[
-        { type:"video", src:"fun-stuff/notebook.MOV", alt:"Notebook video" },
-        { src:"fun-stuff/frontnoteb.jpg", alt:"Notebook front cover" },
-        { src:"fun-stuff/backnoteb.jpg", alt:"Notebook back cover" }
-      ], currentIndex:0 }
+      notebook: { images: [
+        { type: "video", src: "fun-stuff/notebook.MOV", alt: "Notebook video" },
+        { src: "fun-stuff/frontnoteb.jpg", alt: "Notebook front cover" },
+        { src: "fun-stuff/backnoteb.jpg", alt: "Notebook back cover" }
+      ], currentIndex: 0 }
     };
 
-    // Replace media element (supports img or video) and restore nav buttons
-    function changeImage(galleryId, index){
+    function changeImage(galleryId, index) {
       const gallery = galleries[galleryId];
       gallery.currentIndex = index;
 
@@ -332,14 +209,14 @@
       wrap.innerHTML = "";
 
       let el;
-      if(item.type === "video"){
+      if (item.type === "video") {
         el = document.createElement("video");
         el.className = "main-image";
-        el.autoplay = true; el.muted = true; el.loop = true; el.setAttribute("playsinline","");
+        el.autoplay = true; el.muted = true; el.loop = true; el.setAttribute("playsinline", "");
         el.controls = true;
-        if(item.poster) el.poster = item.poster;
+        if (item.poster) el.poster = item.poster;
         el.src = item.src;
-      }else{
+      } else {
         el = document.createElement("img");
         el.className = "main-image";
         el.src = item.src;
@@ -350,85 +227,57 @@
       const prev = document.createElement("div");
       prev.className = "nav-button prev";
       prev.textContent = "❮";
-      prev.onclick = ()=> prevImage(galleryId);
+      prev.onclick = () => prevImage(galleryId);
 
       const next = document.createElement("div");
       next.className = "nav-button next";
       next.textContent = "❯";
-      next.onclick = ()=> nextImage(galleryId);
+      next.onclick = () => nextImage(galleryId);
 
       wrap.appendChild(prev);
       wrap.appendChild(next);
 
       const thumbs = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
-      thumbs.forEach((t,i)=> t.classList.toggle("active", i===index));
-
-      requestAnimationFrame(alignCaptions);
+      thumbs.forEach((t, i) => t.classList.toggle("active", i === index));
     }
 
-    function prevImage(galleryId){
+    function prevImage(galleryId) {
       const g = galleries[galleryId];
       let i = g.currentIndex - 1;
-      if(i < 0) i = g.images.length - 1;
+      if (i < 0) i = g.images.length - 1;
       changeImage(galleryId, i);
     }
-    function nextImage(galleryId){
+
+    function nextImage(galleryId) {
       const g = galleries[galleryId];
       let i = g.currentIndex + 1;
-      if(i >= g.images.length) i = 0;
+      if (i >= g.images.length) i = 0;
       changeImage(galleryId, i);
     }
 
     // keyboard nav: acts on the gallery whose thumbnail was last clicked
-    document.addEventListener('keydown', (e)=>{
+    document.addEventListener('keydown', (e) => {
       const activeThumb = document.querySelector('.thumbnail.active');
-      if(!activeThumb) return;
+      if (!activeThumb) return;
       const activeGallery = activeThumb.closest('.product-gallery');
-      if(!activeGallery) return;
-      const id = activeGallery.id.replace('-gallery','');
-      if(e.key === 'ArrowLeft') prevImage(id);
-      if(e.key === 'ArrowRight') nextImage(id);
+      if (!activeGallery) return;
+      const id = activeGallery.id.replace('-gallery', '');
+      if (e.key === 'ArrowLeft') prevImage(id);
+      if (e.key === 'ArrowRight') nextImage(id);
     });
 
-    // Align captions: start at first thumbnail, stretch toward right arrow
-    function alignCaptions(){
-      document.querySelectorAll('.product-gallery').forEach(gal=>{
-        const thumbs   = gal.querySelector('.thumbnail-container');
-        const caption  = gal.querySelector('.image-caption');
-        const mainWrap = gal.querySelector('.main-image-container');
-        if(!thumbs || !caption || !mainWrap) return;
-
-        const gRect = gal.getBoundingClientRect();
-        const tRect = thumbs.getBoundingClientRect();
-        const mRect = mainWrap.getBoundingClientRect();
-
-        const leftOffset = Math.max(0, Math.round(tRect.left - gRect.left));
-        const safety   = 16; // px gap before the arrow
-        const rightLim = Math.round(mRect.right - gRect.left) - safety;
-        const width    = Math.max(0, rightLim - leftOffset);
-
-        caption.style.marginLeft = leftOffset + 'px';
-        caption.style.marginRight = '0';
-        caption.style.width = width + 'px';
-        caption.style.maxWidth = 'none';
-      });
-    }
-
-    window.addEventListener('load', alignCaptions);
-    window.addEventListener('resize', alignCaptions);
-
-    // Pause main videos when scrolled off-screen (nice touch)
-    if('IntersectionObserver' in window){
-      const observer = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
+    // pause main videos when scrolled off-screen
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
           const vid = entry.target.querySelector('video.main-image');
-          if(!vid) return;
-          if(entry.isIntersecting){ try{ vid.play(); }catch{} }
-          else { try{ vid.pause(); }catch{} }
+          if (!vid) return;
+          if (entry.isIntersecting) { try { vid.play(); } catch {} }
+          else { try { vid.pause(); } catch {} }
         });
-      },{ threshold:0.25 });
+      }, { threshold: 0.25 });
 
-      document.querySelectorAll('.product-gallery .main-image-container').forEach(c=>observer.observe(c));
+      document.querySelectorAll('.product-gallery .main-image-container').forEach(c => observer.observe(c));
     }
   </script>
 </body>

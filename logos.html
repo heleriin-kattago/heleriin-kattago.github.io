@@ -1,238 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Heleriin Kattago | Logos</title>
-  <link rel="icon" type="image/png" href="pics/favicongreen.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Jomolhari&family=Mansalva&display=swap">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Logos &amp; Brand Design</title>
+
+  <link rel="icon" type="image/png" href="1/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css-v2/style-v2.css">
 
   <style>
-    :root{
-      --white:#F6F6F6;
-      --dark-green:#101A04;
-      --medium-green:#536340;
-      --pink-bg:#F1E4E6;
-      --dark-pink:#722330;
+    /* ── rolling star, like the old page ── */
+    :root {
+      --star-duration: 14s;
+      --star-size: min(42vw, 400px);
     }
 
-    *{ margin:0; padding:0; box-sizing:border-box; cursor:url('pics/cursor.svg'), auto; }
-
-    body{
-      font-family:'Mansalva', cursive;
-      background:var(--white); color:var(--dark-green);
-      padding:2rem; text-align:center; max-width:1200px; margin:0 auto;
-      line-height:1.5;
+    .star-stage {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      overflow: visible;
+      margin: 1.25rem auto 1rem;
     }
 
-    h1{
-      font-family:'Mansalva', cursive;
-      font-size:64px; margin-bottom:1rem;
+    .star-roller {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: var(--star-size);
+      height: auto;
+      will-change: transform;
+      pointer-events: none;
+      animation: rollLeft var(--star-duration) cubic-bezier(.33, .01, .67, .99) infinite;
     }
 
-    /* ===== STAR “TIRE” ANIMATION ===== */
-    /* --- Star “tire” animation (seamless, leftwards, no scaling) --- */
-:root{
-  --star-duration: 14s;                 /* change here to speed up/slow down */
-  --star-size: min(42vw, 450px);        /* stage size controller */
-}
-
-.star-stage{
-  position: relative;
-  width: 100%;
-  height: 260px;
-  overflow: visible;
-  margin: 1.25rem auto 2.25rem;
-}
-
-.star-roller{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: var(--star-size);
-  height: auto;
-  will-change: transform;
-  pointer-events: none;
-  animation: rollLeft var(--star-duration) cubic-bezier(.33,.01,.67,.99) infinite;
-}
-
-/* two copies staggered by half a cycle -> seamless loop */
-.star-a{ animation-delay: 0s; }
-.star-b{ animation-delay: calc(var(--star-duration) / 1); }
-
-/* leftward travel with gentle rotation, no scale */
-@keyframes rollLeft{
-  from {
-    transform: translate(110vw, -50%) rotate(0turn);
-  }
-  to {
-    transform: translate(-110vw, -50%) rotate(-2.2turn);
-  }
-}
-
-/* reduced motion: one static star, no animation */
-@media (prefers-reduced-motion: reduce){
-  .star-roller{ animation: none; transform: translate(-50%, -50%); left: 50%; }
-}
-
-
-    /* ===== LOGO GALLERY ===== */
-    .logo-gallery{
-      display:flex; flex-direction:column; gap:3rem;
-      max-width:900px; margin:3rem auto;
-    }
-    .logo-row{
-      display:flex; flex-direction:column; align-items:center; gap:1rem;
+    @keyframes rollLeft {
+      from { transform: translate(110vw, -50%) rotate(0turn); }
+      to   { transform: translate(-110vw, -50%) rotate(-2.2turn); }
     }
 
-    /* Unified scaling for all logos (Loovkaaren, Casa, etc.) */
-    .logo-row img{
-      max-width:100%; height:auto;
-      max-height:260px;
-      border-radius:8px;
+    @media (prefers-reduced-motion: reduce) {
+      .star-roller { animation: none; left: 50%; transform: translate(-50%, -50%); }
     }
 
-    .logo-caption{
-      font-size:22px; margin-top:.25rem;
-    }
-    .logo-caption a{ color:inherit; text-decoration:none; }
-    .logo-caption a:hover{ text-decoration:underline; }
-
-    /* ===== CASA GRANADO PINK BLOCK ===== */
-    .casa-section{
-      background:var(--pink-bg);
-      padding:3rem 2rem; border-radius:12px; margin:2rem 0; text-align:left;
-    }
-    .casa-header{
-      display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem;
-    }
-    .casa-title{
-      font-family:'Jomolhari', serif;
-      font-size:32px; color:var(--dark-pink); letter-spacing:.5px;
-    }
-    .casa-emoji{ width:40px; height:auto; }
-    .casa-main-image{ max-width:520px; margin:0 auto; display:block; }
-    .casa-description{
-      font-size:18px; line-height:1.6; margin-top:1.25rem;
-      max-width:800px; margin-left:auto; margin-right:auto;
+    /* ── logo gallery ── */
+    .logo-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      max-width: 900px;
+      margin: 2rem auto;
     }
 
-    /* ===== MAMM STRIP ===== */
-    .mamm-section{
-      background:var(--dark-pink);
-      padding:4rem 2rem; border-radius:12px; margin:3rem 0;
-      min-height:300px; display:flex; align-items:center; justify-content:center;
+    .logo-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
-    .mamm-row{
-      display:flex; justify-content:center; align-items:center; gap:3rem; flex-wrap:wrap;
+
+    .logo-row img {
+      max-width: 100%;
+      height: auto;
+      max-height: 260px;
     }
-    .mamm-row img{ max-height:250px; }
-    .mamm-small{ max-height:125px !important; }
 
-    .back-link{
-      display:inline-block; margin-top:3rem; font-size:22px; color:var(--medium-green);
-      text-decoration:none; border:2px solid var(--medium-green);
-      padding:.5rem 1.5rem; border-radius:4px; transition:.3s;
+    .logo-caption {
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+      color: #101A04;
     }
-    .back-link:hover{ background:var(--medium-green); color:var(--white); }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px){
-      .logo-row img{ max-height:240px; }
+    .logo-caption a {
+      color: #536340;
     }
-    @media (max-width: 768px){
-      h1{ font-size:48px; }
-      .star-stage{ height:220px; }
-      .star-roller{ width:min(60vw, 440px); }
 
-      .logo-caption{ font-size:20px; }
-
-      .casa-title{ font-size:28px; }
-      .casa-emoji{ width:32px; }
-      .casa-main-image{ max-width:100%; }
-      .casa-description{ font-size:16px; }
-
-      .mamm-section{ padding:3rem 1rem; min-height:220px; }
-      .mamm-row{ gap:1.5rem; }
-      .mamm-row img{ max-height:180px; }
-      .mamm-small{ max-height:100px !important; }
+    /* ── Casa Granado feature (brand colors kept) ── */
+    .casa-section {
+      background: #F1E4E6;
+      border: 1px solid #722330;
+      padding: 3rem 2rem;
+      margin: 3rem auto;
+      max-width: 1000px;
+      text-align: left;
     }
-    @media (max-width: 480px){
-      body{ padding:1.25rem; }
-      h1{ font-size:36px; margin-bottom:.75rem; }
 
-      .star-stage{ height:200px; }
-      .star-roller{ width:min(75vw, 460px); animation-duration:6s; }
+    .casa-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
 
-      .logo-row img{ max-height:200px; }   /* keep all logos same scale on phone */
-      .logo-caption{ font-size:18px; }
+    .casa-title {
+      font-weight: normal;
+      font-size: 32px;
+      letter-spacing: 0.06em;
+      color: #722330;
+    }
 
-      .casa-title{ font-size:26px; }
-      .casa-description{ font-size:15px; }
+    .casa-emoji { width: 40px; height: auto; }
 
-      .mamm-row img{ max-height:150px; }
-      .mamm-small{ max-height:90px !important; }
+    .casa-main-image {
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* ── Mamm strip (brand colors kept) ── */
+    .mamm-section {
+      background: #722330;
+      border: 1px solid #722330;
+      padding: 4rem 2rem;
+      margin: 3rem auto;
+      max-width: 1000px;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mamm-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .mamm-row img { max-height: 250px; }
+    .mamm-small { max-height: 125px !important; }
+
+    @media (max-width: 768px) {
+      .star-stage { height: 200px; }
+      .star-roller { width: min(60vw, 440px); }
+      .logo-row img { max-height: 220px; }
+      .casa-title { font-size: 26px; }
+      .mamm-section { padding: 3rem 1rem; min-height: 220px; }
+      .mamm-row { gap: 1.5rem; }
+      .mamm-row img { max-height: 170px; }
+      .mamm-small { max-height: 95px !important; }
     }
   </style>
 </head>
-<body>
 
-  <h1>Logos</h1>
+<body class="subpage">
 
-  <!-- STAR “TIRE” ANIMATION -->
-  <div class="star-stage" aria-hidden="true">
-    <img src="logos/star1.svg" alt="" class="star-roller">
-  </div>
+  <nav class="top-nav">
+    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
+    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
+    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
+    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+  </nav>
 
-  <div class="logo-gallery">
-    <!-- Loovkaaren -->
-    <div class="logo-row">
-      <img src="logos/loovkaaren.svg" alt="Loovkaaren Logo (SVG)" class="logo-svg">
-      <a href="https://loovkaaren.eu/" target="_blank" rel="noopener">
-        <img src="logos/loovkaaren.png" alt="Loovkaaren Logo (PNG)" class="logo-png">
-      </a>
-      <div class="logo-caption">
-        <a href="https://loovkaaren.eu/" target="_blank" rel="noopener">Logo and font for Loovkaaren</a>
+  <main>
+    <h1 class="page-title">Logos &amp; Brand Design</h1>
+
+    <!-- rolling star -->
+    <div class="star-stage" aria-hidden="true">
+      <img src="1/star-roll.png" alt="" class="star-roller">
+    </div>
+
+    <div class="logo-gallery">
+      <!-- Loovkaaren -->
+      <div class="logo-row">
+        <img src="logos/loovkaaren.svg" alt="Loovkaaren logo (SVG)">
+        <a href="https://loovkaaren.eu/" target="_blank" rel="noopener">
+          <img src="logos/loovkaaren.png" alt="Loovkaaren logo (PNG)">
+        </a>
+        <div class="logo-caption">
+          <a href="https://loovkaaren.eu/" target="_blank" rel="noopener">Logo and font for Loovkaaren</a>
+        </div>
+      </div>
+
+      <!-- Casa Granado logo -->
+      <div class="logo-row">
+        <img src="logos/casagranado.png" alt="Casa Granado logo">
+        <div class="logo-caption">Logo for Casa Granado</div>
       </div>
     </div>
 
-    <!-- Casa Granado row -->
-    <div class="logo-row">
-      <img src="logos/casagranado.png" alt="Casa Granado Logo">
-      <div class="logo-caption">Logo for Casa Granado</div>
-    </div>
-  </div>
-
-  <!-- Casa Granado pink feature -->
-  <div class="casa-section">
-    <div class="casa-header">
-      <h2 class="casa-title">Casa Granado</h2>
-      <img src="logos/minimamm.png" alt="Mini Mamm" class="casa-emoji">
+    <!-- Casa Granado feature -->
+    <div class="casa-section">
+      <div class="casa-header">
+        <h2 class="casa-title">Casa Granado</h2>
+        <img src="logos/minimamm.png" alt="Mini Mamm" class="casa-emoji">
+      </div>
+      <img src="logos/casa.png" alt="Casa Granado brand design" class="casa-main-image">
     </div>
 
-    <img src="logos/casa.png" alt="Casa H964" class="casa-main-image">
-  </div>
-
-  <!-- Dark pink Mamm strip -->
-  <div class="mamm-section">
-    <div class="mamm-row">
-      <img src="logos/cB.png" alt="cB Logo">
-      <img src="logos/mamm.png" alt="Mamm Logo" class="mamm-small">
-      <img src="logos/cW.png" alt="cW Logo">
+    <!-- Mamm strip -->
+    <div class="mamm-section">
+      <div class="mamm-row">
+        <img src="logos/cB.png" alt="Mamm logo, dark version">
+        <img src="logos/mamm.png" alt="Mamm logo" class="mamm-small">
+        <img src="logos/cW.png" alt="Mamm logo, light version">
+      </div>
     </div>
-  </div>
 
-  <a href="index.html" class="back-link">Back</a>
+    <div class="button-row">
+      <a href="index-v2.html#projects" class="page-button">Back</a>
+    </div>
+  </main>
 
-  <!-- Pause star animation when off-screen (optional) -->
   <script>
+    // pause the rolling star when it's off-screen
     if ('IntersectionObserver' in window) {
       const stage = document.querySelector('.star-stage');
-      const star  = document.querySelector('.star-roller');
+      const star = document.querySelector('.star-roller');
       if (stage && star) {
-        const io = new IntersectionObserver(entries=>{
+        const io = new IntersectionObserver(entries => {
           star.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
-        }, {threshold:0.1});
+        }, { threshold: 0.1 });
         io.observe(stage);
       }
     }

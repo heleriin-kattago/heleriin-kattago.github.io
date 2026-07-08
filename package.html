@@ -1,295 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heleriin Kattago | Package and Product Designs</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Package Design</title>
 
-<link rel="icon" type="image/png" href="pics/favicongreen.png">
-<link rel="stylesheet" href="styles.css">
-<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="1/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css-v2/style-v2.css">
 </head>
 
-<body>
+<body class="subpage">
 
-<h1 style="text-align:center;margin:2rem 0;">Package & Product Designs</h1>
+  <nav class="top-nav">
+    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
+    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
+    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
+    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+  </nav>
 
-<!-- ================= CARDS ================= -->
-<div class="section-title">Heart of the Lamb deck — playing cards</div>
+  <main>
+    <h1 class="page-title">Package Design</h1>
 
-<div class="product-gallery" id="cards-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/cards.jpg">
-    <div class="nav-button prev" onclick="prevImage('cards')">❮</div>
-    <div class="nav-button next" onclick="nextImage('cards')">❯</div>
-  </div>
-
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('cards',0)">
-      <img src="package/cards.jpg">
+    <!-- ── Cards ── -->
+    <h2 class="section-title">Heart of the Lamb deck &mdash; playing cards</h2>
+    <div class="product-gallery" id="cards-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/cards.jpg" alt="Heart of the Lamb playing cards">
+        <div class="nav-button prev" onclick="prevImage('cards')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('cards')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('cards',0)"><img src="package/cards.jpg" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('cards',1)"><img src="package/kaardipakk.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('cards',2)"><img src="package/cardsblender.png" alt=""></div>
+      </div>
+      <p class="caption">Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.</p>
     </div>
-    <div class="thumbnail" onclick="changeImage('cards',1)">
-      <img src="package/kaardipakk.png">
+
+    <!-- ── Holiday box ── -->
+    <h2 class="section-title">Holiday gift box &amp; Nut Butter</h2>
+    <div class="product-gallery" id="xmas-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/xmasbox4.jpg" alt="Holiday gift box">
+        <div class="nav-button prev" onclick="prevImage('xmas')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('xmas')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('xmas',0)"><img src="package/xmasbox4.jpg" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('xmas',1)"><img src="package/boxwhite.png" alt=""></div>
+      </div>
+      <p class="caption">
+        I've gotten into the habit of gifting festive holiday cards to friends and family, and this year
+        I wanted to make something a little more functional. I illustrated a seasonal box in Procreate,
+        built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself.
+        To go with it, I made homemade nut butter and designed matching labels for the glass jars,
+        creating a small, personal holiday gift set.
+      </p>
     </div>
-    <div class="thumbnail" onclick="changeImage('cards',2)">
-      <img src="package/cardsblender.png">
+
+    <!-- ── Kiikaboo ── -->
+    <h2 class="section-title">Kiikaboo bread</h2>
+    <div class="product-gallery" id="kiikaboo-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/kiikaboo white.png" alt="Kiikaboo bread packaging">
+        <div class="nav-button prev" onclick="prevImage('kiikaboo')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('kiikaboo')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('kiikaboo',0)"><img src="package/kiikaboo white.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('kiikaboo',1)"><img src="package/kiikaboo green.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('kiikaboo',2)"><img src="package/peeekaboo.png" alt=""></div>
+      </div>
+      <p class="caption">Packaging designed in Adobe Illustrator.</p>
     </div>
-  </div>
-</div>
 
-<p class="caption">
-Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.
-</p>
-
-
-<!-- ================= XMAS BOX ================= -->
-<div class="section-title">Holiday gift box & Nut Butter</div>
-
-<div class="product-gallery" id="xmas-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/xmasbox4.jpg">
-    <div class="nav-button prev" onclick="prevImage('xmas')">❮</div>
-    <div class="nav-button next" onclick="nextImage('xmas')">❯</div>
-  </div>
-
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('xmas',0)">
-      <img src="package/xmasbox4.jpg">
-      <div class="thumbnail active" onclick="changeImage('xmas',1)">
-      <img src="package/boxwhite.png">
+    <!-- ── Serum ── -->
+    <h2 class="section-title">Theoremaly Serum</h2>
+    <div class="product-gallery" id="serum-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/serumblender.png" alt="Theoremaly serum">
+        <div class="nav-button prev" onclick="prevImage('serum')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('serum')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('serum',0)"><img src="package/serumblender.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('serum',1)"><img src="package/full lilla.png" alt=""></div>
+      </div>
+      <p class="caption">Packaging designed in Adobe Illustrator.</p>
     </div>
-  </div>
-</div>
 
-<p class="caption">
-I’ve gotten into the habit of gifting festive holiday cards to friends and family, and this year I wanted to make something a little more functional. I illustrated a seasonal box in Procreate, built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself. To go with it, I made homemade nut butter and designed matching labels for the glass jars, creating a small, personal holiday gift set.
-</p>
-
-
-<!-- ================= KIIKABOO ================= -->
-<div class="section-title">Kiikaboo bread</div>
-
-<div class="product-gallery" id="kiikaboo-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/kiikaboo white.png">
-    <div class="nav-button prev" onclick="prevImage('kiikaboo')">❮</div>
-    <div class="nav-button next" onclick="nextImage('kiikaboo')">❯</div>
-  </div>
-
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('kiikaboo',0)">
-      <img src="package/kiikaboo white.png">
+    <!-- ── Dragon box ── -->
+    <h2 class="section-title">Little Dragon Chocolate Box</h2>
+    <div class="product-gallery" id="dragon-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/lil dragon box.png" alt="Little Dragon chocolate box">
+        <div class="nav-button prev" onclick="prevImage('dragon')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('dragon')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('dragon',0)"><img src="package/lil dragon box.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('dragon',1)"><img src="package/box lil dragon out.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('dragon',2)"><img src="package/box lil dragon inside.png" alt=""></div>
+      </div>
+      <p class="caption">Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.</p>
     </div>
-    <div class="thumbnail" onclick="changeImage('kiikaboo',1)">
-      <img src="package/kiikaboo green.png">
+
+    <!-- ── Dark chocolate ── -->
+    <h2 class="section-title">Dark Chocolate package design idea</h2>
+    <div class="product-gallery" id="coco-gallery">
+      <div class="main-image-container">
+        <img class="main-image" src="package/dark coco out.png" alt="Dark chocolate packaging">
+        <div class="nav-button prev" onclick="prevImage('coco')">&#10094;</div>
+        <div class="nav-button next" onclick="nextImage('coco')">&#10095;</div>
+      </div>
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('coco',0)"><img src="package/dark coco out.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('coco',1)"><img src="package/dark coco inside.png" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('coco',2)"><img src="package/coco.jpg" alt=""></div>
+        <div class="thumbnail" onclick="changeImage('coco',3)">
+          <video class="thumb-video" src="package/coco.mp4" muted autoplay loop playsinline></video>
+        </div>
+      </div>
+      <p class="caption">Concept design created in Adobe Illustrator.</p>
     </div>
-    <div class="thumbnail" onclick="changeImage('kiikaboo',2)">
-      <img src="package/peeekaboo.png">
+
+    <div class="button-row">
+      <a href="index-v2.html#projects" class="page-button">Back</a>
     </div>
-  </div>
-</div>
+  </main>
 
-<p class="caption">Packaging designed in Adobe Illustrator.</p>
+  <script>
+    const galleries = {
+      cards: { images: [
+        { src: "package/cards.jpg" },
+        { src: "package/kaardipakk.png" },
+        { src: "package/cardsblender.png" }
+      ], currentIndex: 0 },
 
+      xmas: { images: [
+        { src: "package/xmasbox4.jpg" },
+        { src: "package/boxwhite.png" }
+      ], currentIndex: 0 },
 
-<!-- ================= SERUM ================= -->
-<div class="section-title">Theoremaly Serum</div>
+      kiikaboo: { images: [
+        { src: "package/kiikaboo white.png" },
+        { src: "package/kiikaboo green.png" },
+        { src: "package/peeekaboo.png" }
+      ], currentIndex: 0 },
 
-<div class="product-gallery" id="serum-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/serumblender.png">
-    <div class="nav-button prev" onclick="prevImage('serum')">❮</div>
-    <div class="nav-button next" onclick="nextImage('serum')">❯</div>
-  </div>
+      serum: { images: [
+        { src: "package/serumblender.png" },
+        { src: "package/full lilla.png" }
+      ], currentIndex: 0 },
 
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('serum',0)">
-      <img src="package/serumblender.png">
-    </div>
-    <div class="thumbnail" onclick="changeImage('serum',1)">
-      <img src="package/full lilla.png">
-    </div>
-  </div>
-</div>
+      dragon: { images: [
+        { src: "package/lil dragon box.png" },
+        { src: "package/box lil dragon out.png" },
+        { src: "package/box lil dragon inside.png" }
+      ], currentIndex: 0 },
 
-<p class="caption">Packaging designed in Adobe Illustrator.</p>
+      coco: { images: [
+        { src: "package/dark coco out.png" },
+        { src: "package/dark coco inside.png" },
+        { src: "package/coco.jpg" },
+        { type: "video", src: "package/coco.mp4" }
+      ], currentIndex: 0 }
+    };
 
+    function changeImage(id, index) {
+      const g = galleries[id];
+      g.currentIndex = index;
 
-<!-- ================= DRAGON ================= -->
-<div class="section-title">Little Dragon Chocolate Box</div>
+      const wrap = document.querySelector(`#${id}-gallery .main-image-container`);
+      wrap.innerHTML = "";
 
-<div class="product-gallery" id="dragon-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/lil dragon box.png">
-    <div class="nav-button prev" onclick="prevImage('dragon')">❮</div>
-    <div class="nav-button next" onclick="nextImage('dragon')">❯</div>
-  </div>
+      const item = g.images[index];
+      let el;
 
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('dragon',0)">
-      <img src="package/lil dragon box.png">
-    </div>
-    <div class="thumbnail" onclick="changeImage('dragon',1)">
-      <img src="package/box lil dragon out.png">
-    </div>
-    <div class="thumbnail" onclick="changeImage('dragon',2)">
-      <img src="package/box lil dragon inside.png">
-    </div>
-  </div>
-</div>
+      if (item.type === "video") {
+        el = document.createElement("video");
+        el.src = item.src;
+        el.className = "main-image";
+        el.controls = true;
+        el.autoplay = true;
+        el.muted = true;
+        el.loop = true;
+        el.setAttribute("playsinline", "");
+      } else {
+        el = document.createElement("img");
+        el.src = item.src;
+        el.className = "main-image";
+      }
 
-<p class="caption">
-Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.
-</p>
+      const prev = document.createElement("div");
+      prev.className = "nav-button prev";
+      prev.textContent = "❮";
+      prev.onclick = () => prevImage(id);
 
+      const next = document.createElement("div");
+      next.className = "nav-button next";
+      next.textContent = "❯";
+      next.onclick = () => nextImage(id);
 
-<!-- ================= COCO (VIDEO) ================= -->
-<div class="section-title">Dark Chocolate package design idea</div>
+      wrap.append(el, prev, next);
 
-<div class="product-gallery" id="coco-gallery">
-  <div class="main-image-container">
-    <img class="main-image" src="package/dark coco out.png">
-    <div class="nav-button prev" onclick="prevImage('coco')">❮</div>
-    <div class="nav-button next" onclick="nextImage('coco')">❯</div>
-  </div>
+      document.querySelectorAll(`#${id}-gallery .thumbnail`)
+        .forEach((t, i) => t.classList.toggle("active", i === index));
+    }
 
-  <div class="thumbnail-container">
-    <div class="thumbnail active" onclick="changeImage('coco',0)">
-      <img src="package/dark coco out.png">
-    </div>
-    <div class="thumbnail" onclick="changeImage('coco',1)">
-      <img src="package/dark coco inside.png">
-    </div>
-    <div class="thumbnail" onclick="changeImage('coco',2)">
-      <img src="package/coco.jpg">
-    </div>
-    <div class="thumbnail" onclick="changeImage('coco',3)">
-      <video class="thumb-video" src="package/coco.mp4" muted autoplay loop playsinline></video>
-    </div>
-  </div>
-</div>
+    function prevImage(id) {
+      let g = galleries[id];
+      let i = g.currentIndex - 1;
+      if (i < 0) i = g.images.length - 1;
+      changeImage(id, i);
+    }
 
-<p class="caption">Concept design created in Adobe Illustrator.</p>
-
-<a href="index.html" class="back-link">Back</a>
-
-
-<!-- ================= JAVASCRIPT ================= -->
-<script>
-
-const galleries = {
-
-cards:{
- images:[
-  {src:"package/cards.jpg"},
-  {src:"package/kaardipakk.png"},
-  {src:"package/cardsblender.png"}
- ],
- currentIndex:0
-},
-
-xmas:{
- images:[
-  {src:"package/xmasbox4.jpg"}
- ],
- currentIndex:0
-},
-
-kiikaboo:{
- images:[
-  {src:"package/kiikaboo white.png"},
-  {src:"package/kiikaboo green.png"},
-  {src:"package/peeekaboo.png"}
- ],
- currentIndex:0
-},
-
-serum:{
- images:[
-  {src:"package/serumblender.png"},
-  {src:"package/full lilla.png"}
- ],
- currentIndex:0
-},
-
-dragon:{
- images:[
-  {src:"package/lil dragon box.png"},
-  {src:"package/box lil dragon out.png"},
-  {src:"package/box lil dragon inside.png"}
- ],
- currentIndex:0
-},
-
-coco:{
- images:[
-  {src:"package/dark coco out.png"},
-  {src:"package/dark coco inside.png"},
-  {src:"package/coco.jpg"},
-  {type:"video",src:"package/coco.mp4"}
- ],
- currentIndex:0
-}
-
-};
-
-
-function changeImage(id,index){
- const g=galleries[id];
- g.currentIndex=index;
-
- const wrap=document.querySelector(`#${id}-gallery .main-image-container`);
- wrap.innerHTML="";
-
- const item=g.images[index];
- let el;
-
- if(item.type==="video"){
-   el=document.createElement("video");
-   el.src=item.src;
-   el.className="main-image";
-   el.controls=true;
-   el.autoplay=true;
-   el.muted=true;
-   el.loop=true;
-   el.setAttribute("playsinline","");
- }else{
-   el=document.createElement("img");
-   el.src=item.src;
-   el.className="main-image";
- }
-
- const prev=document.createElement("div");
- prev.className="nav-button prev";
- prev.textContent="❮";
- prev.onclick=()=>prevImage(id);
-
- const next=document.createElement("div");
- next.className="nav-button next";
- next.textContent="❯";
- next.onclick=()=>nextImage(id);
-
- wrap.append(el,prev,next);
-
- document.querySelectorAll(`#${id}-gallery .thumbnail`)
-   .forEach((t,i)=>t.classList.toggle("active",i===index));
-}
-
-function prevImage(id){
- let g=galleries[id];
- let i=g.currentIndex-1;
- if(i<0)i=g.images.length-1;
- changeImage(id,i);
-}
-
-function nextImage(id){
- let g=galleries[id];
- let i=g.currentIndex+1;
- if(i>=g.images.length)i=0;
- changeImage(id,i);
-}
-
-</script>
-
+    function nextImage(id) {
+      let g = galleries[id];
+      let i = g.currentIndex + 1;
+      if (i >= g.images.length) i = 0;
+      changeImage(id, i);
+    }
+  </script>
 </body>
 </html>

@@ -1,397 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heleriin Kattago | Paintings & Drawings</title>
-    <link rel="icon" type="image/png" href="pics/favicongreen.png">
-    
-    <!-- Preload important resources -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css" as="style">
-    
-    <!-- Inline critical CSS -->
-    <style>
-        :root {
-            --white: #F6F6F6;
-            --dark-green: #101A04;
-            --medium-green: #536340;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: url('pics/cursor.svg'), auto;
-        }
-        
-        body {
-            font-family: 'Inknut Antiqua', serif;
-            background-color: var(--white);
-            color: var(--dark-green);
-            padding: 2rem;
-            text-align: center;
-        }
-        
-        h1 {
-            font-family: 'Mansalva', cursive; /* only h1 in Mansalva */
-            font-size: 64px;
-            margin-bottom: 1rem;
-        }
-        
-        .section-title {
-            font-size: 28px;
-            margin: 3rem 0 1rem;
-            text-align: left;
-            padding-left: 1rem;
-            border-left: 4px solid var(--medium-green);
-        }
-        
-        .artwork-info {
-            font-size: 20px;
-            margin: 1rem 0 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-        }
-        
-        /* Carousel Styles */
-        .main-carousel, .cards-carousel {
-            margin: 3rem auto;
-            max-width: 1200px;
-            height: 500px;
-            perspective: 1000px;
-        }
-        
-        .carousel-cell {
-            width: 40%;
-            height: 100%;
-            margin-right: 20px;
-            opacity: 0.5;
-            filter: blur(3px);
-            transform: scale(0.8) rotateY(45deg);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .carousel-cell.is-selected {
-            opacity: 1;
-            filter: blur(0);
-            transform: scale(1) rotateY(0deg);
-        }
-        
-        .carousel-cell img {
-            width: auto;
-            height: 80%;
-            max-width: 100%;
-            object-fit: contain;
-            display: block;
-        }
-        
-        .carousel-caption {
-            margin-top: 0.5rem;
-            font-size: 18px;
-            text-align: center;
-            width: 100%;
-        }
-        
-        /* Digital Art Section */
-        .digital-gallery {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0;
-            padding: 1rem;
-        }
-        
-        .digital-item {
-            position: relative;
-            margin: -20px;
-        }
-        
-        .digital-item img {
-            width: 300px;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--medium-green);
-            background-color: var(--white);
-            padding: 8px;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .digital-item img:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-        }
-        
-        /* Image rotations */
-        .mermie { transform: rotate(-5deg); }
-        .vikatigirl { transform: rotate(3deg); }
-        .lambie { transform: rotate(-2deg); }
-        .fashiongirls { width: 350px; transform: rotate(4deg); }
-        .guardian { width: 80px; transform: rotate(-3deg); }
-        .fishes { width: 80px; transform: rotate(5deg); }
-        .birdgirl { transform: rotate(-4deg); }
-        .pixel-art { transform: rotate(2deg); }
-        .lilbat { transform: rotate(-3deg); }
-        .cup { transform: rotate(5deg); }
-        .ske { transform: rotate(-2deg); }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .modal img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: var(--white);
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 3rem;
-            font-size: 24px;
-            color: var(--medium-green);
-            text-decoration: none;
-            border: 2px solid var(--medium-green);
-            padding: 0.5rem 1.5rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-link:hover {
-            background-color: var(--medium-green);
-            color: var(--white);
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 48px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .artwork-info {
-                font-size: 18px;
-            }
-            
-            .main-carousel, .cards-carousel {
-                height: 400px;
-            }
-            
-            .carousel-cell {
-                width: 60%;
-                transform: scale(0.7) rotateY(30deg);
-            }
-            
-            .carousel-cell.is-selected {
-                transform: scale(1) rotateY(0deg);
-            }
-            
-            .carousel-cell img {
-                height: 70%;
-            }
-            
-            .digital-gallery {
-                padding: 0.5rem;
-            }
-            
-            .digital-item {
-                margin: -10px;
-            }
-            
-            .digital-item img {
-                width: 150px;
-            }
-            
-            .fashiongirls { width: 210px; }
-            .guardian, .fishes { width: 40px; }
-        }
-    </style>
-    
-    <!-- Non-critical CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
-</head>
-<body>
-    <h1>Drawings & Paintings</h1>
-    
-    <!-- Oil Paintings Carousel -->
-    <div class="section-title">Paintings</div>
-    <div class="main-carousel" data-flickity='{ 
-        "autoPlay": 3000, 
-        "wrapAround": true,
-        "prevNextButtons": true,
-        "pageDots": false,
-        "cellAlign": "center"
-    }'>
-        <div class="carousel-cell">
-            <img src="artwork/paintingB.jpg" loading="lazy" alt="Little Bat - Full Painting" width="800" height="600">
-            <div class="carousel-caption">Little Bat, oil painting 2024</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/paintingS.jpg" loading="lazy" alt="Little Bat - Detail" width="800" height="600">
-            <div class="carousel-caption">Little Bat, oil painting 2024</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/goodess.jpg" loading="lazy" alt="Goodess Painting" width="800" height="600">
-            <div class="carousel-caption">Oil painting on 70 x 80 cm canvas, 2025</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/Springpainting.png" loading="lazy" alt="Spring Painting" width="800" height="600">
-            <div class="carousel-caption">Spring, acrylic painting, 2025</div>
-        </div>
-    </div>
-    
-    <!-- Cards Carousel -->
-    <div class="section-title">Card Illustrations</div>
-    <div class="cards-carousel" data-flickity='{ 
-        "autoPlay": 3500, 
-        "wrapAround": true,
-        "prevNextButtons": true,
-        "pageDots": false,
-        "cellAlign": "center"
-    }'>
-        <div class="carousel-cell">
-            <img src="artwork/xmas2024frontcard.png" loading="lazy" alt="2024 Christmas Card Front" width="600" height="800">
-            <div class="carousel-caption">2024 Christmas Card (Front)</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/xmas2024backcard.png" loading="lazy" alt="2024 Christmas Card Back" width="600" height="800">
-            <div class="carousel-caption">2024 Christmas Card (Back)</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/xmasfront2023card.PNG" loading="lazy" alt="2023 Christmas Card Front" width="600" height="800">
-            <div class="carousel-caption">2023 Christmas Card (Front)</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/xmas2023backcard.PNG" loading="lazy" alt="2023 Christmas Card Back" width="600" height="800">
-            <div class="carousel-caption">2023 Christmas Card (Back)</div>
-        </div>
-        <div class="carousel-cell">
-            <img src="artwork/coco.png" loading="lazy" alt="Coco Illustration" width="600" height="800">
-            <div class="carousel-caption">Card Illustration</div>
-        </div>
-    </div>
-    
-    <!-- Digital Art Section -->
-    <div class="section-title">Digital Drawings & Paintings</div>
-    <div class="artwork-info">Digital drawings and paintings made in Procreate, 2022-2025</div>
-    
-    <div class="digital-gallery">
-        <div class="digital-item">
-            <img src="artwork/mermie.png" loading="lazy" alt="Mermie" class="mermie" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/vikatigirl.png" loading="lazy" alt="Vikati Girl" class="vikatigirl" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/lambie.png" loading="lazy" alt="Lambie" class="lambie" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/fashiongirls.png" loading="lazy" alt="Fashion Girls" class="fashiongirls" width="350" height="450">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/guardian.png" loading="lazy" alt="Guardian" class="guardian" width="80" height="100">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/fishes.png" loading="lazy" alt="Fishes" class="fishes" width="80" height="100">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/birdgirl.png" loading="lazy" alt="Bird Girl" class="birdgirl" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/pixel art.png" loading="lazy" alt="Pixel Art" class="pixel-art" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/lilbat.png" loading="lazy" alt="Little Bat" class="lilbat" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/Cup.png" loading="lazy" alt="Cup" class="cup" width="300" height="400">
-        </div>
-        <div class="digital-item">
-            <img src="artwork/ske.jpg" loading="lazy" alt="Ske" class="ske" width="300" height="400">
-        </div>
-    </div>
-    
-    <!-- Modal for Enlarged Image -->
-    <div class="modal" id="imageModal">
-        <span class="modal-close" id="modalClose">×</span>
-        <img id="modalImage" src="" alt="Enlarged Image">
-    </div>
-    
-    <a href="index.html" class="back-link">Back</a>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Paintings &amp; Illustrations</title>
 
-    <!-- Flickity Carousel JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
-    
-    <!-- JavaScript for Modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal functionality
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const closeBtn = document.getElementById('modalClose');
-            
-            document.querySelectorAll('.digital-item img').forEach(img => {
-                img.addEventListener('click', () => {
-                    modalImg.src = img.src;
-                    modal.style.display = 'flex';
-                });
-            });
-            
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-            
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-            
-            // Initialize carousels after images load
-            const carousels = document.querySelectorAll('.main-carousel, .cards-carousel');
-            carousels.forEach(carousel => {
-                new Flickity(carousel, {
-                    autoPlay: carousel.classList.contains('main-carousel') ? 3000 : 3500,
-                    wrapAround: true,
-                    prevNextButtons: true,
-                    pageDots: false,
-                    cellAlign: 'center'
-                });
-            });
+  <link rel="icon" type="image/png" href="1/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
+
+  <link rel="stylesheet" href="css-v2/style-v2.css">
+
+  <style>
+    /* Digital art wall — playful overlapping polaroids, like the old page */
+    .digital-gallery {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      padding: 1rem;
+    }
+
+    .digital-item { position: relative; margin: -20px; }
+
+    .digital-item img {
+      width: 300px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border: 1px solid #536340;
+      background-color: rgba(255, 255, 255, 0.75);
+      padding: 8px;
+      box-shadow: 0 4px 10px rgba(16, 26, 4, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .digital-item img:hover { transform: scale(1.05) rotate(0deg) !important; }
+
+    /* image rotations */
+    .mermie { transform: rotate(-5deg); }
+    .vikatigirl { transform: rotate(3deg); }
+    .lambie { transform: rotate(-2deg); }
+    .fashiongirls { width: 350px !important; transform: rotate(4deg); }
+    .guardian { width: 80px !important; transform: rotate(-3deg); }
+    .fishes { width: 80px !important; transform: rotate(5deg); }
+    .birdgirl { transform: rotate(-4deg); }
+    .pixel-art { transform: rotate(2deg); }
+    .lilbat { transform: rotate(-3deg); }
+    .cup { transform: rotate(5deg); }
+    .ske { transform: rotate(-2deg); }
+
+    /* modal for enlarged images */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .digital-item { margin: -10px; }
+      .digital-item img { width: 150px; }
+      .fashiongirls { width: 210px !important; }
+      .guardian, .fishes { width: 40px !important; }
+    }
+  </style>
+</head>
+
+<body class="subpage">
+
+  <nav class="top-nav">
+    <a href="about.html" class="nav-box"><img src="1/about.svg" alt="About"></a>
+    <a href="contact.html" class="nav-box"><img src="1/contact.svg" alt="Contact"></a>
+    <a href="index-v2.html" class="name-link"><img src="1/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
+    <a href="index-v2.html" class="nav-box"><img src="1/home.svg" alt="Home"></a>
+    <a href="shop.html" class="nav-box"><img src="1/shop.svg" alt="Shop"></a>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Paintings &amp; Illustrations</h1>
+
+    <!-- ── Paintings carousel ── -->
+    <h2 class="section-title">Paintings</h2>
+    <div class="main-carousel" data-flickity='{
+        "autoPlay": 3000,
+        "wrapAround": true,
+        "prevNextButtons": true,
+        "pageDots": false,
+        "cellAlign": "center"
+    }'>
+      <div class="carousel-cell">
+        <img src="artwork/paintingB.jpg" alt="Little Bat - full painting">
+        <div class="carousel-caption">Little Bat, oil painting 2024</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/paintingS.jpg" alt="Little Bat - detail">
+        <div class="carousel-caption">Little Bat, oil painting 2024</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/goodess.jpg" alt="Goddess painting">
+        <div class="carousel-caption">Oil painting on 70 x 80 cm canvas, 2025</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/Springpainting.png" alt="Spring painting">
+        <div class="carousel-caption">Spring, acrylic painting, 2025</div>
+      </div>
+    </div>
+
+    <!-- ── Card illustrations carousel ── -->
+    <h2 class="section-title">Card Illustrations</h2>
+    <div class="cards-carousel" data-flickity='{
+        "autoPlay": 3500,
+        "wrapAround": true,
+        "prevNextButtons": true,
+        "pageDots": false,
+        "cellAlign": "center"
+    }'>
+      <div class="carousel-cell">
+        <img src="artwork/xmas2024frontcard.png" alt="2024 Christmas card front">
+        <div class="carousel-caption">2024 Christmas Card (Front)</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/xmas2024backcard.png" alt="2024 Christmas card back">
+        <div class="carousel-caption">2024 Christmas Card (Back)</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/xmasfront2023card.PNG" alt="2023 Christmas card front">
+        <div class="carousel-caption">2023 Christmas Card (Front)</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/xmas2023backcard.PNG" alt="2023 Christmas card back">
+        <div class="carousel-caption">2023 Christmas Card (Back)</div>
+      </div>
+      <div class="carousel-cell">
+        <img src="artwork/coco.png" alt="Coco illustration">
+        <div class="carousel-caption">Card Illustration</div>
+      </div>
+    </div>
+
+    <!-- ── Digital art wall ── -->
+    <h2 class="section-title">Digital Drawings &amp; Paintings</h2>
+    <p class="caption">Digital drawings and paintings made in Procreate, 2022&ndash;2025. Click any picture to see it up close.</p>
+
+    <div class="digital-gallery">
+      <div class="digital-item"><img src="artwork/mermie.png" loading="lazy" alt="Mermie" class="mermie"></div>
+      <div class="digital-item"><img src="artwork/vikatigirl.png" loading="lazy" alt="Vikati Girl" class="vikatigirl"></div>
+      <div class="digital-item"><img src="artwork/lambie.png" loading="lazy" alt="Lambie" class="lambie"></div>
+      <div class="digital-item"><img src="artwork/fashiongirls.png" loading="lazy" alt="Fashion Girls" class="fashiongirls"></div>
+      <div class="digital-item"><img src="artwork/guardian.png" loading="lazy" alt="Guardian" class="guardian"></div>
+      <div class="digital-item"><img src="artwork/fishes.png" loading="lazy" alt="Fishes" class="fishes"></div>
+      <div class="digital-item"><img src="artwork/birdgirl.png" loading="lazy" alt="Bird Girl" class="birdgirl"></div>
+      <div class="digital-item"><img src="artwork/pixel art.png" loading="lazy" alt="Pixel Art" class="pixel-art"></div>
+      <div class="digital-item"><img src="artwork/lilbat.png" loading="lazy" alt="Little Bat" class="lilbat"></div>
+      <div class="digital-item"><img src="artwork/Cup.png" loading="lazy" alt="Cup" class="cup"></div>
+      <div class="digital-item"><img src="artwork/ske.jpg" loading="lazy" alt="Sketch" class="ske"></div>
+    </div>
+
+    <!-- modal for enlarged image -->
+    <div class="modal" id="imageModal">
+      <span class="modal-close" id="modalClose">&times;</span>
+      <img id="modalImage" src="" alt="Enlarged image">
+    </div>
+
+    <div class="button-row">
+      <a href="index-v2.html#projects" class="page-button">Back</a>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
+  <script>
+    // modal zoom for the digital wall
+    document.addEventListener('DOMContentLoaded', function () {
+      var modal = document.getElementById('imageModal');
+      var modalImg = document.getElementById('modalImage');
+      var closeBtn = document.getElementById('modalClose');
+
+      document.querySelectorAll('.digital-item img').forEach(function (img) {
+        img.addEventListener('click', function () {
+          modalImg.src = img.src;
+          modal.style.display = 'flex';
         });
-    </script>
+      });
+
+      closeBtn.addEventListener('click', function () { modal.style.display = 'none'; });
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.style.display = 'none';
+      });
+    });
+  </script>
 </body>
 </html>
