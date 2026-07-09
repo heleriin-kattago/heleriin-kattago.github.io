@@ -244,12 +244,12 @@ body.loaded #site {
 .project-button:hover,
 .project-button:active,
 .project-button:focus {
-  background: rgba(24, 62, 38, 0.8);
+  background: rgba(11, 65, 8, 0.8);
 }
 
 .thankyou {
   position: absolute;
-  bottom: 70px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -264,7 +264,7 @@ body.loaded #site {
 @media (max-width: 900px) {
   .home-page,
   .portfolio-page {
-    height: 100vh;
+    height: 120vh;
     background-position: center;
   }
 
@@ -272,7 +272,7 @@ body.loaded #site {
     top: 24px;
     width: 92%;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 7px;
   }
 
   .name-logo {
@@ -318,12 +318,12 @@ body.loaded #site {
   .project-button {
     width: 260px;
     height: 58px;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .thankyou {
-    bottom: 45px;
-    width: 260px;
+    bottom: 80px;
+    width: 220 px;
   }
 
   .loader-center {
