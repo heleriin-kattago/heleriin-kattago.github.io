@@ -122,9 +122,16 @@ window.I18N = {
 
     // logos
     "title.logos": "Heleriin Kattago | Logos & Brand Design",
-    "logos.title": "Logos &amp; Brand Design",
+    "logos.title": "Logos &amp; Assets",
     "logos.loovkaaren": "Logo and font for Loovkaaren",
-    "logos.casa": "Logo for Casa Granado"
+    "logos.casa": "Logo for Casa Granado",
+    "logos.casacap": "Logo and brand design for Casa Granado.",
+    "logos.loovcap": "<a href=\"https://loovkaaren.eu/\" target=\"_blank\" rel=\"noopener\">Logo and font for Loovkaaren</a>, applied to their rosemary oil and tincture bottles.",
+    "logos.rpgcap": "A login screen designed for a Unity RPG, &ldquo;Lovers Quest&rdquo;. Hover or tap to swap the views.",
+    "logos.loovinside": "Logo &amp; Label for",
+    "logos.checkkicker": "app idea &amp; logo",
+    "logos.checktitle": "CHECK<br>essentially",
+    "logos.checkbody": "CHECK is a mobile app that brings together discovering cafés, chess, loyalty programmes and community. It helps people find new places and new playing partners, and turns an ordinary café visit into a memorable experience."
   },
 
   et: {
@@ -247,8 +254,15 @@ window.I18N = {
 
     // logos
     "title.logos": "Heleriin Kattago | Logod & brändidisain",
-    "logos.title": "Logod &amp; brändidisain",
+    "logos.title": "Logod &amp; assetid",
     "logos.loovkaaren": "Logo ja font Loovkaarenile",
-    "logos.casa": "Logo Casa Granadole"
+    "logos.casa": "Logo Casa Granadole",
+    "logos.casacap": "Logo ja brändidisain Casa Granadole.",
+    "logos.loovcap": "<a href=\"https://loovkaaren.eu/\" target=\"_blank\" rel=\"noopener\">Logo ja font Loovkaarenile</a>, rakendatud nende rosmariiniõli ja -tinktuuri pudelitele.",
+    "logos.rpgcap": "Sisselogimisekraan Unity RPG-le &bdquo;Lovers Quest&ldquo;. Liigu hiirega üle või koputa, et vaateid vahetada.",
+    "logos.loovinside": "Logo &amp; silt &mdash;",
+    "logos.checkkicker": "äpi idee &amp; logo",
+    "logos.checktitle": "CHECK<br>essentially",
+    "logos.checkbody": "CHECK on mobiilirakendus, mis ühendab kohvikute avastamise, male, lojaalsusprogrammid ja kogukonna. Rakendus aitab inimestel leida uusi kohti, uusi mängukaaslasi ning muuta tavapärase kohvikukülastuse meeldejäävaks kogemuseks."
   }
 };

@@ -3,151 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heleriin Kattago | Logos &amp; Brand Design</title>
+  <title>Heleriin Kattago | Logos &amp; Assets</title>
 
   <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Jomolhari&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css-v2/style-v2.css">
 
   <style>
-    /* ── rolling star, like the old page ── */
-    :root {
-      --star-duration: 14s;
-      --star-size: min(42vw, 400px);
-    }
-
-    .star-stage {
+    /* ── rolling stars intro: one big star, two small ones roll in from
+          opposite ends toward each other ── */
+    .star-intro {
       position: relative;
-      width: 100%;
-      height: 160px;
-      overflow: visible;
-      margin: 1.25rem auto 1rem;
-    }
-
-    .star-roller {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: var(--star-size);
-      height: auto;
-      will-change: transform;
-      pointer-events: none;
-      animation: rollLeft var(--star-duration) cubic-bezier(.33, .01, .67, .99) infinite;
-    }
-
-    @keyframes rollLeft {
-      from { transform: translate(110vw, -50%) rotate(0turn); }
-      to   { transform: translate(-110vw, -50%) rotate(-2.2turn); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .star-roller { animation: none; left: 50%; transform: translate(-50%, -50%); }
-    }
-
-    /* ── logo gallery ── */
-    .logo-gallery {
       display: flex;
-      flex-direction: column;
-      gap: 3rem;
-      max-width: 900px;
-      margin: 2rem auto;
-    }
-
-    .logo-row {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo-row img {
-      max-width: 100%;
-      height: auto;
-      max-height: 260px;
-    }
-
-    .logo-caption {
-      font-size: 20px;
-      letter-spacing: 0.08em;
-      margin-top: 0.25rem;
-      color: #101A04;
-    }
-
-    .logo-caption a {
-      color: #536340;
-    }
-
-    /* ── Casa Granado feature (brand colors kept) ── */
-    .casa-section {
-      background: #F1E4E6;
-      border: 1px solid #722330;
-      padding: 3rem 2rem;
-      margin: 3rem auto;
-      max-width: 1000px;
-      text-align: left;
-    }
-
-    .casa-header {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      align-items: center;
+      gap: 4%;
+      height: 220px;
+      margin: 3vh auto 2vh;
+      overflow: hidden;
     }
 
-    .casa-title {
-      font-weight: normal;
-      font-size: 32px;
-      letter-spacing: 0.06em;
-      color: #722330;
-    }
-
-    .casa-emoji { width: 40px; height: auto; }
-
-    .casa-main-image {
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
+    .star-intro .spin {
+      animation: starSpin 9s linear infinite;
       display: block;
     }
 
-    /* ── Mamm strip (brand colors kept) ── */
-    .mamm-section {
-      background: #722330;
-      border: 1px solid #722330;
-      padding: 4rem 2rem;
-      margin: 3rem auto;
-      max-width: 1000px;
-      min-height: 300px;
+    .star-intro .big { width: 150px; }
+    .star-intro .small { width: 78px; }
+
+    .roll-in { display: block; }
+    .roll-in.from-left  { animation: rollInLeft 1.8s ease-out both; }
+    .roll-in.from-right { animation: rollInRight 1.8s ease-out both; }
+
+    @keyframes starSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes rollInLeft {
+      from { transform: translateX(-90vw); }
+      to   { transform: translateX(0); }
+    }
+    @keyframes rollInRight {
+      from { transform: translateX(90vw); }
+      to   { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .star-intro .spin { animation: none; }
+      .roll-in { animation: none !important; }
+    }
+
+    /* smaller page title on this page */
+    body[data-title-key="title.logos"] .page-title {
+      font-size: clamp(26px, 3.2vw, 44px);
+    }
+
+    /* ── section headings ── */
+    .logo-section { margin-top: 9vh; }
+
+    .casa-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(46px, 7.5vw, 96px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2C351B;
+    }
+
+    .casa-caption,
+    .loov-caption {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(14px, 1.15vw, 17px);
+      line-height: 1.7;
+      color: #101A04;
+      max-width: 60ch;
+      margin: 1rem auto 0;
+    }
+
+    /* full-bleed helper: break out of main's padding to the viewport edges */
+    .full-bleed {
+      position: relative;
+      left: 50%;
+      right: 50%;
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    }
+
+    /* ── Casa Granado ── */
+    .casa-main {
+      width: min(420px, 80%);
+      margin: 2.5rem auto 0;
+    }
+
+    /* full-width gradient band, big emblems */
+    .casa-strip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7%;
+
+      margin-top: 3rem;
+      padding: 3rem 5%;
+
+      background: linear-gradient(to right, #DABDC2, #650321);
+    }
+
+    .casa-strip img { height: 240px; width: auto; }
+    .casa-strip .mamm { height: 150px; }
+
+    /* ── Loovkaaren ── */
+    .loov-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: clamp(26px, 3vw, 40px);
+      letter-spacing: 0.18em;
+      color: #101A04;
+    }
+
+    /* full-width white band */
+    .loov-band {
+      background: #fff;
+      margin-top: 2.5rem;
+      padding: 3rem 5%;
+    }
+
+    .loov-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .loov-inside {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(18px, 1.7vw, 24px);
+      letter-spacing: 0.04em;
+      color: #101A04;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    /* big logo sits right next to the label */
+    .loov-band .loov-logo {
+      width: min(560px, 50%);
+      height: auto;
+      flex: 0 0 auto;
+    }
+
+    /* two photos stacked vertically, 20px apart, no borders */
+    .loov-photos {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 0 0 auto;
+    }
+
+    .loov-photos .lp {
+      width: 260px;
+      height: auto;
+      border: none;
+      box-shadow: 0 6px 16px rgba(16, 26, 4, 0.2);
+    }
+
+    /* ── RPG login UI (Jomolhari) ── */
+    .rpg-title {
+      font-family: 'Jomolhari', serif;
+      font-weight: normal;
+      font-size: clamp(24px, 3vw, 40px);
+      letter-spacing: 0.06em;
+      color: #7a5a1e;
+    }
+
+    .rpg-caption {
+      font-family: 'Jomolhari', serif;
+      font-size: clamp(14px, 1.2vw, 18px);
+      line-height: 1.7;
+      color: #101A04;
+      max-width: 60ch;
+      margin: 1rem auto 0;
+    }
+
+    /* swap-stack: rpg1 in front, rpg2 half beneath — hover/tap swaps */
+    .swap-stack {
+      position: relative;
+      width: min(820px, 94%);
+      margin: 2.5rem auto 0;
+      padding-bottom: 10%;
+    }
+
+    .swap-stack img {
+      width: 74%;
+      border: 1px solid #536340;
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 8px 20px rgba(16, 26, 4, 0.35);
+      transition: transform 0.4s ease;
+    }
+
+    .swap-stack .front { position: relative; z-index: 2; }
+    .swap-stack .back  { position: absolute; top: 6%; right: 0; width: 74%; z-index: 1; }
+
+    .swap-stack:hover .front,
+    .swap-stack.swapped .front { z-index: 1; transform: translateX(-4%); }
+    .swap-stack:hover .back,
+    .swap-stack.swapped .back  { z-index: 3; transform: translateX(4%); }
+
+    /* ── CHECK: white text panel + black phone panel ── */
+    .check-banner {
+      display: flex;
+      align-items: stretch;
+      margin: 5rem 0 4rem;
+      min-height: 520px;
+    }
+
+    .check-text {
+      flex: 1 1 55%;
+      background: #fff;
+      padding: 3rem 6%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .check-kicker {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: clamp(16px, 1.7vw, 22px);
+      letter-spacing: 0.06em;
+      color: #101A04;
+      margin-bottom: 1.6rem;
+    }
+
+    .check-kicker span {
+      font-weight: 400;
+      font-size: 0.6em;
+      letter-spacing: 0.08em;
+      color: #6a6a60;
+      margin-left: 0.6em;
+    }
+
+    .check-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(34px, 4.4vw, 58px);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      color: #101A04;
+      margin: 0 0 1.4rem;
+    }
+
+    .check-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(13px, 1.05vw, 15px);
+      line-height: 1.7;
+      color: #33332c;
+      max-width: 44ch;
+    }
+
+    /* full black panel; the phone is bigger and overhangs it top & bottom */
+    .check-stage {
+      flex: 1 1 45%;
+      position: relative;
+      background: #0e0e0c;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: visible;
     }
 
-    .mamm-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 3rem;
-      flex-wrap: wrap;
+    /* absolute so it doesn't stretch the black box — it overhangs it */
+    .check-phone {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: min(320px, 82%);
+      height: auto;
+      filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
 
-    .mamm-row img { max-height: 250px; }
-    .mamm-small { max-height: 125px !important; }
+    @media (max-width: 700px) {
+      .check-banner { flex-direction: column; min-height: 0; }
+    }
 
-    @media (max-width: 768px) {
-      .star-stage { height: 200px; }
-      .star-roller { width: min(60vw, 440px); }
-      .logo-row img { max-height: 220px; }
-      .casa-title { font-size: 26px; }
-      .mamm-section { padding: 3rem 1rem; min-height: 220px; }
-      .mamm-row { gap: 1.5rem; }
-      .mamm-row img { max-height: 170px; }
-      .mamm-small { max-height: 95px !important; }
+    @media (max-width: 760px) {
+      .star-intro { height: 150px; }
+      .star-intro .big { width: 100px; }
+      .star-intro .small { width: 54px; }
+      .casa-strip { gap: 4%; padding: 2rem 4%; }
+      .casa-strip img { height: 130px; }
+      .casa-strip .mamm { height: 82px; }
+
+      .loov-inner { flex-wrap: wrap; justify-content: center; gap: 20px; }
+      .loov-inside { flex-basis: 100%; text-align: center; white-space: normal; }
+      .loov-band .loov-logo { width: min(260px, 70%); }
+      .loov-photos { width: 200px; height: 320px; margin: 0 auto; }
+
+      .swap-stack img { width: 82%; }
     }
   </style>
 </head>
@@ -165,49 +326,71 @@
   </nav>
 
   <main>
-    <h1 class="page-title" data-i18n="logos.title">Logos &amp; Brand Design</h1>
+    <h1 class="page-title" data-i18n="logos.title">Logos &amp; Assets</h1>
 
-    <!-- rolling star -->
-    <div class="star-stage" aria-hidden="true">
-      <img src="1/landing%20and%20loading%20page/star-roll.png" alt="" class="star-roller">
+    <!-- rolling stars -->
+    <div class="star-intro" aria-hidden="true">
+      <span class="roll-in from-left"><img src="1/landing%20and%20loading%20page/star-roll.png" alt="" class="spin small"></span>
+      <img src="1/landing%20and%20loading%20page/star-roll.png" alt="" class="spin big">
+      <span class="roll-in from-right"><img src="1/landing%20and%20loading%20page/star-roll.png" alt="" class="spin small"></span>
     </div>
 
-    <div class="logo-gallery">
-      <!-- Loovkaaren -->
-      <div class="logo-row">
-        <img src="logos/loovkaaren.svg" alt="Loovkaaren logo (SVG)">
-        <a href="https://loovkaaren.eu/" target="_blank" rel="noopener">
-          <img src="logos/loovkaaren.png" alt="Loovkaaren logo (PNG)">
-        </a>
-        <div class="logo-caption">
-          <a href="https://loovkaaren.eu/" target="_blank" rel="noopener" data-i18n="logos.loovkaaren">Logo and font for Loovkaaren</a>
+    <!-- ══ Casa Granado ══ -->
+    <section class="logo-section">
+      <h2 class="casa-title">Casa Granado</h2>
+
+      <img src="1/logos-page/casa.png" alt="Casa Granado logo" class="casa-main">
+      <p class="casa-caption" data-i18n="logos.casacap">Logo and brand design for Casa Granado.</p>
+
+      <div class="casa-strip full-bleed">
+        <img src="1/logos-page/cB.png" alt="Casa Granado emblem, dark">
+        <img src="1/logos-page/mamm.png" alt="Casa Granado mini mark" class="mamm">
+        <img src="1/logos-page/cW.png" alt="Casa Granado emblem, light">
+      </div>
+    </section>
+
+    <!-- ══ Loovkaaren ══ -->
+    <section class="logo-section">
+      <div class="loov-band full-bleed">
+        <div class="loov-inner">
+          <p class="loov-inside" data-i18n="logos.loovinside">Logo &amp; Label for</p>
+          <img src="1/logos-page/loovkaaren.svg" alt="Loovkaaren logo" class="loov-logo">
+          <div class="loov-photos">
+            <img src="1/logos-page/loov1.jpg" alt="Loovkaaren bottles" class="lp lp1">
+            <img src="1/logos-page/loov2.jpg" alt="Loovkaaren gift box" class="lp lp2">
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Casa Granado logo -->
-      <div class="logo-row">
-        <img src="logos/casagranado.png" alt="Casa Granado logo">
-        <div class="logo-caption" data-i18n="logos.casa">Logo for Casa Granado</div>
-      </div>
-    </div>
+    <!-- ══ RPG login UI ══ -->
+    <section class="logo-section">
+      <h2 class="rpg-title">RPG Game log-in UI in Unity</h2>
+      <p class="rpg-caption" data-i18n="logos.rpgcap">
+        A login screen designed for a Unity RPG, &ldquo;Lovers Quest&rdquo;. Hover or tap to swap the views.
+      </p>
 
-    <!-- Casa Granado feature -->
-    <div class="casa-section">
-      <div class="casa-header">
-        <h2 class="casa-title">Casa Granado</h2>
-        <img src="logos/minimamm.png" alt="Mini Mamm" class="casa-emoji">
+      <div class="swap-stack" id="rpgStack">
+        <img src="1/logos-page/rpg1.jpg" alt="RPG login screen" class="front">
+        <img src="1/logos-page/rpg2.jpg" alt="RPG login screen, alternate" class="back">
       </div>
-      <img src="logos/casa.png" alt="Casa Granado brand design" class="casa-main-image">
-    </div>
+    </section>
 
-    <!-- Mamm strip -->
-    <div class="mamm-section">
-      <div class="mamm-row">
-        <img src="logos/cB.png" alt="Mamm logo, dark version">
-        <img src="logos/mamm.png" alt="Mamm logo" class="mamm-small">
-        <img src="logos/cW.png" alt="Mamm logo, light version">
+    <!-- ══ CHECK ══ -->
+    <section class="logo-section check-banner full-bleed">
+      <div class="check-text">
+        <p class="check-kicker">CHECK <span data-i18n="logos.checkkicker">app idea &amp; logo</span></p>
+        <h2 class="check-title" data-i18n="logos.checktitle">CHECK<br>essentially</h2>
+        <p class="check-body" data-i18n="logos.checkbody">
+          CHECK is a mobile app that brings together discovering cafés, chess,
+          loyalty programmes and community. It helps people find new places and new
+          playing partners, and turns an ordinary café visit into a memorable experience.
+        </p>
       </div>
-    </div>
+      <div class="check-stage">
+        <img src="1/logos-page/check.png" alt="CHECK app on iPhone 15 Pro" class="check-phone">
+      </div>
+    </section>
 
     <div class="button-row">
       <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
@@ -217,17 +400,10 @@
   <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
   <script>
-    // pause the rolling star when it's off-screen
-    if ('IntersectionObserver' in window) {
-      const stage = document.querySelector('.star-stage');
-      const star = document.querySelector('.star-roller');
-      if (stage && star) {
-        const io = new IntersectionObserver(entries => {
-          star.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
-        }, { threshold: 0.1 });
-        io.observe(stage);
-      }
-    }
+    // tap swaps the RPG stack on touch screens
+    document.querySelectorAll('.swap-stack').forEach(function (stack) {
+      stack.addEventListener('click', function () { stack.classList.toggle('swapped'); });
+    });
   </script>
 </body>
 </html>
