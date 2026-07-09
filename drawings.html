@@ -250,10 +250,17 @@
     }
 
     .gia-carousel .carousel-caption {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      letter-spacing: 0.02em;
       color: var(--gia-pink);
     }
 
-    /* LEHEPEAL blurb: DM Sans, left aligned */
+    /* LEHEPEAL blurb: DM Sans, left aligned, tucked close under the poster */
+    .swap-stack + .lehepeal-caption {
+      margin-top: -6%;
+    }
+
     .lehepeal-caption {
       font-family: 'DM Sans', sans-serif;
       text-align: left;
@@ -329,7 +336,7 @@
         </div>
         <div class="carousel-cell">
           <img src="1/paintings-page/dress-photo.jpg" alt="The outfit worn in winter">
-          <div class="carousel-caption" data-i18n="gia.outfitcap">Inspired by the painting, I designed a skirt and blouse set.</div>
+          <div class="carousel-caption">2025</div>
         </div>
       </div>
 

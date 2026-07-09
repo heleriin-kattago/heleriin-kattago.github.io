@@ -157,6 +157,13 @@ body.loaded #site {
   overflow: hidden;
 }
 
+/* the projects/thank-you screen runs a little longer so the thank-you
+   image always has breathing room below it, even on short wide laptops */
+.portfolio-page {
+  height: auto;
+  min-height: 130vh;
+}
+
 /* ── top navigation ── */
 
 .top-nav {
@@ -302,12 +309,12 @@ a.name-link {
 
 .thankyou {
   position: absolute;
-  top: 56.6vh;
+  top: 82vh;
   left: 50%;
   transform: translateX(-50%);
 
-  width: 40.5%;
-  max-width: 584px;
+  width: 27%;
+  max-width: 400px;
 
   z-index: 5;
 }
