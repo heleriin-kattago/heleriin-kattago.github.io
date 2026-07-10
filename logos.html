@@ -62,7 +62,10 @@
     }
 
     /* ── section headings ── */
-    .logo-section { margin-top: 9vh; }
+    .logo-section { margin-top: 16vh; }
+
+    /* extra air before the Back button at the end */
+    .button-row { margin-top: 14vh; padding-bottom: 6vh; }
 
     .casa-title {
       font-family: 'Cormorant Garamond', serif;
@@ -125,62 +128,70 @@
       color: #101A04;
     }
 
-    /* full-width white band */
-    /* white band — full width, edge to edge */
+    /* white band — full width, edge to edge; photos overhang it top & bottom */
     .loov-band {
       background: #fff;
-      margin-top: 1rem;
-      padding: 1rem;
+      margin-top: 2.5rem;
+      padding: 0 5%;
+      overflow: visible;
     }
 
     .loov-inner {
+      position: relative;
       max-width: 1200px;
       margin: 0 auto;
+      min-height: clamp(320px, 37vw, 540px);   /* the white box height */
       display: flex;
       align-items: center;
       gap: 30px;
     }
 
+    /* Figma: DM Sans 40px */
     .loov-inside {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(16px, 1.6vw, 22px);
-      letter-spacing: 0.04em;
-      color: #101A04;
+      font-size: clamp(12px, 2.8vw, 40px);
+      letter-spacing: 0.02em;
+      color: #000;
       flex: 0 0 auto;
       white-space: nowrap;
       text-align: left;
     }
 
-    /* logo sits right next to the label */
+    /* the egg, ~35% bigger, right next to the label */
     .loov-band .loov-logo {
-      width: min(440px, 40%);
-      height: 200px,20%;
+      width: 50%;
+      height: auto;
       flex: 0 0 auto;
     }
 
-    /* two photos stacked vertically, 20px apart, no borders */
+    /* two photos stacked, on the right, taller than the box so they hang out */
     .loov-photos {
-      margin-left: auto;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 20px;
-      flex: 0 0 auto;
     }
 
     .loov-photos .lp {
-      width: 220px;
+      width: clamp(150px, 18vw, 240px);
       height: auto;
       border: none;
       box-shadow: 0 6px 16px rgba(16, 26, 4, 0.2);
     }
 
-    /* ── RPG login UI (Jomolhari) ── */
+    /* ── RPG login UI (Jomolhari) — left-aligned, on the stack's left edge ── */
     .rpg-title {
       font-family: 'Jomolhari', serif;
       font-weight: normal;
       font-size: clamp(24px, 3vw, 40px);
       letter-spacing: 0.06em;
       color: #7a5a1e;
+      text-align: left;
+      max-width: min(820px, 94%);
+      margin: 0 auto;
     }
 
     .rpg-caption {
@@ -188,7 +199,8 @@
       font-size: clamp(14px, 1.2vw, 18px);
       line-height: 1.7;
       color: #101A04;
-      max-width: 60ch;
+      text-align: left;
+      max-width: min(820px, 94%);
       margin: 1rem auto 0;
     }
 
@@ -220,22 +232,20 @@
     /* ── CHECK: laid out to the Figma frame (1446 × 890) ── */
     .check-banner {
       position: relative;
-      width: 100%;
       aspect-ratio: 1600 / 800;
       background: #fff;
       margin-top: 4rem;
       margin-bottom: 4rem;
-      overflow: hidden;
+      overflow: visible;
     }
 
-    /* black panel on the right (Figma: left 765, width 687), a touch shorter
-       than the section so the phone overhangs it */
+    /* black panel on the right — exactly as tall as the white part */
     .check-black {
       position: absolute;
-      top: 11%;
+      top: 0;
       right: 0;
       width: 47.5%;
-      height: 78%;
+      height: 100%;
       background: #000;
     }
 
@@ -253,7 +263,7 @@
 
     .check-kicker b {
       font-weight: 400;
-      font-size: clamp(24px, 3.4vw, 48px);
+      font-size: clamp(20px, 2.2vw, 32px);
       line-height: 1;
     }
 
@@ -263,15 +273,22 @@
       color: #000;
     }
 
-    /* main text block (Figma: left 78, top 268, width 591, gap 53) */
+    /* main text block: left-aligned on the same edge as the kicker */
     .check-main {
       position: absolute;
       top: 30%;
-      left: 2%;
+      left: 5.3%;
       width: 41%;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: clamp(18px, 3.6vw, 53px);
+      text-align: left;
+    }
+
+    .check-main .check-title,
+    .check-main .check-body {
+      text-align: left;
     }
 
     .check-title {
@@ -291,14 +308,15 @@
       max-width: 42ch;
     }
 
-    /* phone centered on the black panel, bigger so it overhangs top & bottom */
+    /* phone on the right, centered on the black panel, taller than
+       both boxes so it overhangs top & bottom */
     .check-phone {
       position: absolute;
       top: 50%;
-      left: 50.7%;
+      left: 76.2%;
       transform: translate(-50%, -50%);
       z-index: 2;
-      width: 28%;
+      width: 32%;
       height: auto;
       filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
@@ -320,10 +338,12 @@
       .casa-strip img { height: 130px; }
       .casa-strip .mamm { height: 82px; }
 
-      .loov-inner { flex-wrap: wrap; justify-content: center; gap: 20px; }
-      .loov-inside { flex-basis: 100%; text-align: center; white-space: normal; }
-      .loov-band .loov-logo { width: min(260px, 70%); }
-      .loov-photos { width: 200px; height: 320px; margin: 0 auto; }
+      /* Loovkaaren keeps the same row layout as desktop, just scaled down */
+      .loov-inner { min-height: 44vw; gap: 8px; }
+      .loov-inside { font-size: 13px; }
+      .loov-band .loov-logo { width: 50%; }
+      .loov-photos { gap: 10px; }
+      .loov-photos .lp { width: 26vw; }
 
       .swap-stack img { width: 82%; }
     }
@@ -357,7 +377,7 @@
       <h2 class="casa-title">Casa Granado</h2>
 
       <img src="1/logos-page/casa.png" alt="Casa Granado logo" class="casa-main">
-      <p class="casa-caption" data-i18n="logos.casacap">Logo and the variations for Casa Granado.</p>
+      <p class="casa-caption" data-i18n="logos.casacap">Logo and the variations for Casa Granado, a guesthouse and retreat centre in Spain.</p>
 
       <div class="casa-strip full-bleed">
         <img src="1/logos-page/cB.png" alt="Casa Granado emblem, dark">
@@ -370,7 +390,7 @@
     <section class="logo-section">
       <div class="loov-band full-bleed">
         <div class="loov-inner">
-          <p class="loov-inside" data-i18n="logos.loovinside">Logo &amp; Label for</p>
+          <p class="loov-inside" data-i18n="logos.loovinside">Logo &amp; Labels</p>
           <img src="1/logos-page/loovkaaren.svg" alt="Loovkaaren logo" class="loov-logo">
           <div class="loov-photos">
             <img src="1/logos-page/loov1.jpg" alt="Loovkaaren bottles" class="lp lp1">
