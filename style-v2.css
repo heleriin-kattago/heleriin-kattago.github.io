@@ -272,7 +272,7 @@ body.loaded #site {
     top: 24px;
     width: 92%;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 4px; 
   }
 
   .name-logo {
