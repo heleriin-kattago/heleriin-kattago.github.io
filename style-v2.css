@@ -137,7 +137,7 @@ body.loaded #site {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 27px;
+  gap: 17px;
 
   z-index: 5;
 }
@@ -272,7 +272,7 @@ body.loaded #site {
     top: 24px;
     width: 92%;
     flex-wrap: wrap;
-    gap: 4px; 
+    gap: 7px; 
   }
 
   .name-logo {
