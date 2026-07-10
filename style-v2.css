@@ -157,7 +157,7 @@ body.loaded #site {
 
 .nav-box:hover,
 .nav-box:active {
-  background: rgba(24, 62, 38, 0.8);
+  background: rgba(1, 39, 15, 0.8);
 }
 
 .nav-box img {
@@ -244,7 +244,7 @@ body.loaded #site {
 .project-button:hover,
 .project-button:active,
 .project-button:focus {
-  background: rgba(11, 65, 8, 0.8);
+  background: rgba(5, 50, 3, 0.8);
 }
 
 .thankyou {
