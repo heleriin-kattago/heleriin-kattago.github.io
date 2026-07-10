@@ -120,16 +120,17 @@
     .loov-title {
       font-family: 'DM Sans', sans-serif;
       font-weight: 500;
-      font-size: clamp(26px, 3vw, 40px);
+      font-size: clamp(30px, 3vw, 40px);
       letter-spacing: 0.18em;
       color: #101A04;
     }
 
     /* full-width white band */
+    /* white band — full width, edge to edge */
     .loov-band {
       background: #fff;
-      margin-top: 2.5rem;
-      padding: 3rem 5%;
+      margin-top: 1rem;
+      padding: 1rem;
     }
 
     .loov-inner {
@@ -137,22 +138,23 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 30px;
     }
 
     .loov-inside {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(18px, 1.7vw, 24px);
+      font-size: clamp(16px, 1.6vw, 22px);
       letter-spacing: 0.04em;
       color: #101A04;
       flex: 0 0 auto;
       white-space: nowrap;
+      text-align: left;
     }
 
-    /* big logo sits right next to the label */
+    /* logo sits right next to the label */
     .loov-band .loov-logo {
-      width: min(560px, 50%);
-      height: auto;
+      width: min(440px, 40%);
+      height: 200px,20%;
       flex: 0 0 auto;
     }
 
@@ -166,7 +168,7 @@
     }
 
     .loov-photos .lp {
-      width: 260px;
+      width: 220px;
       height: auto;
       border: none;
       box-shadow: 0 6px 16px rgba(16, 26, 4, 0.2);
@@ -204,7 +206,7 @@
       background: #fff;
       padding: 6px;
       box-shadow: 0 8px 20px rgba(16, 26, 4, 0.35);
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease-in-out;
     }
 
     .swap-stack .front { position: relative; z-index: 2; }
@@ -215,84 +217,99 @@
     .swap-stack:hover .back,
     .swap-stack.swapped .back  { z-index: 3; transform: translateX(4%); }
 
-    /* ── CHECK: white text panel + black phone panel ── */
+    /* ── CHECK: laid out to the Figma frame (1446 × 890) ── */
     .check-banner {
-      display: flex;
-      align-items: stretch;
-      margin: 5rem 0 4rem;
-      min-height: 520px;
-    }
-
-    .check-text {
-      flex: 1 1 55%;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1600 / 800;
       background: #fff;
-      padding: 3rem 6%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      text-align: left;
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      overflow: hidden;
     }
 
+    /* black panel on the right (Figma: left 765, width 687), a touch shorter
+       than the section so the phone overhangs it */
+    .check-black {
+      position: absolute;
+      top: 11%;
+      right: 0;
+      width: 47.5%;
+      height: 78%;
+      background: #000;
+    }
+
+    /* CHECK + app idea & logo, top-left */
     .check-kicker {
+      position: absolute;
+      top: 5%;
+      left: 5.3%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: clamp(16px, 1.7vw, 22px);
-      letter-spacing: 0.06em;
-      color: #101A04;
-      margin-bottom: 1.6rem;
+      color: #000;
+    }
+
+    .check-kicker b {
+      font-weight: 400;
+      font-size: clamp(24px, 3.4vw, 48px);
+      line-height: 1;
     }
 
     .check-kicker span {
       font-weight: 400;
-      font-size: 0.6em;
-      letter-spacing: 0.08em;
-      color: #6a6a60;
-      margin-left: 0.6em;
+      font-size: clamp(11px, 1.1vw, 16px);
+      color: #000;
+    }
+
+    /* main text block (Figma: left 78, top 268, width 591, gap 53) */
+    .check-main {
+      position: absolute;
+      top: 30%;
+      left: 2%;
+      width: 41%;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(18px, 3.6vw, 53px);
     }
 
     .check-title {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 500;
-      font-size: clamp(34px, 4.4vw, 58px);
+      font-size: clamp(30px, 4vw, 58px);
       line-height: 1.05;
-      letter-spacing: 0.04em;
-      color: #101A04;
-      margin: 0 0 1.4rem;
+      letter-spacing: 0.03em;
+      color: #000;
     }
 
     .check-body {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(13px, 1.05vw, 15px);
+      font-size: clamp(12px, 1.05vw, 15px);
       line-height: 1.7;
-      color: #33332c;
-      max-width: 44ch;
+      color: #111;
+      max-width: 42ch;
     }
 
-    /* full black panel; the phone is bigger and overhangs it top & bottom */
-    .check-stage {
-      flex: 1 1 45%;
-      position: relative;
-      background: #0e0e0c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: visible;
-    }
-
-    /* absolute so it doesn't stretch the black box — it overhangs it */
+    /* phone centered on the black panel, bigger so it overhangs top & bottom */
     .check-phone {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 50.7%;
       transform: translate(-50%, -50%);
       z-index: 2;
-      width: min(320px, 82%);
+      width: 28%;
       height: auto;
       filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
 
-    @media (max-width: 700px) {
-      .check-banner { flex-direction: column; min-height: 0; }
+    /* stack on phones */
+    @media (max-width: 760px) {
+      .check-banner { aspect-ratio: auto; }
+      .check-kicker { position: static; padding: 1.6rem 6% 0; }
+      .check-main { position: static; width: auto; padding: 1.2rem 6% 2rem; }
+      .check-black { position: static; width: 100%; height: 360px; }
+      .check-phone { position: absolute; top: auto; bottom: 30px; left: 50%; width: 180px; }
     }
 
     @media (max-width: 760px) {
@@ -340,7 +357,7 @@
       <h2 class="casa-title">Casa Granado</h2>
 
       <img src="1/logos-page/casa.png" alt="Casa Granado logo" class="casa-main">
-      <p class="casa-caption" data-i18n="logos.casacap">Logo and brand design for Casa Granado.</p>
+      <p class="casa-caption" data-i18n="logos.casacap">Logo and the variations for Casa Granado.</p>
 
       <div class="casa-strip full-bleed">
         <img src="1/logos-page/cB.png" alt="Casa Granado emblem, dark">
@@ -378,8 +395,13 @@
 
     <!-- ══ CHECK ══ -->
     <section class="logo-section check-banner full-bleed">
-      <div class="check-text">
-        <p class="check-kicker">CHECK <span data-i18n="logos.checkkicker">app idea &amp; logo</span></p>
+      <div class="check-black"></div>
+
+      <p class="check-kicker">
+        <b>CHECK</b> <span data-i18n="logos.checkkicker">app idea &amp; logo</span>
+      </p>
+
+      <div class="check-main">
         <h2 class="check-title" data-i18n="logos.checktitle">CHECK<br>essentially</h2>
         <p class="check-body" data-i18n="logos.checkbody">
           CHECK is a mobile app that brings together discovering cafés, chess,
@@ -387,9 +409,8 @@
           playing partners, and turns an ordinary café visit into a memorable experience.
         </p>
       </div>
-      <div class="check-stage">
-        <img src="1/logos-page/check.png" alt="CHECK app on iPhone 15 Pro" class="check-phone">
-      </div>
+
+      <img src="1/logos-page/check.png" alt="CHECK app on iPhone 15 Pro" class="check-phone">
     </section>
 
     <div class="button-row">
