@@ -3,15 +3,459 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heleriin Kattago | Package Design</title>
+  <title>Heleriin Kattago | Package &amp; Information Design</title>
 
   <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC&family=Sorts+Mill+Goudy&family=Sometype+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
   <link rel="stylesheet" href="css-v2/style-v2.css">
+
+  <style>
+    /* ── carousel arrows: the gold fan, like on the drawings page ── */
+    .flickity-button {
+      background: transparent;
+      border: none;
+      width: 54px;
+      height: 54px;
+    }
+    .flickity-button:hover { background: transparent; }
+    .flickity-button-icon { display: none; }
+    .flickity-prev-next-button.previous {
+      background: url('1/paintings-page/arrow-fan.png') center / contain no-repeat;
+    }
+    .flickity-prev-next-button.next {
+      background: url('1/paintings-page/arrow-fan.png') center / contain no-repeat;
+      transform: translateY(-50%) scaleX(-1);
+    }
+
+    .carousel-cell video {
+      width: auto;
+      height: 80%;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 14px;
+    }
+
+    /* ── page title: Sometype Mono, wide spaced ── */
+    body[data-title-key="title.package"] .page-title {
+      font-family: 'Sometype Mono', monospace;
+      font-size: clamp(22px, 2.6vw, 38px);
+      letter-spacing: 0.28em;
+      color: #2C351B;
+      margin-top: 9vh;
+    }
+
+    .pk-section { margin-top: 14vh; }
+
+    /* rounded boxes + rounded pictures (the Figma way) */
+    .rbox {
+      border-radius: 22px;
+      padding: 2rem;
+    }
+
+    .pk-section img { border-radius: 14px; }
+
+    /* ── KAARDIPAKK: white box + pink box ── */
+    .cards-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .cards-white {
+      flex: 1 1 46%;
+      background: #fff;
+      text-align: center;
+    }
+
+    .cards-white h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(26px, 2.6vw, 38px);
+      letter-spacing: 0.14em;
+      color: #101A04;
+      margin-bottom: 1.4rem;
+    }
+
+    /* the photo is portrait — crop it to landscape like in Figma */
+    .cards-white .main-photo {
+      width: 78%;
+      margin: 0 auto;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+
+    .cards-white .sub-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 1.2rem;
+      text-align: left;
+    }
+
+    .cards-white .sub-row img { width: 38%; }
+
+    .cards-cap {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.6;
+      color: #101A04;
+    }
+
+    .cards-dim {
+      display: block;
+      margin-top: 0.6rem;
+      font-size: 0.85em;
+      color: rgba(16, 26, 4, 0.65);
+    }
+
+    .cards-pink {
+      flex: 1 1 46%;
+      background: #EC9AC6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cards-pink img { width: 100%; }
+
+    /* ── Nut butter & gift box ── */
+    .nut-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(34px, 4vw, 58px);
+      letter-spacing: 0.04em;
+      color: #A87E1E;
+    }
+
+    .nut-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+    }
+
+    .nut-row > * { flex: 1 1 0; min-width: 0; }
+
+    .nut-circle {
+      max-width: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nut-circle img { width: 100%; border-radius: 0; }
+
+    .nut-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(11px, 0.9vw, 13px);
+      line-height: 1.7;
+      color: rgba(16, 26, 4, 0.75);
+      max-width: 1100px;
+      margin: 1.6rem auto 0;
+      text-align: left;
+    }
+
+    /* ── Little Dragon ── */
+    .dragon-title {
+      font-family: 'Sorts Mill Goudy', serif;
+      font-weight: normal;
+      font-size: clamp(34px, 3.8vw, 54px);
+      color: #7A1F1F;
+      line-height: 1;
+    }
+
+    .dragon-sub {
+      font-family: 'Sorts Mill Goudy', serif;
+      font-size: clamp(16px, 1.6vw, 24px);
+      color: #7A1F1F;
+      margin-top: 0.2rem;
+    }
+
+    .dragon-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      max-width: 1050px;
+      margin: 2.5rem auto 0;
+    }
+
+    .dragon-row .dragon-render { flex: 0 1 40%; object-fit: cover; }
+
+    .dragon-dielines {
+      flex: 1 1 55%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .dragon-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.7;
+      color: #9B8BB4;
+      max-width: 46ch;
+      margin: 1.2rem auto 0;
+      text-align: left;
+    }
+
+    .dragon-extras {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      max-width: 900px;
+      margin: 2.5rem auto 0;
+    }
+
+    .dragon-extras img,
+    .dragon-extras video {
+      flex: 1 1 0;
+      min-width: 0;
+      width: 46%;
+      border-radius: 14px;
+    }
+
+    /* ── Theore'remaly ── */
+    .theo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .theo-text {
+      flex: 0 1 32%;
+      text-align: left;
+    }
+
+    .theo-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(34px, 3.8vw, 54px);
+      color: #4B3F9E;
+      line-height: 1;
+    }
+
+    .theo-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(16px, 1.6vw, 24px);
+      color: #4B3F9E;
+      margin-top: 0.2rem;
+    }
+
+    .theo-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.7;
+      color: #33332c;
+      margin-top: 2rem;
+    }
+
+    .theo-row .serum-render { flex: 1 1 60%; min-width: 0; }
+
+    .theo-dieline {
+      width: min(560px, 86%);
+      margin: 3rem auto 0;
+      background: #fff;
+    }
+
+    .theo-dieline img { width: 100%; }
+
+    /* ── Kiikaboo / Peekaboo (Sometype Mono) ── */
+    .kiik-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .kiik-text {
+      flex: 0 1 26%;
+      text-align: left;
+      position: sticky;
+      top: 20vh;
+    }
+
+    .kiik-title {
+      font-family: 'Sometype Mono', monospace;
+      font-weight: 500;
+      font-size: clamp(22px, 2.4vw, 34px);
+      line-height: 1.25;
+      color: #101A04;
+    }
+
+    .kiik-cap {
+      font-family: 'Sometype Mono', monospace;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.7;
+      color: #33332c;
+      margin-top: 2.5rem;
+    }
+
+    /* the labels sit stacked on each other like papers — tap shuffles them */
+    .kiik-stack {
+      position: relative;
+      flex: 1 1 62%;
+      aspect-ratio: 1 / 0.82;
+    }
+
+    .kiik-stack img {
+      position: absolute;
+      width: 66%;
+      box-shadow: 0 8px 20px rgba(16, 26, 4, 0.25);
+      transition: top 0.4s ease, left 0.4s ease;
+    }
+
+    .kiik-stack .pos1 { top: 0;   left: 0;   z-index: 3; }
+    .kiik-stack .pos2 { top: 16%; left: 17%; z-index: 2; }
+    .kiik-stack .pos3 { top: 32%; left: 34%; z-index: 1; }
+
+    /* ── Chocolate package test (Cormorant SC) ── */
+    .coco-title {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 400;
+      font-size: clamp(28px, 3.2vw, 46px);
+      color: #101A04;
+      letter-spacing: 0.04em;
+    }
+
+    .coco-title em {
+      font-style: normal;
+      color: #A87E1E;
+    }
+
+    /* the ellipse photo cell, like in Figma */
+    img.coco-ellipse {
+      width: auto;
+      height: 90% !important;
+      aspect-ratio: 0.72;
+      object-fit: cover;
+      border-radius: 50% !important;
+    }
+
+    .coco-cap {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(11px, 0.9vw, 13px);
+      letter-spacing: 0.12em;
+      color: rgba(16, 26, 4, 0.6);
+      margin-top: 0.8rem;
+    }
+
+    /* ── Information design divider (MedievalSharp) ── */
+    .info-divider {
+      font-family: 'MedievalSharp', cursive;
+      font-weight: normal;
+      font-size: clamp(28px, 3.2vw, 44px);
+      letter-spacing: 0.09em;
+      color: #2C351B;
+      margin-top: 18vh;
+    }
+
+    /* ── Solubility table ── */
+    .sol-box {
+      background: #fff;
+      width: min(1000px, 94%);
+      margin: 3rem auto 0;
+    }
+
+    .sol-box img { width: 100%; }
+
+    .sol-cap {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(13px, 1.05vw, 16px);
+      color: #33332c;
+      max-width: min(1000px, 94%);
+      margin: 0.8rem auto 0;
+      text-align: left;
+    }
+
+    /* ── Brochure ── */
+    .bro-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .bro-text {
+      flex: 0 1 38%;
+      text-align: left;
+    }
+
+    .bro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(22px, 2.4vw, 34px);
+      line-height: 1.25;
+      color: #101A04;
+    }
+
+    .bro-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 1vw, 14px);
+      line-height: 1.7;
+      color: #33332c;
+      margin-top: 1.6rem;
+    }
+
+    .bro-cover {
+      flex: 0 1 44%;
+      display: block;
+      background: #fff;
+      border: 3px solid #1E7BD7;
+      border-radius: 8px;
+      padding: 1.6rem;
+      transition: transform 0.3s ease;
+    }
+
+    .bro-cover:hover { transform: scale(1.03); }
+    .bro-cover img { width: 100%; border-radius: 0; }
+
+    /* ── mobile ── */
+    @media (max-width: 760px) {
+      .pk-section { margin-top: 9vh; }
+      .rbox { padding: 1.2rem; }
+
+      .cards-row, .theo-row, .kiik-row, .bro-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cards-white, .cards-pink,
+      .theo-text, .kiik-text, .kiik-stack, .bro-text, .bro-cover {
+        flex: 1 1 auto;
+        width: 100%;
+      }
+
+      .kiik-text { position: static; text-align: center; }
+      .theo-text { text-align: center; }
+      .bro-text { text-align: center; }
+      .nut-row { flex-wrap: wrap; }
+      .nut-row > * { flex: 1 1 42%; }
+    }
+  </style>
 </head>
 
 <body class="subpage" data-title-key="title.package">
@@ -27,210 +471,166 @@
   </nav>
 
   <main>
-    <h1 class="page-title" data-i18n="package.title">Package Design</h1>
+    <h1 class="page-title" data-i18n="package.title">Package &amp; information design</h1>
 
-    <!-- ── Cards ── -->
-    <h2 class="section-title" data-i18n="package.cards">Heart of the Lamb deck &mdash; playing cards</h2>
-    <div class="product-gallery" id="cards-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/cards.jpg" alt="Heart of the Lamb playing cards">
-        <div class="nav-button prev" onclick="prevImage('cards')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('cards')">&#10095;</div>
+    <!-- ══ KAARDIPAKK ══ -->
+    <section class="pk-section">
+      <div class="cards-row">
+        <div class="cards-white rbox">
+          <h2 data-i18n="pk.cards.title">KAARDIPAKK</h2>
+          <img src="1/package-page/cards-photo.jpg" alt="Heart of the Lamb card boxes" class="main-photo">
+          <div class="sub-row">
+            <img src="1/package-page/card-deck.jpg" alt="The full card deck layout">
+            <p class="cards-cap">
+              <span data-i18n="pk.cards.cap">Artwork on the card box was hand-drawn in Procreate,
+              then assembled and finalised in Adobe Illustrator.</span>
+              <span class="cards-dim">9.5 &times; 6.5 cm</span>
+            </p>
+          </div>
+        </div>
+        <div class="cards-pink rbox">
+          <img src="1/package-page/cards-render.jpg" alt="Card box render">
+        </div>
       </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('cards',0)"><img src="package/cards.jpg" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('cards',1)"><img src="package/kaardipakk.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('cards',2)"><img src="package/cardsblender.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="package.cardscap">Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.</p>
-    </div>
+    </section>
 
-    <!-- ── Holiday box ── -->
-    <h2 class="section-title" data-i18n="package.xmas">Holiday gift box &amp; Nut Butter</h2>
-    <div class="product-gallery" id="xmas-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/xmasbox4.jpg" alt="Holiday gift box">
-        <div class="nav-button prev" onclick="prevImage('xmas')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('xmas')">&#10095;</div>
+    <!-- ══ Nut butter & gift box ══ -->
+    <section class="pk-section">
+      <h2 class="nut-title" data-i18n="pk.nut.title">Pähklivõi ja kingikarp</h2>
+      <div class="nut-row">
+        <img src="1/package-page/gran-xmasbox.jpg" alt="Holiday gift box with nut butter jar">
+        <img src="1/package-page/xmasbox.jpg" alt="Holiday gift box held in hands">
+        <img src="1/package-page/nut-butter.png" alt="Nut butter label design">
+        <div class="nut-circle"><img src="1/package-page/nut-butter-round.png" alt="Round nut butter label"></div>
       </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('xmas',0)"><img src="package/xmasbox4.jpg" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('xmas',1)"><img src="package/boxwhite.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="package.xmascap">
+      <p class="nut-cap" data-i18n="pk.nut.cap">
         I've gotten into the habit of gifting festive holiday cards to friends and family, and this year
         I wanted to make something a little more functional. I illustrated a seasonal box in Procreate,
         built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself.
         To go with it, I made homemade nut butter and designed matching labels for the glass jars,
         creating a small, personal holiday gift set.
       </p>
-    </div>
+    </section>
 
-    <!-- ── Kiikaboo ── -->
-    <h2 class="section-title" data-i18n="package.kiikaboo">Kiikaboo bread</h2>
-    <div class="product-gallery" id="kiikaboo-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/kiikaboo white.png" alt="Kiikaboo bread packaging">
-        <div class="nav-button prev" onclick="prevImage('kiikaboo')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('kiikaboo')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('kiikaboo',0)"><img src="package/kiikaboo white.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('kiikaboo',1)"><img src="package/kiikaboo green.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('kiikaboo',2)"><img src="package/peeekaboo.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="package.illustrator">Packaging designed in Adobe Illustrator.</p>
-    </div>
+    <!-- ══ Little Dragon ══ -->
+    <section class="pk-section">
+      <h2 class="dragon-title">Little Dragon</h2>
+      <p class="dragon-sub" data-i18n="pk.dragon.sub">Chocolate box and wrapper</p>
 
-    <!-- ── Serum ── -->
-    <h2 class="section-title" data-i18n="package.serum">Theoremaly Serum</h2>
-    <div class="product-gallery" id="serum-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/serumblender.png" alt="Theoremaly serum">
-        <div class="nav-button prev" onclick="prevImage('serum')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('serum')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('serum',0)"><img src="package/serumblender.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('serum',1)"><img src="package/full lilla.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="package.illustrator">Packaging designed in Adobe Illustrator.</p>
-    </div>
-
-    <!-- ── Dragon box ── -->
-    <h2 class="section-title" data-i18n="package.dragon">Little Dragon Chocolate Box</h2>
-    <div class="product-gallery" id="dragon-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/lil dragon box.png" alt="Little Dragon chocolate box">
-        <div class="nav-button prev" onclick="prevImage('dragon')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('dragon')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('dragon',0)"><img src="package/lil dragon box.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('dragon',1)"><img src="package/box lil dragon out.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('dragon',2)"><img src="package/box lil dragon inside.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="package.dragoncap">Dragon emblem hand-drawn in Procreate; packaging finalised in Illustrator.</p>
-    </div>
-
-    <!-- ── Dark chocolate ── -->
-    <h2 class="section-title" data-i18n="package.coco">Dark Chocolate package design idea</h2>
-    <div class="product-gallery" id="coco-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="package/dark coco out.png" alt="Dark chocolate packaging">
-        <div class="nav-button prev" onclick="prevImage('coco')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('coco')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('coco',0)"><img src="package/dark coco out.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('coco',1)"><img src="package/dark coco inside.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('coco',2)"><img src="package/coco.jpg" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('coco',3)">
-          <video class="thumb-video" src="package/coco.mp4" muted autoplay loop playsinline></video>
+      <div class="main-carousel" data-flickity='{
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false,
+          "cellAlign": "center"
+      }'>
+        <div class="carousel-cell"><img src="1/package-page/dragon-render.png" alt="Little Dragon chocolate box render"></div>
+        <div class="carousel-cell"><img src="1/package-page/dragon-out.png" alt="Little Dragon box outside dieline"></div>
+        <div class="carousel-cell"><img src="1/package-page/dragon-inside.png" alt="Little Dragon box inside dieline"></div>
+        <div class="carousel-cell"><img src="1/package-page/dragon-wrapper.jpg" alt="Little Dragon wrapper printed"></div>
+        <div class="carousel-cell">
+          <video src="1/package-page/dragon.mp4" poster="1/package-page/dragon-render.png" controls preload="none" playsinline></video>
         </div>
       </div>
-      <p class="caption" data-i18n="package.cococap">Concept design created in Adobe Illustrator.</p>
-    </div>
+
+      <p class="dragon-cap" data-i18n="pk.dragon.cap">
+        Dragon logo was drawn in Procreate and the design put together in Adobe Illustrator,
+        then assembled in Blender and also printed out.
+      </p>
+    </section>
+
+    <!-- ══ Theore'remaly ══ -->
+    <section class="pk-section">
+      <div class="theo-row">
+        <div class="theo-text">
+          <h2 class="theo-title">Theore&rsquo;remaly</h2>
+          <p class="theo-sub" data-i18n="pk.theo.sub">serum package design</p>
+          <p class="theo-cap" data-i18n="pk.theo.cap">Designed in Adobe Illustrator and put together in Blender.</p>
+        </div>
+        <img src="1/package-page/serum-render.png" alt="Theore'remaly serum box render" class="serum-render">
+      </div>
+      <div class="theo-dieline rbox">
+        <img src="1/package-page/theoremaly-dieline.png" alt="Theore'remaly packaging dieline">
+      </div>
+    </section>
+
+    <!-- ══ Kiikaboo / Peekaboo ══ -->
+    <section class="pk-section">
+      <div class="kiik-row">
+        <div class="kiik-text">
+          <h2 class="kiik-title" data-i18n="pk.kiik.title">Kiikaboo/<br>Peekaboo<br>bread<br>package</h2>
+          <p class="kiik-cap" data-i18n="pk.kiik.cap">designed in<br>Adobe<br>Illustrator</p>
+        </div>
+        <div class="kiik-stack" id="kiikStack">
+          <img src="1/package-page/kiikaboo-green.png" alt="Kiikaboo label, green" class="pos1">
+          <img src="1/package-page/kiikaboo-white.png" alt="Kiikaboo label, white" class="pos2">
+          <img src="1/package-page/peekaboo.png" alt="Peekaboo packaging dieline" class="pos3">
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Chocolate package test ══ -->
+    <section class="pk-section">
+      <h2 class="coco-title"><span data-i18n="pk.coco.title">Chocolate package</span> <em>test</em></h2>
+      <div class="main-carousel" data-flickity='{
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false,
+          "cellAlign": "center"
+      }'>
+        <div class="carousel-cell"><img src="1/package-page/coco-photo.jpg" alt="Dark chocolate package held in hand" class="coco-ellipse"></div>
+        <div class="carousel-cell"><img src="1/package-page/coco-out.png" alt="Dark chocolate packaging outside"></div>
+        <div class="carousel-cell"><img src="1/package-page/coco-inside.png" alt="Dark chocolate packaging inside"></div>
+      </div>
+      <p class="coco-cap" data-i18n="pk.coco.cap">Designed in Illustrator</p>
+    </section>
+
+    <!-- ══ Information design ══ -->
+    <h2 class="info-divider" id="information" data-i18n="pk.info.title">Information design</h2>
+
+    <!-- Solubility table -->
+    <section class="pk-section" style="margin-top: 6vh;">
+      <div class="sol-box rbox">
+        <img src="1/package-page/solubility.png" alt="Solubility table design">
+      </div>
+      <p class="sol-cap" data-i18n="pk.sol.cap">Solubility table design, made with Adobe Illustrator.</p>
+    </section>
+
+    <!-- Brochure -->
+    <section class="pk-section">
+      <div class="bro-row">
+        <div class="bro-text">
+          <h2 class="bro-title" data-i18n="pk.bro.title">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
+          <p class="bro-cap" data-i18n="pk.bro.cap">Designed with Adobe InDesign, opens in Google Drive.</p>
+        </div>
+        <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer" class="bro-cover">
+          <img src="1/package-page/brochure-eng.png" alt="Brochure cover: Van der Waals Forces and How Geckos Stick to Walls">
+        </a>
+      </div>
+    </section>
 
     <div class="button-row">
       <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
     </div>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
   <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
   <script>
-    const galleries = {
-      cards: { images: [
-        { src: "package/cards.jpg" },
-        { src: "package/kaardipakk.png" },
-        { src: "package/cardsblender.png" }
-      ], currentIndex: 0 },
-
-      xmas: { images: [
-        { src: "package/xmasbox4.jpg" },
-        { src: "package/boxwhite.png" }
-      ], currentIndex: 0 },
-
-      kiikaboo: { images: [
-        { src: "package/kiikaboo white.png" },
-        { src: "package/kiikaboo green.png" },
-        { src: "package/peeekaboo.png" }
-      ], currentIndex: 0 },
-
-      serum: { images: [
-        { src: "package/serumblender.png" },
-        { src: "package/full lilla.png" }
-      ], currentIndex: 0 },
-
-      dragon: { images: [
-        { src: "package/lil dragon box.png" },
-        { src: "package/box lil dragon out.png" },
-        { src: "package/box lil dragon inside.png" }
-      ], currentIndex: 0 },
-
-      coco: { images: [
-        { src: "package/dark coco out.png" },
-        { src: "package/dark coco inside.png" },
-        { src: "package/coco.jpg" },
-        { type: "video", src: "package/coco.mp4" }
-      ], currentIndex: 0 }
-    };
-
-    function changeImage(id, index) {
-      const g = galleries[id];
-      g.currentIndex = index;
-
-      const wrap = document.querySelector(`#${id}-gallery .main-image-container`);
-      wrap.innerHTML = "";
-
-      const item = g.images[index];
-      let el;
-
-      if (item.type === "video") {
-        el = document.createElement("video");
-        el.src = item.src;
-        el.className = "main-image";
-        el.controls = true;
-        el.autoplay = true;
-        el.muted = true;
-        el.loop = true;
-        el.setAttribute("playsinline", "");
-      } else {
-        el = document.createElement("img");
-        el.src = item.src;
-        el.className = "main-image";
-      }
-
-      const prev = document.createElement("div");
-      prev.className = "nav-button prev";
-      prev.textContent = "❮";
-      prev.onclick = () => prevImage(id);
-
-      const next = document.createElement("div");
-      next.className = "nav-button next";
-      next.textContent = "❯";
-      next.onclick = () => nextImage(id);
-
-      wrap.append(el, prev, next);
-
-      document.querySelectorAll(`#${id}-gallery .thumbnail`)
-        .forEach((t, i) => t.classList.toggle("active", i === index));
-    }
-
-    function prevImage(id) {
-      let g = galleries[id];
-      let i = g.currentIndex - 1;
-      if (i < 0) i = g.images.length - 1;
-      changeImage(id, i);
-    }
-
-    function nextImage(id) {
-      let g = galleries[id];
-      let i = g.currentIndex + 1;
-      if (i >= g.images.length) i = 0;
-      changeImage(id, i);
-    }
+    // kiikaboo stack: click/tap shuffles which label is on top
+    (function () {
+      var stack = document.getElementById('kiikStack');
+      if (!stack) return;
+      stack.addEventListener('click', function () {
+        var order = ['pos1', 'pos2', 'pos3'];
+        stack.querySelectorAll('img').forEach(function (img) {
+          var i = order.indexOf(img.classList[0] || img.className);
+          order.forEach(function (c) { img.classList.remove(c); });
+          // front goes to the back, everyone else moves up
+          img.classList.add(order[(i + 2) % 3]);
+        });
+      });
+    })();
   </script>
 </body>
 </html>
