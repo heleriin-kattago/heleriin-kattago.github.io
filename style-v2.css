@@ -74,8 +74,8 @@ body.is-loading {
   z-index: 2;
 
   color: white;
-  font-size: 13px;
-  letter-spacing: 2px;
+  font-size: 9px;
+  letter-spacing: 1px;
   text-transform: lowercase;
 }
 
