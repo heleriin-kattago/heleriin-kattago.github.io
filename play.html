@@ -166,10 +166,7 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 #loader.hide-loader{ opacity:0; visibility:hidden; pointer-events:none; }
 .loader-center{ position:relative; display:flex; align-items:center; justify-content:center; }
 .loader-star{ width:min(92vmin,938px); height:auto; animation:spinStar 3s linear infinite; }
-.loader-text{
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  color:#464644; font-size:16px; letter-spacing:1.44px; text-transform:lowercase;
-}
+
 @keyframes spinStar{ from{ transform:rotate(0deg);} to{ transform:rotate(360deg);} }
 @media (prefers-reduced-motion: reduce){ .loader-star{ animation:none; } }
 body.is-loading{ overflow:hidden; }
