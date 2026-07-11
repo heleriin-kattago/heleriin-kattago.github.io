@@ -64,6 +64,9 @@
     /* ── section headings ── */
     .logo-section { margin-top: 16vh; }
 
+    /* Casa Granado sits closer to the stars */
+    .casa-section { margin-top: 6vh; }
+
     /* extra air before the Back button at the end */
     .button-row { margin-top: 14vh; padding-bottom: 6vh; }
 
@@ -74,6 +77,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #2C351B;
+      white-space: nowrap;
     }
 
     .casa-caption,
@@ -81,7 +85,7 @@
       font-family: 'DM Sans', sans-serif;
       font-size: clamp(14px, 1.15vw, 17px);
       line-height: 1.7;
-      color: #101A04;
+      color: #2C351B;
       max-width: 60ch;
       margin: 1rem auto 0;
     }
@@ -157,11 +161,15 @@
       text-align: left;
     }
 
-    /* the egg, ~35% bigger, right next to the label */
+    /* the egg, centered in the middle of the band */
     .loov-band .loov-logo {
       width: 40%;
       height: auto;
       flex: 0 0 auto;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     /* two photos stacked, on the right, taller than the box so they hang out */
@@ -377,6 +385,9 @@
       .casa-strip .mamm { height: 82px; }
 
       /* Loovkaaren keeps the same row layout as desktop, just scaled down */
+      /* Casa Granado title: smaller, always one line */
+      .casa-title { font-size: 8vw; letter-spacing: 0.1em; }
+
       .loov-inner { min-height: 44vw; gap: 8px; }
       .loov-inside { font-size: 13px; }
       .loov-band .loov-logo { width: 50%; }
@@ -411,7 +422,7 @@
     </div>
 
     <!-- ══ Casa Granado ══ -->
-    <section class="logo-section">
+    <section class="logo-section casa-section">
       <h2 class="casa-title">Casa Granado</h2>
 
       <img src="1/logos-page/casa.png" alt="Casa Granado logo" class="casa-main">

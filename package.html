@@ -60,12 +60,12 @@
 
     .pk-section img { border-radius: 14px; }
 
-    /* ── KAARDIPAKK: white box + pink box ── */
+    /* ── CARD DECK: white box + pink box, slightly overlapping ── */
     .cards-row {
       display: flex;
       justify-content: center;
       align-items: stretch;
-      gap: 30px;
+      gap: 0;
       max-width: 1050px;
       margin: 0 auto;
     }
@@ -73,7 +73,9 @@
     .cards-white {
       flex: 1 1 46%;
       background: #fff;
-      text-align: center;
+      text-align: left;
+      position: relative;
+      z-index: 2;
     }
 
     .cards-white h2 {
@@ -82,15 +84,26 @@
       font-size: clamp(26px, 2.6vw, 38px);
       letter-spacing: 0.14em;
       color: #101A04;
-      margin-bottom: 1.4rem;
+      text-align: center;
     }
 
-    /* the photo is portrait — crop it to landscape like in Figma */
+    .cards-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(14px, 1.3vw, 19px);
+      letter-spacing: 0.1em;
+      color: rgba(16, 26, 4, 0.7);
+      text-align: center;
+      margin: 0.2rem 0 1.4rem;
+    }
+
+    /* the photo is portrait — crop it to landscape like in Figma;
+       left-aligned so it lines up with the deck image below */
     .cards-white .main-photo {
       width: 78%;
-      margin: 0 auto;
+      margin: 0;
       aspect-ratio: 3 / 2;
       object-fit: cover;
+      object-position: 50% 32%;
     }
 
     .cards-white .sub-row {
@@ -117,15 +130,28 @@
       color: rgba(16, 26, 4, 0.65);
     }
 
+    /* pink block tucks 8px under the white one */
     .cards-pink {
       flex: 1 1 46%;
       background: #EC9AC6;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-left: -8px;
+      z-index: 1;
     }
 
-    .cards-pink img { width: 100%; }
+    /* blender render: square corners on a slightly larger black mat */
+    .cards-pink .black-mat {
+      background: #000;
+      padding: 12px;
+    }
+
+    .cards-pink img {
+      width: 100%;
+      border-radius: 0;
+      display: block;
+    }
 
     /* ── Nut butter & gift box ── */
     .nut-title {
@@ -145,7 +171,19 @@
       margin: 2.5rem auto 0;
     }
 
-    .nut-row > * { flex: 1 1 0; min-width: 0; }
+    .nut-row > * { flex: 0 1 auto; min-width: 0; }
+
+    /* the two photos share the same height */
+    .nut-row .nut-photo {
+      height: clamp(220px, 24vw, 340px);
+      width: auto;
+      object-fit: cover;
+    }
+
+    .nut-row .nut-label {
+      height: clamp(220px, 24vw, 340px);
+      width: auto;
+    }
 
     .nut-circle {
       max-width: 220px;
@@ -156,16 +194,33 @@
 
     .nut-circle img { width: 100%; border-radius: 0; }
 
+    /* caption in the same voice as the title */
     .nut-cap {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      font-size: clamp(11px, 0.9vw, 13px);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(13px, 1.15vw, 17px);
       line-height: 1.7;
-      color: rgba(16, 26, 4, 0.75);
+      color: #A87E1E;
       max-width: 1100px;
       margin: 1.6rem auto 0;
       text-align: left;
     }
+
+    /* phone-only carousel: photos together, labels together
+       (flickity watchCSS: enabled only when ::after says 'flickity') */
+    .nut-carousel { display: none; }
+    .nut-carousel::after { content: ''; display: none; }
+
+    .nut-cell {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .nut-cell img { height: 62vw; max-height: 340px; width: auto; max-width: 48%; object-fit: contain; }
 
     /* ── Little Dragon ── */
     .dragon-title {
@@ -179,24 +234,35 @@
     .dragon-sub {
       font-family: 'Sorts Mill Goudy', serif;
       font-size: clamp(16px, 1.6vw, 24px);
-      color: #7A1F1F;
+      color: #C9971C;
       margin-top: 0.2rem;
     }
 
-    .dragon-row {
+    /* two columns: carousel left, white 24px-rounded dieline box right */
+    .two-cols {
       display: flex;
       justify-content: center;
       align-items: stretch;
-      gap: 30px;
-      max-width: 1050px;
+      gap: 26px;
+      max-width: 1100px;
       margin: 2.5rem auto 0;
     }
 
-    .dragon-row .dragon-render { flex: 0 1 40%; object-fit: cover; }
-
-    .dragon-dielines {
+    .two-cols .col-carousel {
       flex: 1 1 55%;
+      min-width: 0;
+    }
+
+    .two-cols .col-carousel .main-carousel {
+      margin: 0;
+      height: 440px;
+    }
+
+    .two-cols .dielines-box {
+      flex: 1 1 42%;
       background: #fff;
+      border-radius: 24px;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -207,42 +273,22 @@
       font-family: 'DM Sans', sans-serif;
       font-size: clamp(12px, 1vw, 15px);
       line-height: 1.7;
-      color: #9B8BB4;
+      color: #C9971C;
       max-width: 46ch;
       margin: 1.2rem auto 0;
       text-align: left;
     }
 
-    .dragon-extras {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 24px;
-      max-width: 900px;
-      margin: 2.5rem auto 0;
-    }
-
-    .dragon-extras img,
-    .dragon-extras video {
-      flex: 1 1 0;
-      min-width: 0;
-      width: 46%;
-      border-radius: 14px;
-    }
-
-    /* ── Theore'remaly ── */
-    .theo-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .theo-text {
-      flex: 0 1 32%;
+    /* ── Theore'remaly: narrow 15%-white text panel left, carousel right ── */
+    .theo-panel {
+      flex: 0 1 30%;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 2.2rem;
       text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .theo-title {
@@ -269,15 +315,13 @@
       margin-top: 2rem;
     }
 
-    .theo-row .serum-render { flex: 1 1 60%; min-width: 0; }
-
-    .theo-dieline {
-      width: min(560px, 86%);
-      margin: 3rem auto 0;
-      background: #fff;
+    /* keep carousel pictures at their natural proportions */
+    .carousel-cell img {
+      width: auto;
+      height: 80%;
+      max-width: 100%;
+      object-fit: contain;
     }
-
-    .theo-dieline img { width: 100%; }
 
     /* ── Kiikaboo / Peekaboo (Sometype Mono) ── */
     .kiik-row {
@@ -361,19 +405,37 @@
       margin-top: 0.8rem;
     }
 
-    /* ── Information design divider (MedievalSharp) ── */
-    .info-divider {
-      font-family: 'MedievalSharp', cursive;
-      font-weight: normal;
-      font-size: clamp(28px, 3.2vw, 44px);
-      letter-spacing: 0.09em;
-      color: #2C351B;
-      margin-top: 18vh;
+    /* ── spinning star nav: package star + information star ── */
+    .star-nav {
+      position: fixed;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      z-index: 120;
     }
 
-    /* ── Solubility table ── */
+    .star-nav img {
+      width: 38px;
+      height: auto;
+      display: block;
+      border-radius: 0;
+      animation: starSpinNav 10s linear infinite;
+      transition: width 0.35s ease;
+    }
+
+    .star-nav a.active img { width: 66px; }
+
+    @keyframes starSpinNav {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── Solubility table: no box behind it ── */
     .sol-box {
-      background: #fff;
       width: min(1000px, 94%);
       margin: 3rem auto 0;
     }
@@ -438,22 +500,34 @@
       .pk-section { margin-top: 9vh; }
       .rbox { padding: 1.2rem; }
 
-      .cards-row, .theo-row, .kiik-row, .bro-row {
+      .cards-row, .two-cols, .kiik-row, .bro-row {
         flex-direction: column;
         align-items: center;
       }
 
       .cards-white, .cards-pink,
-      .theo-text, .kiik-text, .kiik-stack, .bro-text, .bro-cover {
+      .theo-panel, .kiik-text, .kiik-stack, .bro-text, .bro-cover,
+      .two-cols .col-carousel, .two-cols .dielines-box {
         flex: 1 1 auto;
         width: 100%;
       }
 
-      .kiik-text { position: static; text-align: center; }
-      .theo-text { text-align: center; }
-      .bro-text { text-align: center; }
-      .nut-row { flex-wrap: wrap; }
-      .nut-row > * { flex: 1 1 42%; }
+      .cards-pink { margin-left: 0; margin-top: -8px; }
+
+      .two-cols .col-carousel .main-carousel { height: 340px; }
+
+      /* texts stay on the left on the phone */
+      .kiik-text { position: static; text-align: left; }
+      .bro-text { text-align: left; }
+
+      /* photos/labels switch to the paired carousel */
+      .nut-row { display: none; }
+      .nut-carousel { display: block; height: 66vw; margin-top: 2rem; }
+      .nut-carousel::after { content: 'flickity'; display: none; }
+
+      .star-nav { left: 4px; gap: 14px; }
+      .star-nav img { width: 26px; }
+      .star-nav a.active img { width: 44px; }
     }
   </style>
 </head>
@@ -470,14 +544,21 @@
     <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
   </nav>
 
+  <!-- spinning stars that follow you: package on top, information below -->
+  <nav class="star-nav" aria-label="Sections">
+    <a href="#pkg-top"><img src="1/paintings-page/star-cards.png" alt="Package design"></a>
+    <a href="#information"><img src="1/paintings-page/star-digital.png" alt="Information design"></a>
+  </nav>
+
   <main>
     <h1 class="page-title" data-i18n="package.title">Package &amp; information design</h1>
 
-    <!-- ══ KAARDIPAKK ══ -->
-    <section class="pk-section">
+    <!-- ══ CARD DECK ══ -->
+    <section class="pk-section" id="pkg-top">
       <div class="cards-row">
         <div class="cards-white rbox">
-          <h2 data-i18n="pk.cards.title">KAARDIPAKK</h2>
+          <h2 data-i18n="pk.cards.title">CARD DECK</h2>
+          <p class="cards-sub" data-i18n="pk.cards.sub">Heart of the Lamb</p>
           <img src="1/package-page/cards-photo.jpg" alt="Heart of the Lamb card boxes" class="main-photo">
           <div class="sub-row">
             <img src="1/package-page/card-deck.jpg" alt="The full card deck layout">
@@ -489,7 +570,9 @@
           </div>
         </div>
         <div class="cards-pink rbox">
-          <img src="1/package-page/cards-render.jpg" alt="Card box render">
+          <div class="black-mat">
+            <img src="1/package-page/cards-render.jpg" alt="Card box render">
+          </div>
         </div>
       </div>
     </section>
@@ -498,10 +581,27 @@
     <section class="pk-section">
       <h2 class="nut-title" data-i18n="pk.nut.title">Pähklivõi ja kingikarp</h2>
       <div class="nut-row">
-        <img src="1/package-page/gran-xmasbox.jpg" alt="Holiday gift box with nut butter jar">
-        <img src="1/package-page/xmasbox.jpg" alt="Holiday gift box held in hands">
-        <img src="1/package-page/nut-butter.png" alt="Nut butter label design">
+        <img src="1/package-page/gran-xmasbox.jpg" alt="Holiday gift box with nut butter jar" class="nut-photo">
+        <img src="1/package-page/xmasbox.jpg" alt="Holiday gift box held in hands" class="nut-photo">
+        <img src="1/package-page/nut-butter.png" alt="Nut butter label design" class="nut-label">
         <div class="nut-circle"><img src="1/package-page/nut-butter-round.png" alt="Round nut butter label"></div>
+      </div>
+
+      <!-- phone: the pictures pair up in a carousel -->
+      <div class="nut-carousel" data-flickity='{
+          "watchCSS": true,
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false
+      }'>
+        <div class="nut-cell">
+          <img src="1/package-page/gran-xmasbox.jpg" alt="Holiday gift box with nut butter jar">
+          <img src="1/package-page/xmasbox.jpg" alt="Holiday gift box held in hands">
+        </div>
+        <div class="nut-cell">
+          <img src="1/package-page/nut-butter.png" alt="Nut butter label design">
+          <img src="1/package-page/nut-butter-round.png" alt="Round nut butter label">
+        </div>
       </div>
       <p class="nut-cap" data-i18n="pk.nut.cap">
         I've gotten into the habit of gifting festive holiday cards to friends and family, and this year
@@ -517,18 +617,24 @@
       <h2 class="dragon-title">Little Dragon</h2>
       <p class="dragon-sub" data-i18n="pk.dragon.sub">Chocolate box and wrapper</p>
 
-      <div class="main-carousel" data-flickity='{
-          "wrapAround": true,
-          "prevNextButtons": true,
-          "pageDots": false,
-          "cellAlign": "center"
-      }'>
-        <div class="carousel-cell"><img src="1/package-page/dragon-render.png" alt="Little Dragon chocolate box render"></div>
-        <div class="carousel-cell"><img src="1/package-page/dragon-out.png" alt="Little Dragon box outside dieline"></div>
-        <div class="carousel-cell"><img src="1/package-page/dragon-inside.png" alt="Little Dragon box inside dieline"></div>
-        <div class="carousel-cell"><img src="1/package-page/dragon-wrapper.jpg" alt="Little Dragon wrapper printed"></div>
-        <div class="carousel-cell">
-          <video src="1/package-page/dragon.mp4" poster="1/package-page/dragon-render.png" controls preload="none" playsinline></video>
+      <div class="two-cols">
+        <div class="col-carousel">
+          <div class="main-carousel" data-flickity='{
+              "wrapAround": true,
+              "prevNextButtons": true,
+              "pageDots": false,
+              "cellAlign": "center"
+          }'>
+            <div class="carousel-cell"><img src="1/package-page/dragon-render.png" alt="Little Dragon chocolate box render"></div>
+            <div class="carousel-cell"><img src="1/package-page/dragon-wrapper.jpg" alt="Little Dragon wrapper printed"></div>
+            <div class="carousel-cell">
+              <video src="1/package-page/dragon.mp4" poster="1/package-page/dragon-render.png" controls preload="none" playsinline></video>
+            </div>
+          </div>
+        </div>
+        <div class="dielines-box">
+          <img src="1/package-page/dragon-out.png" alt="Little Dragon box outside dieline">
+          <img src="1/package-page/dragon-inside.png" alt="Little Dragon box inside dieline">
         </div>
       </div>
 
@@ -540,16 +646,23 @@
 
     <!-- ══ Theore'remaly ══ -->
     <section class="pk-section">
-      <div class="theo-row">
-        <div class="theo-text">
+      <div class="two-cols">
+        <div class="theo-panel">
           <h2 class="theo-title">Theore&rsquo;remaly</h2>
           <p class="theo-sub" data-i18n="pk.theo.sub">serum package design</p>
           <p class="theo-cap" data-i18n="pk.theo.cap">Designed in Adobe Illustrator and put together in Blender.</p>
         </div>
-        <img src="1/package-page/serum-render.png" alt="Theore'remaly serum box render" class="serum-render">
-      </div>
-      <div class="theo-dieline rbox">
-        <img src="1/package-page/theoremaly-dieline.png" alt="Theore'remaly packaging dieline">
+        <div class="col-carousel">
+          <div class="main-carousel" data-flickity='{
+              "wrapAround": true,
+              "prevNextButtons": true,
+              "pageDots": false,
+              "cellAlign": "center"
+          }'>
+            <div class="carousel-cell"><img src="1/package-page/serum-render.png" alt="Theore'remaly serum box render"></div>
+            <div class="carousel-cell"><img src="1/package-page/theoremaly-dieline.png" alt="Theore'remaly packaging dieline"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -571,25 +684,31 @@
     <!-- ══ Chocolate package test ══ -->
     <section class="pk-section">
       <h2 class="coco-title"><span data-i18n="pk.coco.title">Chocolate package</span> <em>test</em></h2>
-      <div class="main-carousel" data-flickity='{
-          "wrapAround": true,
-          "prevNextButtons": true,
-          "pageDots": false,
-          "cellAlign": "center"
-      }'>
-        <div class="carousel-cell"><img src="1/package-page/coco-photo.jpg" alt="Dark chocolate package held in hand" class="coco-ellipse"></div>
-        <div class="carousel-cell"><img src="1/package-page/coco-out.png" alt="Dark chocolate packaging outside"></div>
-        <div class="carousel-cell"><img src="1/package-page/coco-inside.png" alt="Dark chocolate packaging inside"></div>
+      <div class="two-cols">
+        <div class="col-carousel">
+          <div class="main-carousel" data-flickity='{
+              "wrapAround": true,
+              "prevNextButtons": true,
+              "pageDots": false,
+              "cellAlign": "center"
+          }'>
+            <div class="carousel-cell"><img src="1/package-page/coco-photo.jpg" alt="Dark chocolate package held in hand" class="coco-ellipse"></div>
+            <div class="carousel-cell">
+              <video src="1/package-page/coco.mp4" muted autoplay loop playsinline controls></video>
+            </div>
+          </div>
+        </div>
+        <div class="dielines-box">
+          <img src="1/package-page/coco-out.png" alt="Dark chocolate packaging outside">
+          <img src="1/package-page/coco-inside.png" alt="Dark chocolate packaging inside">
+        </div>
       </div>
       <p class="coco-cap" data-i18n="pk.coco.cap">Designed in Illustrator</p>
     </section>
 
-    <!-- ══ Information design ══ -->
-    <h2 class="info-divider" id="information" data-i18n="pk.info.title">Information design</h2>
-
     <!-- Solubility table -->
-    <section class="pk-section" style="margin-top: 6vh;">
-      <div class="sol-box rbox">
+    <section class="pk-section" id="information" style="margin-top: 18vh;">
+      <div class="sol-box">
         <img src="1/package-page/solubility.png" alt="Solubility table design">
       </div>
       <p class="sol-cap" data-i18n="pk.sol.cap">Solubility table design, made with Adobe Illustrator.</p>
@@ -603,7 +722,7 @@
           <p class="bro-cap" data-i18n="pk.bro.cap">Designed with Adobe InDesign, opens in Google Drive.</p>
         </div>
         <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer" class="bro-cover">
-          <img src="1/package-page/brochure-eng.png" alt="Brochure cover: Van der Waals Forces and How Geckos Stick to Walls">
+          <img src="1/package-page/brochure-eng.png" id="brochureCover" alt="Brochure cover: Van der Waals Forces and How Geckos Stick to Walls">
         </a>
       </div>
     </section>
@@ -630,6 +749,49 @@
           img.classList.add(order[(i + 2) % 3]);
         });
       });
+    })();
+
+    // star nav: smooth scroll + the current section's star grows
+    (function () {
+      var links = document.querySelectorAll('.star-nav a');
+      links.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(link.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        var infoTop = document.getElementById('information');
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var isInfo = entry.target.id === 'information' ||
+                         entry.target.compareDocumentPosition(infoTop) === Node.DOCUMENT_POSITION_PRECEDING;
+            links.forEach(function (l) {
+              l.classList.toggle('active', (l.getAttribute('href') === '#information') === isInfo);
+            });
+          });
+        }, { rootMargin: '-40% 0px -40% 0px' });
+
+        document.querySelectorAll('main section[id], main .pk-section').forEach(function (sec) {
+          observer.observe(sec);
+        });
+      }
+    })();
+
+    // brochure cover follows the language toggle
+    (function () {
+      var img = document.getElementById('brochureCover');
+      if (!img) return;
+      function sync() {
+        img.src = document.documentElement.lang === 'et'
+          ? '1/package-page/brochure-est.png'
+          : '1/package-page/brochure-eng.png';
+      }
+      new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+      sync();
     })();
   </script>
 </body>

@@ -21,10 +21,10 @@ window.I18N = {
     "index.thanks": "Thank you again,<br>for checking out my work<br>I'd give you a hug,<br>but you're too far away<br>and I'm a professional anyway.",
     "btn.paintings": "Paintings<br>&amp;<br>Illustrations",
     "btn.logos": "Logos<br>&amp; Assets",
-    "btn.package": "Package<br>Design",
+    "btn.package": "Package &amp;<br>Information Design",
     "btn.play": "Let's Play!",
     "btn.photo": "Photography",
-    "btn.info": "Information<br>Design",
+    "btn.info": "Prints on clothing<br>&amp; more fun stuff",
 
     // shared
     "back": "Back",
@@ -52,7 +52,7 @@ window.I18N = {
     // shop
     "title.shop": "Heleriin Kattago | Shop",
     "shop.title": "Shop",
-    "shop.brewing": "The shop is still brewing&hellip;<br><br>Prints, cards, and other handmade lovelies are on their way. Until then, come say hi on <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagram</a> &mdash; that's where news lands first.",
+    "shop.brewing": "The shop is still brewing&hellip;<br><br>Until then, come say hi on <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagram</a>",
 
     // drawings
     "title.drawings": "Heleriin Kattago | Paintings & Illustrations",
@@ -93,6 +93,7 @@ window.I18N = {
     "title.package": "Heleriin Kattago | Package & Information Design",
     "package.title": "Package &amp; information design",
     "pk.cards.title": "CARD DECK",
+    "pk.cards.sub": "Heart of the Lamb",
     "pk.cards.cap": "Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.",
     "pk.nut.title": "Nut butter &amp; gift box",
     "pk.nut.cap": "I've gotten into the habit of gifting festive holiday cards to friends and family, and this year I wanted to make something a little more functional. I illustrated a seasonal box in Procreate, built the packaging in Adobe Illustrator, and printed, laminated, and hand-assembled it myself. To go with it, I made homemade nut butter and designed matching labels for the glass jars, creating a small, personal holiday gift set.",
@@ -172,10 +173,10 @@ window.I18N = {
     "index.thanks": "Aitäh veel kord,<br>et mu töödega tutvusid<br>Kallistaksin sind,<br>aga sa oled liiga kaugel<br>ja ma olen niikuinii professionaal.",
     "btn.paintings": "Maalid<br>&amp;<br>illustratsioonid",
     "btn.logos": "Logod<br>&amp; assetid",
-    "btn.package": "Pakendi-<br>disain",
+    "btn.package": "Pakendi- ja<br>infodisain",
     "btn.play": "Mängime!",
     "btn.photo": "Fotograafia",
-    "btn.info": "Infodisain",
+    "btn.info": "Trükid riietel<br>&amp; muu lõbus",
 
     // shared
     "back": "Tagasi",
@@ -203,7 +204,7 @@ window.I18N = {
     // shop
     "title.shop": "Heleriin Kattago | Pood",
     "shop.title": "Pood",
-    "shop.brewing": "Pood on alles valmimas&hellip;<br><br>Prindid, kaardid ja muud käsitöö-armsused on teel. Seni tule ütle tere <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagramis</a> &mdash; sinna jõuavad uudised kõige enne.",
+    "shop.brewing": "Pood on alles valmimas&hellip;<br><br>Seni tule ütle tere <a href=\"https://www.instagram.com/lehepeal/\" target=\"_blank\" rel=\"noopener\">Instagramis</a>",
 
     // drawings
     "title.drawings": "Heleriin Kattago | Maalid & illustratsioonid",
@@ -244,6 +245,7 @@ window.I18N = {
     "title.package": "Heleriin Kattago | Pakendi- ja infodisain",
     "package.title": "Pakendi- ja infodisain",
     "pk.cards.title": "KAARDIPAKK",
+    "pk.cards.sub": "Heart of the Lamb",
     "pk.cards.cap": "Kaardikarbi kunst on käsitsi joonistatud Procreate'is ning kokku pandud ja viimistletud Adobe Illustratoris.",
     "pk.nut.title": "Pähklivõi ja kingikarp",
     "pk.nut.cap": "Mul on kombeks kinkida sõpradele ja perele pidulikke jõulukaarte ning sel aastal tahtsin teha midagi praktilisemat. Illustreerisin hooajalise karbi Procreate'is, ehitasin pakendi Adobe Illustratoris ning printisin, lamineerisin ja panin selle käsitsi kokku. Kõrvale valmistasin kodust pähklivõid ja kujundasin purkidele sobivad sildid — väike isiklik pühadekomplekt.",
