@@ -320,18 +320,40 @@
       left: 76.2%;
       transform: translate(-50%, -50%);
       z-index: 5;
-      height: 145%;
+      height: auto;
       width: auto;
       filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
 
-    /* stack on phones */
+    /* stack on phones: text on top, black panel with the phone below */
     @media (max-width: 760px) {
-      .check-banner { aspect-ratio: auto; }
+      .check-banner {
+        aspect-ratio: auto;
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 430px;   /* room for the black panel + phone */
+        margin: 4rem 0;
+      }
       .check-kicker { position: static; padding: 1.6rem 6% 0; }
-      .check-main { position: static; width: auto; padding: 1.2rem 6% 2rem; }
-      .check-black { position: static; width: 100%; height: 360px; }
-      .check-phone { position: absolute; top: auto; bottom: 30px; left: 50%; width: 180px; }
+      .check-main { position: static; width: auto; padding: 1rem 6% 1.4rem; }
+      .check-black {
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 430px;
+      }
+      .check-phone {
+        position: absolute;
+        top: auto;
+        bottom: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 360px;
+        width: auto;
+        z-index: 5;
+      }
     }
 
     @media (max-width: 760px) {

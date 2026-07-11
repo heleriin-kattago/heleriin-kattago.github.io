@@ -1,15 +1,31 @@
 // ── Loading page (index only) ──
-// The star spins for 3 seconds after everything has loaded,
-// then the loader fades out and the site appears.
+// The star spins for 3 seconds the FIRST time the site is opened this visit,
+// then the loader fades out. On later returns to the landing page (same
+// browser session) the loader is skipped so it doesn't repeat.
 window.addEventListener("load", function () {
   var loader = document.getElementById("loader");
-  if (loader) {
-    setTimeout(function () {
-      loader.classList.add("hide", "hide-loader");
-      document.body.classList.remove("is-loading");
-      document.body.classList.add("loaded");
-    }, 3000);
+  if (!loader) return;
+
+  function revealSite() {
+    document.body.classList.remove("is-loading");
+    document.body.classList.add("loaded");
   }
+
+  var alreadyShown = false;
+  try { alreadyShown = sessionStorage.getItem("loaderShown") === "1"; } catch (e) {}
+
+  if (alreadyShown) {
+    // skip straight to the site — no spin
+    loader.style.display = "none";
+    revealSite();
+    return;
+  }
+
+  setTimeout(function () {
+    loader.classList.add("hide", "hide-loader");
+    revealSite();
+    try { sessionStorage.setItem("loaderShown", "1"); } catch (e) {}
+  }, 3000);
 });
 
 // ── Language switcher (English ⇄ Estonian) ──
