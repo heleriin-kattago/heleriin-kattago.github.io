@@ -93,6 +93,11 @@
       margin: 2.5rem auto 0;
     }
 
+    /* fashion drawings, 35% smaller than the other big art */
+    .fashion-art {
+      max-width: 260px;
+    }
+
     .trio {
       max-width: 640px;
       margin: 2rem auto 0;
@@ -119,7 +124,7 @@
     /* Figma: color poster 667x938, b&w 657.6x925 — same size, half covered */
     .swap-stack img {
       width: 60%;
-      border: 1px solid #536340;
+      border: none;
       background: #fff;
       padding: 6px;
       box-shadow: 0 8px 20px rgba(39, 69, 2, 0.35);
@@ -139,16 +144,20 @@
       z-index: 1;
     }
 
-    .swap-stack:hover .front,
     .swap-stack.swapped .front {
       z-index: 1;
       transform: translateX(-4%);
     }
 
-    .swap-stack:hover .back,
     .swap-stack.swapped .back {
       z-index: 3;
       transform: translateX(4%);
+    }
+
+    /* hover-swap only on real mouse devices, so tap works cleanly on phones */
+    @media (hover: hover) {
+      .swap-stack:hover .front { z-index: 1; transform: translateX(-4%); }
+      .swap-stack:hover .back  { z-index: 3; transform: translateX(4%); }
     }
 
     /* ── christmas cards: two front/back pairs, front on the right and on
@@ -173,7 +182,7 @@
 
     .card-pair img {
       width: 66%;
-      border: 1px solid #536340;
+      border: none;
       background: #fff;
       padding: 6px;
       box-shadow: 0 8px 20px rgba(16, 26, 4, 0.35);
@@ -195,16 +204,19 @@
       z-index: 1;
     }
 
-    .card-pair:hover .front,
     .card-pair.swapped .front {
       z-index: 1;
       transform: translateX(-4%);
     }
 
-    .card-pair:hover .back,
     .card-pair.swapped .back {
       z-index: 3;
       transform: translateX(4%);
+    }
+
+    @media (hover: hover) {
+      .card-pair:hover .front { z-index: 1; transform: translateX(-4%); }
+      .card-pair:hover .back  { z-index: 3; transform: translateX(4%); }
     }
 
     /* ── page title with the gold fans ── */
@@ -256,6 +268,16 @@
       color: var(--gia-pink);
     }
 
+    /* The Little Bat: GIA-style title in the painting's purple */
+    .littlebat-title { color: #5e5133; }
+    .littlebat-sub { color: #524712; }
+    .littlebat-carousel .carousel-caption {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      letter-spacing: 0.02em;
+      color: #352f08;
+    }
+
     /* LEHEPEAL blurb: DM Sans, left aligned, tucked close under the poster */
     .swap-stack + .lehepeal-caption {
       margin-top: -6%;
@@ -290,11 +312,11 @@
   <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
 
   <nav class="top-nav">
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="index-v2.html" class="name-link"><img src="1/landing%20and%20loading%20page/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
     <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
     <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
-    <a href="index-v2.html" class="name-link"><img src="1/landing%20and%20loading%20page/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
-    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
-    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
   </nav>
 
   <!-- spinning stars that follow you: click to jump to a section -->
@@ -340,8 +362,11 @@
         </div>
       </div>
 
-      <h2 class="section-title" data-i18n="drawings.paintings">Paintings</h2>
-      <div class="main-carousel" data-flickity='{
+      <!-- The Little Bat: a painting, titled the same way as GIA -->
+      <h2 class="gia-title littlebat-title" data-i18n="littlebat.title">The Little Bat</h2>
+      <p class="gia-sub littlebat-sub" data-i18n="littlebat.sub">An oil painting, 2024</p>
+
+      <div class="main-carousel littlebat-carousel" data-flickity='{
           "autoPlay": 3500,
           "wrapAround": true,
           "prevNextButtons": true,
@@ -370,7 +395,7 @@
     <!-- ══ Digital art ══ -->
     <section id="sec-digital">
       <h2 class="section-title" data-i18n="drawings.digital">Digital Art</h2>
-      <p class="caption" data-i18n="drawings.digitalinfo">Click any picture to see it up close.</p>
+      <p class="hint" data-i18n="drawings.digitalinfo">Click any picture to see it up close.</p>
 
       <div class="frame art-hover big-art"><img src="1/paintings-page/cloud-lady.jpg" loading="lazy" alt="Digital painting"></div>
 
@@ -380,7 +405,7 @@
         <div class="frame art-hover"><img src="artwork/lambie.png" loading="lazy" alt="Lambie"></div>
       </div>
 
-      <div class="frame art-hover big-art"><img src="1/paintings-page/fashion-drawings.png" loading="lazy" alt="Fashion drawings"></div>
+      <div class="frame art-hover big-art fashion-art"><img src="1/paintings-page/fashion-drawings.png" loading="lazy" alt="Fashion drawings"></div>
 
       <!-- LEHEPEAL: color poster with the b&w version half beneath -->
       <div class="swap-stack" id="lehepealStack">
@@ -448,10 +473,33 @@
       }
     })();
 
-    // tap swaps the LEHEPEAL stack and the christmas card pairs on touch screens
+    // single tap/click swaps the LEHEPEAL stack and christmas card pairs;
+    // double click/tap opens the top image up close in the lightbox
     document.querySelectorAll('.swap-stack, .card-pair').forEach(function (stack) {
       stack.addEventListener('click', function () {
         stack.classList.toggle('swapped');
+      });
+
+      function openTopImage() {
+        var swapped = stack.classList.contains('swapped');
+        var topImg = swapped ? stack.querySelector('.back') : stack.querySelector('.front');
+        var lb = document.getElementById('lightbox');
+        if (lb && topImg) {
+          var lbImg = lb.querySelector('img');
+          lbImg.src = topImg.src;
+          lbImg.alt = topImg.alt || '';
+          lb.classList.add('open');
+        }
+      }
+
+      stack.addEventListener('dblclick', openTopImage);
+
+      // double-tap detection for touch screens
+      var lastTap = 0;
+      stack.addEventListener('touchend', function () {
+        var now = Date.now();
+        if (now - lastTap < 350) { openTopImage(); }
+        lastTap = now;
       });
     });
   </script>

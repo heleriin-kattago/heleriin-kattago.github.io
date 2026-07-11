@@ -149,7 +149,7 @@ body.loaded #site {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(3, 34, 2, 0.527);
 
   text-decoration: none;
   transition: 0.25s ease;

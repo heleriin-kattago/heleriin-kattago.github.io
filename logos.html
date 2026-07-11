@@ -224,10 +224,14 @@
     .swap-stack .front { position: relative; z-index: 2; }
     .swap-stack .back  { position: absolute; top: 6%; right: 0; width: 74%; z-index: 1; }
 
-    .swap-stack:hover .front,
     .swap-stack.swapped .front { z-index: 1; transform: translateX(-4%); }
-    .swap-stack:hover .back,
     .swap-stack.swapped .back  { z-index: 3; transform: translateX(4%); }
+
+    /* hover-swap only on mouse devices, so tap works cleanly on phones */
+    @media (hover: hover) {
+      .swap-stack:hover .front { z-index: 1; transform: translateX(-4%); }
+      .swap-stack:hover .back  { z-index: 3; transform: translateX(4%); }
+    }
 
     /* ── CHECK: laid out to the Figma frame (1446 × 890) ── */
     .check-banner {
@@ -308,16 +312,16 @@
       max-width: 42ch;
     }
 
-    /* phone on the right, centered on the black panel, taller than
-       both boxes so it overhangs top & bottom */
+    /* phone on the right, centered on the black panel. height drives the size
+       (scales with the banner and overhangs); width:auto keeps it undistorted */
     .check-phone {
       position: absolute;
       top: 50%;
       left: 76.2%;
       transform: translate(-50%, -50%);
       z-index: 5;
+      height: 116%;
       width: auto;
-      height: 400px;
       filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
 

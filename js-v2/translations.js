@@ -59,6 +59,8 @@ window.I18N = {
     "drawings.title": "Paintings &amp; Illustrations",
     "drawings.subtitle": "&amp; the work inspired",
     "gia.sub": "A painting &amp; outfit set",
+    "littlebat.title": "The Little Bat",
+    "littlebat.sub": "An oil painting, 2024",
     "gia.paintcap": "Oil painting on 70 &times; 80 cm canvas, 2025",
     "gia.outfitcap": "Inspired by the painting, I designed a skirt and blouse set.",
     "lehepeal.caption": "Made as an assignment for EKA (Estonian Academy of Arts): to design a magazine cover whose central theme is &ldquo;me&rdquo;. It is a self-portrait of the author &mdash; a visual and verbal interpretation of who you are, what drives you, what you value, and how you perceive yourself in the world.",
@@ -85,7 +87,7 @@ window.I18N = {
     // photography
     "title.photo": "Heleriin Kattago | Photography",
     "photo.title": "Photography",
-    "photo.intro": "Welcome to my mini photowall! All (except the first 2 pictures &mdash; taken by Viktoria Kovalenko) are taken by me. I have edited all the pictures, and I am also the model on these. Click any picture to see it up close.",
+    "photo.intro": "Welcome to my mini photowall! All (except the first 2 pictures &mdash; taken by Viktoria Kovalenko) are taken by me. I have edited all the pictures, and I am also the model on these.",
 
     // package
     "title.package": "Heleriin Kattago | Package Design",
@@ -191,6 +193,8 @@ window.I18N = {
     "drawings.title": "Maalid &amp; illustratsioonid",
     "drawings.subtitle": "&amp; neist sündinud looming",
     "gia.sub": "Maali- ja rõivakomplekt",
+    "littlebat.title": "Väike Nahkhiir",
+    "littlebat.sub": "Õlimaal, 2024",
     "gia.paintcap": "Õlimaal 70 &times; 80 cm lõuendil, 2025",
     "gia.outfitcap": "Maalist inspireerituna disainisin seeliku ja pluusi komplekti.",
     "lehepeal.caption": "Tehtud EKA ülesandeks: luua ajakirja kaanekujundus, mille keskne teema on &ldquo;mina&rdquo;. Tegemist on autorivaatega iseendale &mdash; visuaalne ja sõnaline tõlgendus sellest, kes sa oled, mis sind käivitab, mida väärtustad või kuidas end maailmas tajud.",
@@ -217,7 +221,7 @@ window.I18N = {
     // photography
     "title.photo": "Heleriin Kattago | Fotograafia",
     "photo.title": "Fotograafia",
-    "photo.intro": "Tere tulemast mu väiksele fotoseinale! Kõik pildid (peale kahe esimese, mille tegi Viktoria Kovalenko) olen teinud mina. Olen kõik pildid ise töödelnud ja olen neil ka ise modelliks. Klõpsa pildil, et seda lähemalt vaadata.",
+    "photo.intro": "Tere tulemast mu väiksele fotoseinale! Kõik pildid (peale kahe esimese, mille tegi Viktoria Kovalenko) olen teinud mina. Olen kõik pildid ise töödelnud ja olen neil ka ise modelliks.",
 
     // package
     "title.package": "Heleriin Kattago | Pakendidisain",
