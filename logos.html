@@ -238,8 +238,8 @@
       position: relative;
       aspect-ratio: 1600 / 800;
       background: #fff;
-      margin-top: 4rem;
-      margin-bottom: 4rem;
+      margin-top: 12rem;
+      margin-bottom: 18rem;
       overflow: visible;
     }
 
@@ -320,7 +320,7 @@
       left: 76.2%;
       transform: translate(-50%, -50%);
       z-index: 5;
-      height: 116%;
+      height: 145%;
       width: auto;
       filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.5));
     }
@@ -408,8 +408,9 @@
     <section class="logo-section">
       <h2 class="rpg-title">RPG Game log-in UI in Unity</h2>
       <p class="rpg-caption" data-i18n="logos.rpgcap">
-        A login screen designed for a Unity RPG, &ldquo;Lovers Quest&rdquo;. Hover or tap to swap the views.
+        A login screen designed for a Unity RPG, &ldquo;Lovers Quest&rdquo;.
       </p>
+      <p class="hint" data-i18n="logos.swaphint">Hover or tap to swap the views &middot; double-tap to enlarge.</p>
 
       <div class="swap-stack" id="rpgStack">
         <img src="1/logos-page/rpg1.jpg" alt="RPG login screen" class="front">
@@ -428,7 +429,7 @@
       <div class="check-main">
         <h2 class="check-title" data-i18n="logos.checktitle">CHECK<br>essentially</h2>
         <p class="check-body" data-i18n="logos.checkbody">
-          CHECK is a mobile app that brings together discovering cafés, chess,
+          is a mobile app that brings together discovering cafés, chess,
           loyalty programmes and community. It helps people find new places and new
           playing partners, and turns an ordinary café visit into a memorable experience.
         </p>
@@ -445,9 +446,44 @@
   <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
   <script>
-    // tap swaps the RPG stack on touch screens
+    // make sure a lightbox exists on this page
+    function ensureLightbox() {
+      var lb = document.getElementById('lightbox');
+      if (lb) return lb;
+      lb = document.createElement('div');
+      lb.id = 'lightbox';
+      lb.innerHTML = '<button class="lightbox-close" aria-label="Close">&times;</button><img src="" alt="">';
+      document.body.appendChild(lb);
+      lb.addEventListener('click', function () { lb.classList.remove('open'); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.classList.remove('open'); });
+      return lb;
+    }
+
+    // single tap/click swaps the RPG stack (back and forth on phones);
+    // double click/tap opens the top image up close
     document.querySelectorAll('.swap-stack').forEach(function (stack) {
       stack.addEventListener('click', function () { stack.classList.toggle('swapped'); });
+
+      function openTop() {
+        var swapped = stack.classList.contains('swapped');
+        var topImg = swapped ? stack.querySelector('.back') : stack.querySelector('.front');
+        var lb = ensureLightbox();
+        if (lb && topImg) {
+          var img = lb.querySelector('img');
+          img.src = topImg.src;
+          img.alt = topImg.alt || '';
+          lb.classList.add('open');
+        }
+      }
+
+      stack.addEventListener('dblclick', openTop);
+
+      var lastTap = 0;
+      stack.addEventListener('touchend', function () {
+        var now = Date.now();
+        if (now - lastTap < 350) openTop();
+        lastTap = now;
+      });
     });
   </script>
 </body>
