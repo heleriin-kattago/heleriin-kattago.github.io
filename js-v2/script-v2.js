@@ -74,7 +74,8 @@ window.addEventListener("load", function () {
 // Click any framed image to see it big; click anywhere to close.
 document.addEventListener("DOMContentLoaded", function () {
   var frames = document.querySelectorAll(".frame img");
-  if (frames.length === 0) return;
+  var hasCarousels = document.querySelector("[data-flickity]");
+  if (frames.length === 0 && !hasCarousels) return;
 
   var lightbox = document.createElement("div");
   lightbox.id = "lightbox";
@@ -84,14 +85,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var lightboxImg = lightbox.querySelector("img");
 
+  function openLightbox(img) {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || "";
+    lightbox.classList.add("open");
+  }
+
   frames.forEach(function (img) {
     // images wrapped in their own link (e.g. to an external site) keep it
     if (img.closest("a")) return;
-    img.addEventListener("click", function () {
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt || "";
-      lightbox.classList.add("open");
-    });
+    img.addEventListener("click", function () { openLightbox(img); });
   });
 
   lightbox.addEventListener("click", function () {
@@ -101,5 +104,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") lightbox.classList.remove("open");
+  });
+
+  // carousel pictures open up close too — Flickity's staticClick fires on
+  // real clicks/taps only, never while dragging the carousel
+  window.addEventListener("load", function () {
+    if (!window.Flickity) return;
+    document.querySelectorAll("[data-flickity]").forEach(function (el) {
+      var flkty = Flickity.data(el);
+      if (!flkty) return;
+      flkty.on("staticClick", function (event, pointer, cellElement) {
+        if (!cellElement) return;
+        var img = cellElement.querySelector("img");
+        if (img) openLightbox(img);
+      });
+    });
   });
 });

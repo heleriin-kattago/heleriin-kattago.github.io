@@ -108,6 +108,21 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 @media (max-width:600px){ .btn{ width:100%; color:var(--dark) } }
 
 /* Back to portfolio (only shown at end) */
+/* Little looping animations shown at the very end */
+#endAnimations{
+  display:none; margin:26px auto 6px; max-width:860px;
+  justify-content:center; align-items:center; gap:18px; flex-wrap:wrap;
+}
+#endAnimations.show{ display:flex }
+#endAnimations video{
+  width:170px; max-width:42vw; height:auto; display:block;
+  background:transparent;
+}
+@media (max-width:600px){
+  #endAnimations{ gap:10px }
+  #endAnimations video{ width:40vw }
+}
+
 #backPortfolio{
   display:none; margin:16px auto 40px; text-decoration:none; color:var(--dark);
   border:1px solid var(--dark); border-radius:0; padding:10px 16px;
@@ -247,6 +262,14 @@ body.is-loading{ overflow:hidden; }
     <button id="toLibrary" class="btn">The Flooded Library</button>
   </div>
 </section>
+
+<!-- little animations, looping forever at the end -->
+<div id="endAnimations">
+  <video src="play/coffee.MP4" muted autoplay loop playsinline></video>
+  <video src="play/fifi.MP4" muted autoplay loop playsinline></video>
+  <video src="play/granny.MP4" muted autoplay loop playsinline></video>
+  <video src="play/orange.MP4" muted autoplay loop playsinline></video>
+</div>
 
 <a id="backPortfolio" href="index-v2.html#projects">Back to portfolio</a>
 
@@ -456,7 +479,7 @@ function clearCupSprites(){
 }
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show');
+  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show');
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 function say(line,{compact=false, mansalva=false}={}){
@@ -582,6 +605,8 @@ async function onPickCup(cupEl){
   // End menu
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
+  $('#endAnimations').classList.add('show');
+  $$('#endAnimations video').forEach(v=>{ try{ v.play(); }catch(e){} });
   busy=false;
 }
 

@@ -3,15 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heleriin Kattago | Information Design</title>
+  <title>Heleriin Kattago | Prints on clothing &amp; more fun stuff</title>
 
   <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Sometype+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.min.css">
   <link rel="stylesheet" href="css-v2/style-v2.css">
+
+  <style>
+    /* ── carousel arrows: the gold fan ── */
+    .flickity-button {
+      background: transparent;
+      border: none;
+      width: 54px;
+      height: 54px;
+    }
+    .flickity-button:hover { background: transparent; }
+    .flickity-button-icon { display: none; }
+    .flickity-prev-next-button.previous {
+      background: url('1/paintings-page/arrow-fan.png') center / contain no-repeat;
+    }
+    .flickity-prev-next-button.next {
+      background: url('1/paintings-page/arrow-fan.png') center / contain no-repeat;
+      transform: translateY(-50%) scaleX(-1);
+    }
+
+    .carousel-cell img {
+      width: auto;
+      height: 80%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .carousel-cell video {
+      width: auto;
+      height: 80%;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ── page + section titles: Sometype Mono, spaced ── */
+    body[data-title-key="title.fun"] .page-title {
+      font-family: 'MedievalSharp', cursive;
+      font-size: clamp(24px, 2.8vw, 40px);
+      letter-spacing: 0.14em;
+      line-height: 1.5;
+      color: #2C351B;
+      margin-top: 9vh;
+    }
+
+    .fun-section { margin-top: 14vh; }
+
+    .mono-title {
+      font-family: 'Sometype Mono', monospace;
+      font-weight: 400;
+      font-size: clamp(20px, 2.2vw, 30px);
+      letter-spacing: 0.3em;
+      color: #2C351B;
+    }
+
+    .fun-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.7;
+      color: #33332c;
+      max-width: 60ch;
+      margin: 1.2rem auto 0;
+    }
+
+    .pink-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(11px, 0.9vw, 13px);
+      letter-spacing: 0.04em;
+      color: #C46CA4;
+      margin: 0.8rem auto 0;
+    }
+
+    /* ── sword hoodie: one big composite ── */
+    .sword-img {
+      display: block;
+      width: min(980px, 94%);
+      margin: 2.5rem auto 0;
+    }
+
+    /* ── two columns (hundiripats): stack left, carousel right ── */
+    .two-cols {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 26px;
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+    }
+
+    .two-cols .col-carousel { flex: 1 1 58%; min-width: 0; }
+    .two-cols .col-carousel .main-carousel { margin: 0; height: 440px; }
+
+    /* photo stack: hunt1 front, hunt2 half beneath — tap/hover swaps */
+    .col-stack { flex: 1 1 38%; min-width: 0; }
+
+    .swap-stack {
+      position: relative;
+      width: 100%;
+      padding-bottom: 14%;
+    }
+
+    .swap-stack img {
+      width: 74%;
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 8px 20px rgba(16, 26, 4, 0.3);
+      transition: transform 0.4s ease;
+    }
+
+    .swap-stack .front { position: relative; z-index: 2; }
+    .swap-stack .back  { position: absolute; top: 8%; right: 0; width: 74%; z-index: 1; }
+
+    .swap-stack.swapped .front { z-index: 1; transform: translateX(-4%); }
+    .swap-stack.swapped .back  { z-index: 3; transform: translateX(4%); }
+
+    @media (hover: hover) {
+      .swap-stack:hover .front { z-index: 1; transform: translateX(-4%); }
+      .swap-stack:hover .back  { z-index: 3; transform: translateX(4%); }
+    }
+
+    /* ── HUNDIRIPATS heading + captions ── */
+    .hundi-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(30px, 3.6vw, 52px);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #2C351B;
+    }
+
+    .hundi-dim {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(16, 26, 4, 0.55);
+      margin-top: 0.6rem;
+      text-align: left;
+    }
+
+    .hundi-side {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(11px, 0.9vw, 13px);
+      line-height: 1.6;
+      color: rgba(16, 26, 4, 0.7);
+      margin-top: 0.8rem;
+      text-align: left;
+    }
+
+    .hundi-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.7;
+      color: #33332c;
+      max-width: 70ch;
+      margin: 2rem auto 0;
+      text-align: left;
+    }
+
+    /* ── nails ── */
+    .nails-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .nails-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(26px, 3vw, 42px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      color: #8E2645;
+    }
+
+    .nails-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 2rem;
+    }
+
+    .nails-row img {
+      flex: 1 1 0;
+      min-width: 0;
+      width: 46%;
+      object-fit: cover;
+    }
+
+    /* ── mobile ── */
+    @media (max-width: 760px) {
+      .fun-section { margin-top: 9vh; }
+
+      .two-cols {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .col-stack, .two-cols .col-carousel { flex: 1 1 auto; width: 100%; }
+      .two-cols .col-carousel .main-carousel { height: 340px; }
+      .swap-stack { padding-bottom: 18%; }
+
+      .main-carousel { height: 380px; }
+      .carousel-cell { width: 78%; }
+
+      .nails-row { flex-direction: column; align-items: center; }
+      .nails-row img { width: 100%; }
+    }
+  </style>
 </head>
 
 <body class="subpage" data-title-key="title.fun">
@@ -27,262 +235,154 @@
   </nav>
 
   <main>
-    <h1 class="page-title" data-i18n="fun.title">Information Design</h1>
+    <h1 class="page-title" data-i18n="fun.title">Prints on clothing<br>&amp; more fun stuff</h1>
 
-    <!-- ── Solubility table ── -->
-    <h2 class="section-title" data-i18n="fun.table">Solubility Table</h2>
-    <div class="product-gallery" id="table-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt="Solubility table">
-        <div class="nav-button prev" onclick="prevImage('table')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('table')">&#10095;</div>
+    <!-- ══ 21 hoodie ══ -->
+    <section class="fun-section">
+      <h2 class="mono-title" data-i18n="fun.hoodie21">21 hoodie</h2>
+      <div class="main-carousel" data-flickity='{
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false,
+          "cellAlign": "center"
+      }'>
+        <div class="carousel-cell"><img src="1/fun-page/butterfly-design.jpg" alt="Butterfly and cake design, drawn in Procreate"></div>
+        <div class="carousel-cell"><img src="1/fun-page/hoodie21-1.jpg" alt="21 hoodie worn, front garden"></div>
+        <div class="carousel-cell"><img src="1/fun-page/hoodie21-2.jpg" alt="21 hoodie back print"></div>
       </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('table',0)"><img src="fun-stuff/uusLAHUSTUVUSTABEL.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('table',1)"><img src="fun-stuff/LAHUSTUVUSTABEL.est.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('table',2)"><img src="fun-stuff/LAHUSTUVUSTABEL.eng.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.tablecap">Solubility table design, because others were unjoyous to look at. I made a few versions.</p>
-    </div>
+      <p class="pink-cap" data-i18n="fun.h21cap1">Drawn in Procreate</p>
+      <p class="fun-cap" data-i18n="fun.h21cap2">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</p>
+    </section>
 
-    <!-- ── Certificate of Authenticity ── -->
-    <h2 class="section-title" data-i18n="fun.coa">Certificate of Authenticity</h2>
-    <div class="product-gallery" id="coa-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="fun-stuff/coa.png" alt="Certificate of Authenticity (render)">
-        <div class="nav-button prev" onclick="prevImage('coa')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('coa')">&#10095;</div>
+    <!-- ══ Sword hoodie ══ -->
+    <section class="fun-section">
+      <h2 class="mono-title" data-i18n="fun.sword">Sword hoodie</h2>
+      <img src="1/fun-page/sword-allin1.jpg" alt="Sword hoodie: worn, mirror photo and the design" class="sword-img">
+      <p class="fun-cap" data-i18n="fun.swordcap">Gift for a loved one, drew it using Procreate. DTG on 100% cotton.</p>
+    </section>
+
+    <!-- ══ Totes ══ -->
+    <section class="fun-section">
+      <h2 class="mono-title" data-i18n="fun.totes">Totes</h2>
+      <div class="main-carousel" data-flickity='{
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false,
+          "cellAlign": "center"
+      }'>
+        <div class="carousel-cell"><img src="1/fun-page/tote-heart.jpg" alt="Heart tote bag worn"></div>
+        <div class="carousel-cell"><img src="1/fun-page/tote-chair.jpg" alt="Tote bag on a chair by the pool"></div>
+        <div class="carousel-cell"><img src="1/fun-page/tote-jamaica.jpg" alt="Jamaica tote bag"></div>
       </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('coa',0)"><img src="fun-stuff/coa.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('coa',1)">
-          <video class="thumb-video" src="fun-stuff/coa.mp4" poster="fun-stuff/coa.png" muted autoplay playsinline loop preload="metadata"></video>
+      <p class="fun-cap" data-i18n="fun.totescap">Few examples of tote bags I've made.</p>
+    </section>
+
+    <!-- ══ Handmade Notebook ══ -->
+    <section class="fun-section">
+      <h2 class="mono-title" data-i18n="fun.notebook">Handmade Notebook</h2>
+      <div class="main-carousel" data-flickity='{
+          "wrapAround": true,
+          "prevNextButtons": true,
+          "pageDots": false,
+          "cellAlign": "center"
+      }'>
+        <div class="carousel-cell"><img src="1/fun-page/noteb-front.jpg" alt="Notebook front cover"></div>
+        <div class="carousel-cell"><img src="1/fun-page/noteb-back.jpg" alt="Notebook back cover"></div>
+        <div class="carousel-cell">
+          <video src="1/fun-page/notebook.mov" controls preload="none" playsinline poster="1/fun-page/noteb-front.jpg"></video>
         </div>
       </div>
-      <p class="caption" data-i18n="fun.coacap">
-        Card designed in Illustrator. Modeled and rendered in Blender; certificate later encrypted.
-        Includes a short animation.
-      </p>
-    </div>
-
-    <!-- ── Brochure ── -->
-    <h2 class="section-title" data-i18n="fun.brochure">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
-    <div class="product-gallery" id="brochure-gallery">
-      <div class="main-image-container">
-        <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">
-          <img class="main-image" src="fun-stuff/brosuurkeelevahetusega-EST.png" alt="Brochure in Estonian">
-        </a>
-        <div class="nav-button prev" onclick="prevImage('brochure')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('brochure')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('brochure',0)"><img src="fun-stuff/brosuurkeelevahetusega-EST.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('brochure',1)"><img src="fun-stuff/brosuurkeelevahetusega-ENG.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.brochurecap">
-        Brochure design in Estonian &amp; English
-        (<a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer">opens a Google Drive folder</a>).
-      </p>
-    </div>
-
-    <!-- ── Birthday hoodie ── -->
-    <h2 class="section-title" data-i18n="fun.bdayhoodie">Birthday Hoodie</h2>
-    <div class="product-gallery" id="hoodie-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="fun-stuff/butterflyhoodie1.png" alt="Birthday hoodie">
-        <div class="nav-button prev" onclick="prevImage('hoodie')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('hoodie')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('hoodie',0)"><img src="fun-stuff/butterflyhoodie1.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('hoodie',1)"><img src="fun-stuff/butterfly hoodie 2.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('hoodie',2)"><img src="fun-stuff/butterfly.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.bdayhoodiecap">Designed it for myself as a birthday gift. DTG print on 100% cotton material.</p>
-    </div>
-
-    <!-- ── Sword hoodie ── -->
-    <h2 class="section-title" data-i18n="fun.swordhoodie">Sword Hoodie</h2>
-    <div class="product-gallery" id="sword-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="fun-stuff/sword hoodie.png" alt="Sword hoodie">
-        <div class="nav-button prev" onclick="prevImage('sword')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('sword')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('sword',0)"><img src="fun-stuff/sword hoodie.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('sword',1)"><img src="fun-stuff/sword.PNG" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.swordhoodiecap">Hoodie I designed as a gift. DTG print on 100% cotton material.</p>
-    </div>
-
-    <!-- ── Tote bags ── -->
-    <h2 class="section-title" data-i18n="fun.tote">Tote Bags</h2>
-    <div class="product-gallery" id="tote-gallery">
-      <div class="main-image-container">
-        <img class="main-image" src="fun-stuff/heartbag.png" alt="Heart tote bag">
-        <div class="nav-button prev" onclick="prevImage('tote')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('tote')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('tote',0)"><img src="fun-stuff/heartbag.png" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('tote',1)"><img src="fun-stuff/jamaica.png" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.totecap">Some examples of my designs on tote bags. DTG print on 100% cotton material.</p>
-    </div>
-
-    <!-- ── Notebook ── -->
-    <h2 class="section-title" data-i18n="fun.notebook">Handmade Notebook</h2>
-    <div class="product-gallery" id="notebook-gallery">
-      <div class="main-image-container">
-        <video class="main-image" muted autoplay playsinline loop controls>
-          <source src="fun-stuff/notebook.MOV" type="video/quicktime">
-        </video>
-        <div class="nav-button prev" onclick="prevImage('notebook')">&#10094;</div>
-        <div class="nav-button next" onclick="nextImage('notebook')">&#10095;</div>
-      </div>
-      <div class="thumbnail-container">
-        <div class="thumbnail active" onclick="changeImage('notebook',0)">
-          <video class="thumb-video" src="fun-stuff/notebook.MOV" muted autoplay playsinline loop preload="metadata"></video>
-        </div>
-        <div class="thumbnail" onclick="changeImage('notebook',1)"><img src="fun-stuff/frontnoteb.jpg" alt=""></div>
-        <div class="thumbnail" onclick="changeImage('notebook',2)"><img src="fun-stuff/backnoteb.jpg" alt=""></div>
-      </div>
-      <p class="caption" data-i18n="fun.notebookcap">
+      <p class="fun-cap" data-i18n="fun.notebookcap">
         Pages, spine and cover were cut on a guillotine. Used cardboard for cover + spine.
         The cover image is my photograph, printed as a sticker on Roland and applied by hand.
         Glued, pressed, and assembled manually.
       </p>
-    </div>
+    </section>
+
+    <!-- ══ Hundiripats ══ -->
+    <section class="fun-section">
+      <h2 class="hundi-title" data-i18n="fun.hundi">Hundiripats</h2>
+
+      <div class="two-cols">
+        <div class="col-stack">
+          <div class="swap-stack" id="huntStack">
+            <img src="1/fun-page/hunt1.jpg" alt="Wolf head pendant" class="front">
+            <img src="1/fun-page/hunt2.jpg" alt="Wolf head pendant, another angle" class="back">
+          </div>
+          <p class="hundi-dim">4.5 &times; 3.5 cm</p>
+        </div>
+        <div class="col-carousel">
+          <div class="main-carousel" data-flickity='{
+              "wrapAround": true,
+              "prevNextButtons": true,
+              "pageDots": false,
+              "cellAlign": "center"
+          }'>
+            <div class="carousel-cell"><img src="1/fun-page/hunt4.jpg" alt="Wolf pendant in progress"></div>
+            <div class="carousel-cell"><img src="1/fun-page/hunt5.jpg" alt="3D model of the wolf head"></div>
+            <div class="carousel-cell"><img src="1/fun-page/hunt7.jpg" alt="Wolf pendant detail"></div>
+            <div class="carousel-cell"><img src="1/fun-page/hunt-tools.jpg" alt="Tools used for the pendant"></div>
+          </div>
+          <p class="hundi-side" data-i18n="fun.hundiside">
+            The eyes are LED lights that turn on when a magnet is held against the back.
+            Hot glue holds it all together.
+          </p>
+        </div>
+      </div>
+
+      <p class="hundi-cap" data-i18n="fun.hundicap">
+        I made a wolf-head pendant as a gift for two of the PÖFF film festival organisers.
+        With my teacher's help the proper PÖFF wolf head was modelled in Fusion from a 3D scan
+        of the mascot's head, but the Bambu Lab 3D printer couldn't handle printing the model's
+        teeth, so I used a model found online.
+      </p>
+    </section>
+
+    <!-- ══ Nails ══ -->
+    <section class="fun-section">
+      <div class="nails-wrap">
+        <h2 class="nails-title" data-i18n="fun.nails">Look, I painted<br>my nailsss</h2>
+        <div class="nails-row">
+          <img src="1/fun-page/nails1.jpg" alt="Painted nails, close up">
+          <img src="1/fun-page/nails2.jpg" alt="Painted nails, another set">
+        </div>
+      </div>
+    </section>
 
     <div class="button-row">
       <a href="index-v2.html#projects" class="page-button" data-i18n="back">Back</a>
     </div>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.3.0/flickity.pkgd.min.js"></script>
   <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
   <script>
-    const galleries = {
-      table: { images: [
-        { src: "fun-stuff/uusLAHUSTUVUSTABEL.png", alt: "Solubility table" },
-        { src: "fun-stuff/LAHUSTUVUSTABEL.est.png", alt: "Solubility table in Estonian" },
-        { src: "fun-stuff/LAHUSTUVUSTABEL.eng.png", alt: "Solubility table in English" }
-      ], currentIndex: 0 },
+    // hunt stack: single tap/click swaps, double click/tap opens up close
+    document.querySelectorAll('.swap-stack').forEach(function (stack) {
+      stack.addEventListener('click', function () { stack.classList.toggle('swapped'); });
 
-      coa: { images: [
-        { src: "fun-stuff/coa.png", alt: "Certificate of Authenticity (render)" },
-        { type: "video", src: "fun-stuff/coa.mp4", alt: "Certificate of Authenticity (animation)", poster: "fun-stuff/coa.png" }
-      ], currentIndex: 0 },
-
-      brochure: { images: [
-        { src: "fun-stuff/brosuurkeelevahetusega-EST.png", alt: "Brochure in Estonian" },
-        { src: "fun-stuff/brosuurkeelevahetusega-ENG.png", alt: "Brochure in English" }
-      ], currentIndex: 0 },
-
-      hoodie: { images: [
-        { src: "fun-stuff/butterflyhoodie1.png", alt: "Birthday hoodie front" },
-        { src: "fun-stuff/butterfly hoodie 2.png", alt: "Birthday hoodie back" },
-        { src: "fun-stuff/butterfly.png", alt: "Butterfly design" }
-      ], currentIndex: 0 },
-
-      sword: { images: [
-        { src: "fun-stuff/sword hoodie.png", alt: "Sword hoodie" },
-        { src: "fun-stuff/sword.PNG", alt: "Sword design" }
-      ], currentIndex: 0 },
-
-      tote: { images: [
-        { src: "fun-stuff/heartbag.png", alt: "Heart tote bag" },
-        { src: "fun-stuff/jamaica.png", alt: "Jamaica tote bag" }
-      ], currentIndex: 0 },
-
-      notebook: { images: [
-        { type: "video", src: "fun-stuff/notebook.MOV", alt: "Notebook video" },
-        { src: "fun-stuff/frontnoteb.jpg", alt: "Notebook front cover" },
-        { src: "fun-stuff/backnoteb.jpg", alt: "Notebook back cover" }
-      ], currentIndex: 0 }
-    };
-
-    function changeImage(galleryId, index) {
-      const gallery = galleries[galleryId];
-      gallery.currentIndex = index;
-
-      const wrap = document.querySelector(`#${galleryId}-gallery .main-image-container`);
-      const item = gallery.images[index];
-
-      wrap.innerHTML = "";
-
-      let el;
-      if (item.type === "video") {
-        el = document.createElement("video");
-        el.className = "main-image";
-        el.autoplay = true; el.muted = true; el.loop = true; el.setAttribute("playsinline", "");
-        el.controls = true;
-        if (item.poster) el.poster = item.poster;
-        el.src = item.src;
-      } else {
-        el = document.createElement("img");
-        el.className = "main-image";
-        el.src = item.src;
-        el.alt = item.alt || "";
+      function openTop() {
+        var swapped = stack.classList.contains('swapped');
+        var topImg = swapped ? stack.querySelector('.back') : stack.querySelector('.front');
+        var lb = document.getElementById('lightbox');
+        if (lb && topImg) {
+          var img = lb.querySelector('img');
+          img.src = topImg.src;
+          img.alt = topImg.alt || '';
+          lb.classList.add('open');
+        }
       }
-      wrap.appendChild(el);
 
-      const prev = document.createElement("div");
-      prev.className = "nav-button prev";
-      prev.textContent = "❮";
-      prev.onclick = () => prevImage(galleryId);
+      stack.addEventListener('dblclick', openTop);
 
-      const next = document.createElement("div");
-      next.className = "nav-button next";
-      next.textContent = "❯";
-      next.onclick = () => nextImage(galleryId);
-
-      wrap.appendChild(prev);
-      wrap.appendChild(next);
-
-      const thumbs = document.querySelectorAll(`#${galleryId}-gallery .thumbnail`);
-      thumbs.forEach((t, i) => t.classList.toggle("active", i === index));
-    }
-
-    function prevImage(galleryId) {
-      const g = galleries[galleryId];
-      let i = g.currentIndex - 1;
-      if (i < 0) i = g.images.length - 1;
-      changeImage(galleryId, i);
-    }
-
-    function nextImage(galleryId) {
-      const g = galleries[galleryId];
-      let i = g.currentIndex + 1;
-      if (i >= g.images.length) i = 0;
-      changeImage(galleryId, i);
-    }
-
-    // keyboard nav: acts on the gallery whose thumbnail was last clicked
-    document.addEventListener('keydown', (e) => {
-      const activeThumb = document.querySelector('.thumbnail.active');
-      if (!activeThumb) return;
-      const activeGallery = activeThumb.closest('.product-gallery');
-      if (!activeGallery) return;
-      const id = activeGallery.id.replace('-gallery', '');
-      if (e.key === 'ArrowLeft') prevImage(id);
-      if (e.key === 'ArrowRight') nextImage(id);
+      var lastTap = 0;
+      stack.addEventListener('touchend', function () {
+        var now = Date.now();
+        if (now - lastTap < 350) openTop();
+        lastTap = now;
+      });
     });
-
-    // pause main videos when scrolled off-screen
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const vid = entry.target.querySelector('video.main-image');
-          if (!vid) return;
-          if (entry.isIntersecting) { try { vid.play(); } catch {} }
-          else { try { vid.pause(); } catch {} }
-        });
-      }, { threshold: 0.25 });
-
-      document.querySelectorAll('.product-gallery .main-image-container').forEach(c => observer.observe(c));
-    }
   </script>
 </body>
 </html>
