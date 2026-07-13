@@ -108,6 +108,24 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 @media (max-width:600px){ .btn{ width:100%; color:var(--dark) } }
 
 /* Back to portfolio (only shown at end) */
+/* The ending screen swaps to the black & white LEHEPEAL background,
+   so the animations' black backgrounds melt into it */
+body.ending{
+  background:
+    linear-gradient(rgba(8,8,8,.35), rgba(8,8,8,.35)),
+    #111 url('1/paintings-page/lehepeal-bnw.jpg') center / cover no-repeat fixed;
+  color:#f2f2f2;
+}
+body.ending #story{ color:#f2f2f2 }
+body.ending .btn{
+  background:rgba(255,255,255,.12); color:#fff; border-color:#fff;
+}
+body.ending .btn:hover{ background:rgba(255,255,255,.3); border-color:#fff }
+body.ending #backPortfolio{
+  background:rgba(255,255,255,.12); color:#fff; border-color:#fff;
+}
+body.ending #backPortfolio:hover{ background:rgba(255,255,255,.3); border-color:#fff }
+
 /* Little looping animations shown at the very end */
 #endAnimations{
   display:none; margin:26px auto 6px; max-width:860px;
@@ -455,7 +473,7 @@ const OUTCOMES={
 let currentScenario='kitchen', selectedItem=null;
 const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#arsenalGrid'), arsenalBlurbs=$('#arsenalBlurbs');
 const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
-const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/REVOLVER.svg", holy:"play/HOLY-WATER-GUN.svg", heart:"play/HEART.svg", socks:"play/SOCKS.svg", rose:"play/ROSE.svg" };
+const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/revolver.PNG", holy:"play/holy water gun.PNG", heart:"play/heart.PNG", socks:"play/socks.PNG", rose:"play/rose.PNG" };
 const ITEMS=Object.keys(ITEM_SRC);
 
 /* Cup visual positions (0..2) and swapping */
@@ -479,7 +497,7 @@ function clearCupSprites(){
 }
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show');
+  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show'); document.body.classList.remove('ending');
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 function say(line,{compact=false, mansalva=false}={}){
@@ -603,6 +621,7 @@ async function onPickCup(cupEl){
   await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
   // End menu
+  document.body.classList.add('ending');
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
   $('#endAnimations').classList.add('show');

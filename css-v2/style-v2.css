@@ -482,8 +482,12 @@ body.subpage {
 
 /* ── About page: full dark collage background like the landing,
       so the white intro texts show directly (no plate) ── */
+/* black base with the collage showing through faintly on top,
+   the dark twin of the light veil the other pages use */
 body[data-title-key="title.about"] {
-  background: #1c2a17 url('../1/landing and loading page/bg-main.jpg') top center / cover no-repeat;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
+    #000 url('../1/landing and loading page/bg-main.jpg') top center / cover no-repeat;
 }
 
 /* on phones, show the calmer lower part of the picture behind the text
