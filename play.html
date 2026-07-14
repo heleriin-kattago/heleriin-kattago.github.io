@@ -473,7 +473,7 @@ const OUTCOMES={
 let currentScenario='kitchen', selectedItem=null;
 const story=$('#story'), arsenalSection=$('#arsenalSection'), arsenalGrid=$('#arsenalGrid'), arsenalBlurbs=$('#arsenalBlurbs');
 const cupStage=$('#cupStage'), cupRow=$('#cupRow'), cups=[$('#cup0'),$('#cup1'),$('#cup2')], flyingItem=$('#flyingItem');
-const ITEM_SRC={ sword:"play/SWORD.svg", gun:"play/revolver.PNG", holy:"play/holy water gun.PNG", heart:"play/heart.PNG", socks:"play/socks.PNG", rose:"play/rose.PNG" };
+const ITEM_SRC={ sword:"play/sword.PNG", gun:"play/revolver.PNG", holy:"play/holy water gun.PNG", heart:"play/heart.PNG", socks:"play/socks.PNG", rose:"play/rose.PNG" };
 const ITEMS=Object.keys(ITEM_SRC);
 
 /* Cup visual positions (0..2) and swapping */
@@ -498,6 +498,7 @@ function clearCupSprites(){
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show'); document.body.classList.remove('ending');
+  $('#storySection').style.display=''; say('');
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 function say(line,{compact=false, mansalva=false}={}){
@@ -509,6 +510,7 @@ function say(line,{compact=false, mansalva=false}={}){
 /* Scenario intro + music */
 async function runScenarioIntro(key){
   currentScenario=key; overlayAdvances=0;
+  $('#storySection').style.display='';
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
   // Welcome first; start music when the first overlay is advanced by the user
@@ -547,6 +549,9 @@ arsenalGrid.addEventListener('click', async e=>{
 async function proceedToCups(){
   clearCupSprites();
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
+  // drop the leftover "which item do you pick?" status line — it makes
+  // no sense once we are past the arsenal and into the shuffle
+  $('#storySection').style.display='none'; say('');
   cupStage.style.display='block';
 
   // Shuffle stage message (overlay)
@@ -575,6 +580,9 @@ async function proceedToCups(){
   await wait(500);
   const swaps=7+Math.floor(Math.random()*3);
   for(let i=0;i<swaps;i++){ await wait(800); randomSwap(); }
+  // let the final swap's 1s slide finish so the cups are settled
+  // before the narrative overlay covers the board
+  await wait(1100);
   shuffled=true; busy=false;
 
   await playLines(["Well, well, my dear Traveller… where did it go? Pick your cup."]);
