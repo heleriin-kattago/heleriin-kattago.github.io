@@ -41,6 +41,25 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
 .overlayLine.hide{ opacity:0; transform:translateY(-10px) }
 
+/* Character portrait locket — a small round clip in a warm gold frame */
+#portrait{
+  position:fixed; left:50%; top:9vh; transform:translate(-50%,-14px) scale(.9);
+  width:196px; height:196px; z-index:55; border-radius:50%;
+  overflow:hidden; background:#0c0c0c;
+  border:4px solid #c9971c;
+  box-shadow:0 0 0 7px rgba(201,151,28,.15), 0 16px 42px rgba(0,0,0,.55);
+  opacity:0; pointer-events:none;
+  transition:opacity .5s ease, transform .5s ease;
+}
+#portrait.show{ opacity:1; transform:translate(-50%,0) scale(1) }
+#portrait video{ width:100%; height:100%; object-fit:cover; display:block }
+/* while the locket is up, drop the narration below it so they stack */
+#overlay.withPortrait .overlayLine{ align-items:flex-start; padding-top:min(40vh,360px) }
+@media (max-width:600px){
+  #portrait{ width:132px; height:132px; top:6vh; border-width:3px }
+  #overlay.withPortrait .overlayLine{ padding-top:32vh }
+}
+
 /* Continue hint (auto-hides on mobile after a few advances) */
 #tapHint{
   position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
@@ -233,6 +252,8 @@ body.is-loading{ overflow:hidden; }
 
 <!-- Narrative overlay + hint -->
 <div id="overlay"></div>
+<!-- Character portrait locket (grandma, Fia, the latte-dragon, the orange cat) -->
+<div id="portrait" aria-hidden="true"><video id="portraitVid" muted loop playsinline preload="auto"></video></div>
 <div id="tapHint">Click or press space to continue</div>
 
 <!-- Minimal status area -->
@@ -297,6 +318,28 @@ const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const overlay=$('#overlay'), tapHint=$('#tapHint');
 
+/* Character portraits (the little looping animations, now cast members) */
+const portrait=$('#portrait'), portraitVid=$('#portraitVid');
+const PORTRAIT_SRC={ granny:"play/granny.MP4", fia:"play/fifi.MP4", dragon:"play/coffee.MP4", orange:"play/orange.MP4" };
+/* which character fronts each trial */
+const CAST={ kitchen:'fia', dragon:'dragon', library:'orange' };
+const GRANDMA_WELCOME="Ah, there you are, my darling. Come — sit close, and let your old grandmother spin you a tale.";
+let currentPortrait=null;
+function showPortrait(name){
+  if(!name){ hidePortrait(); return; }
+  if(currentPortrait!==name){
+    currentPortrait=name;
+    portraitVid.src=PORTRAIT_SRC[name];
+    portraitVid.play().catch(()=>{});
+  }
+  portrait.classList.add('show'); overlay.classList.add('withPortrait');
+}
+function hidePortrait(){
+  currentPortrait=null;
+  portrait.classList.remove('show'); overlay.classList.remove('withPortrait');
+  try{ portraitVid.pause(); }catch(e){}
+}
+
 /* Audio */
 const bgm=$('#bgm'); bgm.src="play/Fire-to-dragon.mp3";
 let soundMode='normal'; const soundBtn=$('#soundBtn'); const audioNote=$('#audioNote');
@@ -309,9 +352,11 @@ soundBtn.onclick=()=>{ soundMode=(soundMode==='normal')?'quiet':(soundMode==='qu
 
 /* Overlay engine with Space consumption + mobile hint auto-hide */
 let overlayAdvances=0, overlayActive=false; const isMobile=()=>window.matchMedia('(max-width:600px)').matches;
-async function playLines(lines,{onAdvance=null}={}){
+async function playLines(lines,{onAdvance=null, portrait=null}={}){
   overlay.innerHTML=''; overlay.style.display='block'; overlayActive=true;
   for(let i=0;i<lines.length;i++){
+    // portrait may be a single name (whole block) or an array aligned to lines
+    showPortrait(Array.isArray(portrait) ? portrait[i] : portrait);
     const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350);
     if(!(isMobile() && overlayAdvances>=2)) tapHint.classList.add('show');
@@ -330,7 +375,7 @@ async function playLines(lines,{onAdvance=null}={}){
     overlayAdvances++; tapHint.classList.remove('show'); if(onAdvance) onAdvance(i);
     el.classList.add('hide'); await wait(420);
   }
-  overlay.style.display='none'; overlayActive=false;
+  overlay.style.display='none'; overlayActive=false; hidePortrait();
 }
 /* Space guard outside overlay to prevent accidental button activation */
 document.addEventListener('keydown',(e)=>{
@@ -345,22 +390,22 @@ document.addEventListener('keydown',(e)=>{
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
 const INTRO_LINES={
   kitchen:[
-    "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
-    "The oven ticks ominously, the fridge hums with secrets, and somewhere in the distance, a smoke alarm clears its throat.",
-    "Traveller, you cannot do nothing. You must act."
+    "The tale sets you down in a kitchen that is not your own—and yet it insists you cook a five-course dinner for twelve hungry goblins, a tax inspector, and one very unimpressed cat in a bowtie.<br>That cat is Fia. Small, black as spilled ink, and thoroughly convinced you are beneath her.",
+    "The oven ticks ominously, the fridge hums with secrets, a smoke alarm clears its throat—and Fia watches your every move, right up until a yawn so enormous it could swallow the moon overtakes her.",
+    "Traveller, you cannot do nothing. Fia blinks at you, slow and sceptical. You must act."
   ],
   dragon:[
-    "You arrive at a cavern mouth—and find a dragon behind a desk the size of a lighthouse. No smoke, only paperwork.",
-    "‘Form 47B in triplicate. Notarised. Three forms of identification,’ it rumbles, shoving a mountain of parchment your way.",
-    "The line of adventurers groans. Traveller, something must be done."
+    "The tale opens on a cavern mouth—and behind a desk the size of a lighthouse waits your foe. Not the fire-and-brimstone sort. This dragon is very small, spun from coffee foam and croissant crumbs: a tiny spirit curled inside a latte, guarding a mountain of paperwork.",
+    "‘Form 47B, in triplicate. Notarised. Three forms of identification,’ it burbles from within its cup, sliding a parchment avalanche your way.",
+    "The queue of adventurers groans into their coffees. Traveller, something must be done."
   ],
   library:[
-    "An oak door groans open to reveal a grand library—half-submerged. Books whisper, gossip, and shout across rising water.",
-    "‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. A 1,800-page novel merely laughs.",
-    "The flood climbs. Traveller, will you calm the chorus or join it?"
+    "The tale creaks an oak door open onto a grand library—half-drowned. Books whisper, gossip, and shout across the rising water.",
+    "Perched on a floating atlas sits a large orange cat, entirely unbothered, holding one wet fish. ‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. The cat considers them, then returns to his fish.",
+    "The flood climbs. Traveller, will you calm the chorus—or fish alongside the cat?"
   ]
 };
-const INTRO_FIXED="My dear Traveller… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.";
+const INTRO_FIXED="My dear Traveller, the path before you darkens. A challenge rises from the shadows, heavy and uncertain… but you were never the sort to run from a good story, were you?";
 const INTRO_VARIANTS=[
   "Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
   "Yet despair not—for you are not defenceless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
@@ -498,7 +543,7 @@ function clearCupSprites(){
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
   cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show'); document.body.classList.remove('ending');
-  $('#storySection').style.display=''; say('');
+  $('#storySection').style.display=''; say(''); hidePortrait();
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 function say(line,{compact=false, mansalva=false}={}){
@@ -513,8 +558,9 @@ async function runScenarioIntro(key){
   $('#storySection').style.display='';
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
-  // Welcome first; start music when the first overlay is advanced by the user
-  await playLines(["Welcome, let’s play, shall we?"],{
+  // Grandma greets you; music starts when she is first advanced
+  await playLines([GRANDMA_WELCOME],{
+    portrait:'granny',
     onAdvance:()=>{
       bgm.play().then(()=>{
         applySoundMode();
@@ -524,14 +570,14 @@ async function runScenarioIntro(key){
     }
   });
 
-  // Global intro (fixed + random)
-  await playLines([INTRO_FIXED, variant]);
+  // Grandma sets the scene (fixed line + a random flourish)
+  await playLines([INTRO_FIXED, variant], {portrait:'granny'});
 
-  // Scenario-specific intro
-  await playLines(INTRO_LINES[key]);
+  // The trial itself, fronted by its character
+  await playLines(INTRO_LINES[key], {portrait: CAST[key]});
 
   // Choice prompt + show Arsenal (prompt in Mansalva)
-  say("Traveller, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
+  say("Traveller, you have a choice to make. Which will you take?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
@@ -619,14 +665,17 @@ async function onPickCup(cupEl){
   const pickedItem = contentMap.get(cupEl);
   const correct = (pickedItem === selectedItem);
   if(correct) await playLines(["Congratulations. You found your item."]);
-  else        await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
+  else        await playLines([
+                "Fia yawns—vast, slow, and utterly unimpressed by your choice.",
+                "Uh-oh… your story unfolds in an unexpected way."
+              ], {portrait:'fia'});
 
   // Run the scenario outcome narrative
   cupStage.style.display='none';
   await tellOutcome(currentScenario, pickedItem);
 
-  // Final life line (only here at the very end)
-  await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
+  // Final life line — grandma sees you off
+  await playLines(["Life always works out, my darling. Even when the story doesn't unfold the way you thought it would."], {portrait:'granny'});
 
   // End menu
   document.body.classList.add('ending');
@@ -642,7 +691,7 @@ async function tellOutcome(scenario,itemKey){
   const title=TITLES[scenario]||"A Curious Trial";
   const body=(OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) || ["A curious hush lingers… but your choice writes the next line."];
   const beats=Array.isArray(body)?body:[body];
-  await playLines([title, ...beats]);
+  await playLines([title, ...beats], {portrait: CAST[scenario]});
 }
 
 /* End-page buttons */
