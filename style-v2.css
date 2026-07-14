@@ -244,7 +244,7 @@ body.loaded #site {
 .project-button:hover,
 .project-button:active,
 .project-button:focus {
-  background: rgba(5, 50, 3, 0.8);
+  background: rgba(40, 62, 2, 0.8);
 }
 
 .thankyou {
