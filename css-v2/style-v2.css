@@ -480,69 +480,124 @@ body.subpage {
   display: block;
 }
 
-/* ── About page: full dark collage background like the landing,
-      so the white intro texts show directly (no plate) ── */
-/* black base with the collage showing through faintly on top,
-   the dark twin of the light veil the other pages use */
-body[data-title-key="title.about"] {
+/* ══════════════════════════════════════════════
+   DARK MODE  (body.dark)
+   Black base with the collage faint on top — the dark twin of the
+   light veil the other pages use. about/shop/contact carry it by
+   default; the moon toggle turns it on/off on any page.
+   ══════════════════════════════════════════════ */
+body.subpage.dark {
   background:
     linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
-    #000 url('../1/landing and loading page/bg-main.jpg') top center / cover no-repeat;
+    #000 url('../1/landing and loading page/bg-main.jpg') top center / cover no-repeat fixed;
+  color: #f2f2f2;
 }
 
-/* on phones, show the calmer lower part of the picture behind the text
-   and give the white texts a soft dark plate so they stay readable */
 @media (max-width: 760px) {
-  body[data-title-key="title.about"] {
+  body.subpage.dark {
+    background-attachment: scroll;
     background-position: bottom center;
   }
-
-  body[data-title-key="title.about"] .intro-plate {
+  body.dark .intro-plate {
     background: rgba(10, 18, 6, 0.5);
     border-radius: 16px;
     padding: 5vh 5%;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
   }
 }
 
-body[data-title-key="title.about"] .page-title,
-body[data-title-key="title.about"] .statement {
-  color: #fff;
+/* main text goes light */
+body.dark .page-title,
+body.dark .page-intro,
+body.dark .section-title,
+body.dark .caption,
+body.dark .statement,
+body.dark .frame-caption {
+  color: #f2f2f2;
 }
 
-body[data-title-key="title.about"] .statement a {
-  color: #fff;
-}
+body.dark .caption a,
+body.dark .statement a { color: #fff; }
 
-body[data-title-key="title.about"] .credit {
-  color: rgba(255, 255, 255, 0.75);
-}
+body.dark .credit,
+body.dark .hint { color: rgba(255, 255, 255, 0.6); }
 
-/* drop the dark rectangle behind the intro texts */
-body[data-title-key="title.about"] .intro-plate {
-  background: none;
-  padding: 0;
-}
+body.dark .section-title { border-bottom-color: rgba(255, 255, 255, 0.4); }
 
-/* buttons + toggle switch to white on the dark background */
-body[data-title-key="title.about"] .page-button {
+/* the intro plate isn't needed on the dark bg (desktop) */
+body.dark .intro-plate { background: none; padding: 0; }
+
+/* buttons */
+body.dark .page-button {
   border-color: #fff;
   color: #fff;
   background-color: rgba(255, 255, 255, 0.18);
 }
+body.dark .page-button:hover { background-color: rgba(255, 255, 255, 0.35); }
 
-body[data-title-key="title.about"] .page-button:hover {
-  background-color: rgba(255, 255, 255, 0.35);
-}
-
-body[data-title-key="title.about"] .lang-toggle {
+/* toggles read light on the dark bg */
+body.dark .lang-toggle,
+body.dark .theme-toggle {
   color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.14);
 }
+
+/* page-specific dark-coloured titles/text that would vanish on black */
+body.dark .casa-title,
+body.dark .casa-caption,
+body.dark .loov-caption,
+body.dark .loov-inside,
+body.dark .mono-title,
+body.dark .hundi-title,
+body.dark .hundi-cap,
+body.dark .hundi-side,
+body.dark .hundi-dim,
+body.dark .fun-cap,
+body.dark .kiik-title,
+body.dark .kiik-cap,
+body.dark .coco-title,
+body.dark .coco-cap,
+body.dark .bro-title,
+body.dark .bro-cap,
+body.dark .sol-cap,
+body.dark .cards-sub,
+body.dark .rpg-caption,
+body.dark .page-subtitle,
+body.dark .littlebat-title,
+body.dark .littlebat-sub,
+body.dark .littlebat-carousel .carousel-caption,
+body.dark .nails-title {
+  color: #ece8df !important;
+}
+
+/* page titles that use a custom dark colour via the data-title-key hook */
+body.dark[data-title-key] .page-title { color: #ece8df !important; }
+
+/* brand-coloured titles kept, but brightened so they read on black */
+body.dark .theo-cap { color: #ece8df !important; }
+body.dark .theo-title,
+body.dark .theo-sub { color: #b3a7f0 !important; }
+body.dark .dragon-title { color: #e07a6f !important; }
+
+/* ── theme (dark-mode) toggle button, bottom-left ── */
+.theme-toggle {
+  position: fixed;
+  bottom: 14px;
+  left: 14px;
+  z-index: 150;
+  border: 1px solid rgba(16, 26, 4, 0.35);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+  color: #101A04;
+  font-size: 16px;
+  line-height: 1;
+  padding: 7px 11px;
+  transition: background 0.3s ease;
+}
+.theme-toggle:hover { background: rgba(255, 255, 255, 0.6); }
 
 .page-title {
   font-family: 'MedievalSharp', cursive;

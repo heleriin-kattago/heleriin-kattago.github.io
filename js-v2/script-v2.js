@@ -1,3 +1,34 @@
+// ── Dark-mode toggle (moon button, all sub-pages) ──
+// about / shop / contact ship with class="... dark" as their default.
+// The user's choice (once they click) is remembered across pages.
+(function () {
+  var body = document.body;
+  if (!body) return;
+
+  var saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  if (saved === "dark") body.classList.add("dark");
+  else if (saved === "light") body.classList.remove("dark");
+
+  function refreshIcon() {
+    var btn = document.getElementById("themeToggle");
+    if (btn) btn.textContent = body.classList.contains("dark") ? "☀" : "☾";
+  }
+  refreshIcon();
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    refreshIcon();
+    btn.addEventListener("click", function () {
+      var nowDark = !body.classList.contains("dark");
+      body.classList.toggle("dark", nowDark);
+      try { localStorage.setItem("theme", nowDark ? "dark" : "light"); } catch (e) {}
+      refreshIcon();
+    });
+  });
+})();
+
 // ── Loading page (index only) ──
 // The star spins for 3 seconds the FIRST time the site is opened this visit,
 // then the loader fades out. On later returns to the landing page (same

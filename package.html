@@ -19,8 +19,11 @@
     .flickity-button {
       background: transparent;
       border: none;
-      width: 54px;
-      height: 54px;
+      width: 34px;
+      height: 34px;
+    }
+    @media (max-width: 760px) {
+      .flickity-button { width: 20px; height: 20px; }
     }
     .flickity-button:hover { background: transparent; }
     .flickity-button-icon { display: none; }
@@ -535,6 +538,7 @@
 <body class="subpage" data-title-key="title.package">
 
   <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button>
 
   <nav class="top-nav">
     <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
