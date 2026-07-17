@@ -41,25 +41,6 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
 .overlayLine.hide{ opacity:0; transform:translateY(-10px) }
 
-/* Character portrait locket — a small round clip in a warm gold frame */
-#portrait{
-  position:fixed; left:50%; top:9vh; transform:translate(-50%,-14px) scale(.9);
-  width:196px; height:196px; z-index:55; border-radius:50%;
-  overflow:hidden; background:#0c0c0c;
-  border:4px solid #c9971c;
-  box-shadow:0 0 0 7px rgba(201,151,28,.15), 0 16px 42px rgba(0,0,0,.55);
-  opacity:0; pointer-events:none;
-  transition:opacity .5s ease, transform .5s ease;
-}
-#portrait.show{ opacity:1; transform:translate(-50%,0) scale(1) }
-#portrait video{ width:100%; height:100%; object-fit:cover; display:block }
-/* while the locket is up, drop the narration below it so they stack */
-#overlay.withPortrait .overlayLine{ align-items:flex-start; padding-top:min(40vh,360px) }
-@media (max-width:600px){
-  #portrait{ width:132px; height:132px; top:6vh; border-width:3px }
-  #overlay.withPortrait .overlayLine{ padding-top:32vh }
-}
-
 /* Continue hint (auto-hides on mobile after a few advances) */
 #tapHint{
   position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
@@ -145,19 +126,20 @@ body.ending #backPortfolio{
 }
 body.ending #backPortfolio:hover{ background:rgba(255,255,255,.3); border-color:#fff }
 
-/* Little looping animations shown at the very end */
-#endAnimations{
-  display:none; margin:26px auto 6px; max-width:860px;
-  justify-content:center; align-items:center; gap:18px; flex-wrap:wrap;
+/* End-of-story picks: every story shown with its own animation above it */
+#resultBtns .story-picks{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
+  max-width:960px; margin:0 auto;
 }
-#endAnimations.show{ display:flex }
-#endAnimations video{
-  width:170px; max-width:42vw; height:auto; display:block;
-  background:transparent;
+.story-pick{ display:flex; flex-direction:column; align-items:center; gap:10px }
+.story-pick video{
+  width:100%; max-width:170px; height:auto; display:block; background:transparent;
 }
-@media (max-width:600px){
-  #endAnimations{ gap:10px }
-  #endAnimations video{ width:40vw }
+.story-pick .btn{ min-width:0; width:100%; font-size:14px; padding:10px 12px }
+@media (max-width:760px){
+  #resultBtns .story-picks{ grid-template-columns:repeat(2,1fr); gap:14px }
+  .story-pick video{ max-width:40vw }
+  .story-pick .btn{ font-size:13px; padding:9px 8px }
 }
 
 #backPortfolio{
@@ -252,8 +234,6 @@ body.is-loading{ overflow:hidden; }
 
 <!-- Narrative overlay + hint -->
 <div id="overlay"></div>
-<!-- Character portrait locket (grandma, Fia, the latte-dragon, the orange cat) -->
-<div id="portrait" aria-hidden="true"><video id="portraitVid" muted loop playsinline preload="auto"></video></div>
 <div id="tapHint">Click or press space to continue</div>
 
 <!-- Minimal status area -->
@@ -293,22 +273,27 @@ body.is-loading{ overflow:hidden; }
   </div>
 </section>
 
-<!-- End-of-story options -->
+<!-- End-of-story options: each story sits under the animation it belongs to -->
 <section id="resultBtns">
-  <div class="row">
-    <button id="toKitchen" class="btn">The Kitchen Crucible</button>
-    <button id="toDragon" class="btn">The Bureaucratic Dragon</button>
-    <button id="toLibrary" class="btn">The Flooded Library</button>
+  <div class="story-picks">
+    <div class="story-pick">
+      <video src="play/fifi.MP4" muted autoplay loop playsinline></video>
+      <button id="toKitchen" class="btn">The Kitchen Crucible</button>
+    </div>
+    <div class="story-pick">
+      <video src="play/coffee.MP4" muted autoplay loop playsinline></video>
+      <button id="toDragon" class="btn">The Tale of 57°C</button>
+    </div>
+    <div class="story-pick">
+      <video src="play/orange.MP4" muted autoplay loop playsinline></video>
+      <button id="toLibrary" class="btn">The Flooded Library</button>
+    </div>
+    <div class="story-pick">
+      <video src="play/granny.MP4" muted autoplay loop playsinline></video>
+      <button id="toGrandma" class="btn">Grandma’s House</button>
+    </div>
   </div>
 </section>
-
-<!-- little animations, looping forever at the end -->
-<div id="endAnimations">
-  <video src="play/coffee.MP4" muted autoplay loop playsinline></video>
-  <video src="play/fifi.MP4" muted autoplay loop playsinline></video>
-  <video src="play/granny.MP4" muted autoplay loop playsinline></video>
-  <video src="play/orange.MP4" muted autoplay loop playsinline></video>
-</div>
 
 <a id="backPortfolio" href="index-v2.html#projects">Back to portfolio</a>
 
@@ -317,28 +302,6 @@ body.is-loading{ overflow:hidden; }
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const overlay=$('#overlay'), tapHint=$('#tapHint');
-
-/* Character portraits (the little looping animations, now cast members) */
-const portrait=$('#portrait'), portraitVid=$('#portraitVid');
-const PORTRAIT_SRC={ granny:"play/granny.MP4", fia:"play/fifi.MP4", dragon:"play/coffee.MP4", orange:"play/orange.MP4" };
-/* which character fronts each trial */
-const CAST={ kitchen:'fia', dragon:'dragon', library:'orange' };
-const GRANDMA_WELCOME="Ah, there you are, my darling. Come — sit close, and let your old grandmother spin you a tale.";
-let currentPortrait=null;
-function showPortrait(name){
-  if(!name){ hidePortrait(); return; }
-  if(currentPortrait!==name){
-    currentPortrait=name;
-    portraitVid.src=PORTRAIT_SRC[name];
-    portraitVid.play().catch(()=>{});
-  }
-  portrait.classList.add('show'); overlay.classList.add('withPortrait');
-}
-function hidePortrait(){
-  currentPortrait=null;
-  portrait.classList.remove('show'); overlay.classList.remove('withPortrait');
-  try{ portraitVid.pause(); }catch(e){}
-}
 
 /* Audio */
 const bgm=$('#bgm'); bgm.src="play/Fire-to-dragon.mp3";
@@ -352,11 +315,9 @@ soundBtn.onclick=()=>{ soundMode=(soundMode==='normal')?'quiet':(soundMode==='qu
 
 /* Overlay engine with Space consumption + mobile hint auto-hide */
 let overlayAdvances=0, overlayActive=false; const isMobile=()=>window.matchMedia('(max-width:600px)').matches;
-async function playLines(lines,{onAdvance=null, portrait=null}={}){
+async function playLines(lines,{onAdvance=null}={}){
   overlay.innerHTML=''; overlay.style.display='block'; overlayActive=true;
   for(let i=0;i<lines.length;i++){
-    // portrait may be a single name (whole block) or an array aligned to lines
-    showPortrait(Array.isArray(portrait) ? portrait[i] : portrait);
     const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350);
     if(!(isMobile() && overlayAdvances>=2)) tapHint.classList.add('show');
@@ -375,7 +336,7 @@ async function playLines(lines,{onAdvance=null, portrait=null}={}){
     overlayAdvances++; tapHint.classList.remove('show'); if(onAdvance) onAdvance(i);
     el.classList.add('hide'); await wait(420);
   }
-  overlay.style.display='none'; overlayActive=false; hidePortrait();
+  overlay.style.display='none'; overlayActive=false;
 }
 /* Space guard outside overlay to prevent accidental button activation */
 document.addEventListener('keydown',(e)=>{
@@ -387,25 +348,44 @@ document.addEventListener('keydown',(e)=>{
 }, true);
 
 /* Story text (British English; no emojis) */
-const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Bureaucratic Dragon", library:"The Flooded Library" };
+const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Tale of 57°C", library:"The Flooded Library", grandma:"Grandma’s House" };
 const INTRO_LINES={
   kitchen:[
-    "The tale sets you down in a kitchen that is not your own—and yet it insists you cook a five-course dinner for twelve hungry goblins, a tax inspector, and one very unimpressed cat in a bowtie.<br>That cat is Fia. Small, black as spilled ink, and thoroughly convinced you are beneath her.",
-    "The oven ticks ominously, the fridge hums with secrets, a smoke alarm clears its throat—and Fia watches your every move, right up until a yawn so enormous it could swallow the moon overtakes her.",
-    "Traveller, you cannot do nothing. Fia blinks at you, slow and sceptical. You must act."
+    "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
+    "The oven ticks ominously, the fridge hums with secrets, and somewhere in the distance, a smoke alarm clears its throat.",
+    "Traveller, you cannot do nothing. You must act."
   ],
   dragon:[
-    "The tale opens on a cavern mouth—and behind a desk the size of a lighthouse waits your foe. Not the fire-and-brimstone sort. This dragon is very small, spun from coffee foam and croissant crumbs: a tiny spirit curled inside a latte, guarding a mountain of paperwork.",
-    "‘Form 47B, in triplicate. Notarised. Three forms of identification,’ it burbles from within its cup, sliding a parchment avalanche your way.",
-    "The queue of adventurers groans into their coffees. Traveller, something must be done."
+    "The tale leads you to a coffeehouse called 57°C, perhaps the oldest and most prestigious café in the realm.<br>Its owner firmly believes there is no finer temperature for coffee than 57 degrees Celsius, and after centuries of serving travellers, few have dared argue with him.",
+    "Around here, beginning a quest without first visiting 57°C is considered rather poor planning.<br>Some come for the coffee. Others swear it’s the croissants.<br>Most wisely order both.",
+    "The owner is… unusual.<br>Nestled within the foam of a beautifully crafted latte lives a dragon no larger than your palm, woven from coffee foam and an old sort of magic.<br>Most first-time visitors mistake him for latte art. They never make that mistake twice.",
+    "You join the queue.<br>It moves slowly. Very slowly.<br>Five minutes pass. Then ten.<br>Nobody complains—after all, perfection cannot be rushed.",
+    "But eventually even the regulars begin exchanging puzzled glances.<br>Something isn’t right.",
+    "Suddenly the tiny Dragon Spirit climbs onto the rim of his latte and clears his throat.<br>The entire café falls silent.",
+    "‘Excuse me! …Is there, by any chance, a therapist present?’<br>Silence.<br>‘…A psychologist?’<br>Nothing.<br>‘…Anyone with experience in existential counselling?’",
+    "The room collectively blinks. The Dragon lets out a weary sigh.<br>‘I’m afraid our espresso machine is having an existential crisis.’",
+    "He gestures toward the magnificent brass machine behind the counter.<br>‘It no longer believes making coffee is a meaningful contribution to the universe. It insists there must be more to life.’<br>‘As such… it has declined to make another espresso.’",
+    "A barista nods solemnly.<br>‘It hasn’t steamed milk in almost twenty minutes.’<br>The café gasps.",
+    "The Dragon straightens his tiny spectacles.<br>‘I appreciate this is an unusual request… but whoever can convince the espresso machine to rediscover its purpose… shall receive complimentary coffee for life.’",
+    "Every traveller suddenly becomes deeply fascinated by the floor. Nobody knows how to provide therapy to an espresso machine.<br>You don’t either.",
+    "You glance down at your Arsenal. Then back at the Dragon.<br>Honestly… there isn’t much you wouldn’t do for free coffee."
   ],
   library:[
-    "The tale creaks an oak door open onto a grand library—half-drowned. Books whisper, gossip, and shout across the rising water.",
-    "Perched on a floating atlas sits a large orange cat, entirely unbothered, holding one wet fish. ‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. The cat considers them, then returns to his fish.",
-    "The flood climbs. Traveller, will you calm the chorus—or fish alongside the cat?"
+    "An oak door groans open to reveal a grand library—half-submerged. Books whisper, gossip, and shout across rising water.",
+    "‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. A 1,800-page novel merely laughs.",
+    "The flood climbs. Traveller, will you calm the chorus or join it?"
+  ],
+  grandma:[
+    "The road has been unkind, Traveller.<br>Your boots are damp, your stomach is empty, and the forest has spent the past hour making noises that forests should not make.",
+    "Then, through the trees, you see it: a small cottage glowing warmly at the edge of the map.<br>Before you can knock, the door swings open.<br>‘There you are, dear. Come inside. You must be starving.’",
+    "You do not remember telling Grandma you were coming.<br>You do not remember telling her your name.<br>Still, the smell of freshly baked pastries makes these concerns feel surprisingly unimportant.",
+    "Inside, the table is already set.<br>Unfortunately, you are not the only guest.<br>Across from you sits the very enemy who has been pursuing you through the forest.",
+    "They reach for their weapon.<br>Grandma places another tray of pastries between you.<br>‘None of that at the table.’",
+    "Your enemy hesitates.<br>Grandma smiles.<br>‘Now, who wants another?’",
+    "Traveller, this situation may be more dangerous than it appears."
   ]
 };
-const INTRO_FIXED="My dear Traveller, the path before you darkens. A challenge rises from the shadows, heavy and uncertain… but you were never the sort to run from a good story, were you?";
+const INTRO_FIXED="My dear Traveller… the path before you darkens. A challenge rises from the shadows, heavy and uncertain.";
 const INTRO_VARIANTS=[
   "Yet take heart—within your grasp lies an Arsenal, forged not of chance but of choice.<br>Each piece within it is a key, and with the right one, you shall shape fate itself and turn peril into triumph.",
   "Yet despair not—for you are not defenceless. You carry with you an Arsenal, a collection of strange and wondrous tools, each humming with its own secret power.<br>They are not mere trinkets, but echoes of choices past and keys to choices yet to come.",
@@ -450,34 +430,56 @@ const OUTCOMES={
   },
   dragon:{
     sword:[
-      "You carve a canyon through Form 47B stacks. Paper snow swirls like bureaucratic winter.",
-      "The dragon polishes its spectacles, sighs, and closes the ledger. ‘Return the stapler,’ it mutters, surrendering treasure and a stolen hole punch.",
-      "Outside, the queue erupts into polite applause. You bow with administrative grace."
+      "The machine has surrounded itself with self-help books.<br><i>Finding Your True Purpose</i><br><i>Beyond Productivity</i><br><i>Who Am I Really?</i>",
+      "You draw the Sword.<br>Slice straight through the pile.<br>At the very bottom… the original instruction manual.",
+      "First page:<br><i>Purpose: Make the best coffee on and off the map.</i>",
+      "The machine blinks.<br>‘…’<br>‘…Oh.’<br>It starts brewing.<br>The Dragon slowly closes <i>Finding Yourself in Seven Easy Steps</i>."
     ],
     gun:[
-      "You fire once. The desk becomes modern art; the in-tray experiences a spiritual awakening.",
-      "The dragon stares. ‘Page two needed a signature… but fine.’",
-      "A gold coin clinks into your palm marked for ‘Decisive Energy’. HR files an emotional report."
+      "The machine had watched drip coffee become fashionable. Then capsules. Then automatic espresso machines. Then machines that promised café-quality coffee at the push of a button.",
+      "Every year there seemed to be another invention claiming to do its job faster, cheaper, or with less effort.<br>For the first time in centuries, the old espresso machine wondered whether it had quietly become replaceable.",
+      "You pick up a single coffee bean.<br>The Dragon watches curiously.<br>‘…What are you doing?’<br>‘I’m going to make coffee.’",
+      "You place the bean into the Revolver’s chamber.<br>Click.<br>You aim at an empty cup.<br>BANG!",
+      "The bean ricochets off the saucer, bounces across three tables, narrowly misses a croissant, and disappears into the fireplace.<br>Silence.",
+      "The Dragon slowly peers into the empty cup.<br>‘…It’s missing a few steps.’<br>You nod.<br>‘…Possibly all of them.’",
+      "The machine lets out the faintest amused puff of steam.<br>You shrug.<br>‘I was hoping there might be a shortcut.’<br>‘There isn’t.’",
+      "The machine sits quietly for a long moment.<br>‘…So… all these new machines… they don’t make me obsolete?’",
+      "You gently shake your head.<br>‘They make coffee.’<br>‘You make <i>your</i> coffee.’",
+      "The machine considers this.<br>‘…So there really isn’t another way.’<br>‘Not if you want coffee from Café 57°C.’",
+      "The Dragon smiles.<br>‘Anyone can brew coffee.’<br>‘Very few can create a place people travel across kingdoms to return to.’",
+      "Steam slowly begins to rise from the machine once more.<br>‘…Perhaps… what I do is more special than I thought.’<br>The Dragon chuckles.<br>‘I’ve been trying to tell you that for centuries.’"
     ],
     holy:[
-      "A fine mist sanctifies the forms; ink confesses and runs toward early retirement.",
-      "The dragon sneezes—a triptych of thunder—and storms off to consult Compliance.",
-      "You gather damp treasure and a surprisingly respectful memo."
+      "You raise the Holy Water Gun.<br>The Dragon watches with polite curiosity.<br>‘An… unconventional approach. Are you planning to perform an exorcism?’<br>‘Only if necessary.’",
+      "You carefully spray a stream of holy water through the machine.<br>For a moment, nothing happens.<br>Then, with a loud plop, a centuries-old lump of coffee residue finally gives way.",
+      "The entire café is silent.<br>The Dragon stares at it. The machine stares at it. You stare at it.",
+      "The Dragon had assumed the machine was emotionally blocked.<br>Turns out… it was just clogged.",
+      "The machine says,<br>‘…I feel ridiculous.’<br>It pauses for a moment.<br>‘…And significantly lighter.’",
+      "Somebody cheers—and when coffee starts pouring, the entire café is cheering."
     ],
     heart:[
-      "The Heart glows. The dragon’s tail relaxes into a conversational curve.",
-      "Together you sprint the labyrinth: initial here, initial there—stamp, stamp, stamp.",
-      "At the end, approval, tea, and a feeling like sunrise in an office park."
+      "You place the Heart on top of the machine.<br>It beats gently. You feel your own heart growing bigger with hope.<br>The whole café grows quiet as everybody’s heart fills with the same gentle, fuzzy feeling.",
+      "The machine whispers,<br>‘People don’t remember me.’",
+      "A regular smiles into his cup.<br>‘Actually… I met my wife over one of your cappuccinos. I was losing hope I’d never find love. But I did. Drinking your coffee.’",
+      "A young adventurer raises her mug.<br>‘I started every impossible quest here. Still alive, as you can see.’<br>An elderly traveller laughs.<br>‘You’ve gotten me through more mornings than I care to admit.’",
+      "The machine thinks for a long time.<br>Then quietly says,<br>‘…Perhaps I mattered more than I realised.’",
+      "A perfect espresso begins pouring.<br>The Dragon discreetly wipes away a tiny foam tear."
     ],
     socks:[
-      "Socks on. The waiting room exhales; the fluorescent lights agree to be kinder.",
-      "The dragon yawns, stamps APPROVED on a hundred scrolls, and issues a blanket voucher.",
-      "Treasure is given with a bedtime story about boundaries."
+      "You reach into your Arsenal and pull out the Warm Fuzzy Socks.<br>The espresso machine watches.<br>‘…What are you doing?’",
+      "You hold up the socks.<br>‘…I don’t have feet.’<br>‘I know.’",
+      "You carefully drape the socks over the top of the espresso machine.<br>‘…Now you’re just decorating me.’<br>‘Give it a second.’",
+      "Warm steam rises through the machine, gently heating the socks.",
+      "A few moments later, the café door swings open.<br>A weary traveller stumbles inside, dripping rainwater onto the floor.<br>They peel off one soaking boot.<br>‘Oh, yuck, my feet are wet and freezing…’",
+      "You lift the now wonderfully warm socks from the machine and hand them over.<br>The traveller’s face lights up.<br>‘Oh my goodness… These are perfect.’",
+      "They pull them on with a relieved sigh.<br>‘…Now all I need is a nice hot cup of coffee…’<br>‘…and life would be just about perfect.’",
+      "The machine sits quietly for a moment.<br>‘…I suppose…’<br>‘…I can help with that too.’",
+      "Steam begins to rise once more.<br>The Dragon smiles.<br>‘Welcome back.’"
     ],
     rose:[
-      "You offer the Rose. Scales blush; fire dimples into candlelight.",
-      "Forms vanish into an enchanted drawer. ‘Forget the paperwork,’ murmurs the dragon. ‘Take the treasure… and call me?’",
-      "Some quests end with signatures; the best end with invitations."
+      "You place the Rose beside the machine.<br>The Dragon blinks.<br>‘So that’s what people mean by employee appreciation.’",
+      "The baristas begin decorating the machine with handwritten notes.<br>‘Thanks for getting me through morning shifts.’<br>‘You make the best flat white in the kingdom.’<br>‘You’re louder than necessary, but we love you.’",
+      "The espresso machine quietly reads every single one.<br>Finally…<br>‘…Nobody’s ever thanked me before.’<br>It happily brews again."
     ]
   },
   library:{
@@ -511,7 +513,60 @@ const OUTCOMES={
       "The flood blushes and tiptoes out the back door.",
       "Volume A–B begins a romance with Poets, Selected. They exchange pressed petals."
     ]
+  },
+  grandma:{
+    sword:[
+      "You draw the Sword beneath the table, prepared for the moment your enemy makes their move.<br>Grandma notices immediately.<br>‘Oh, good. You can help with the pie.’",
+      "Before you can object, a mountain of apples appears in front of you.<br>The Sword, forged for battle and destiny, is reduced to slicing fruit into remarkably even pieces.",
+      "Your enemy watches in confusion.<br>Ten minutes later, they are peeling potatoes.<br>Twenty minutes later, the two of you are arguing over the proper thickness of an apple slice.",
+      "By the time the pie is ready, neither of you remembers who was supposed to defeat whom.<br>Grandma serves you both an enormous piece.<br>‘See?’ she says. ‘Much better use of a sword.’"
+    ],
+    gun:[
+      "You place the Gun on the table.<br>The room falls silent.<br>Your enemy freezes.<br>Grandma does not.",
+      "She picks it up, examines it briefly, and places it on top of the cupboard.<br>‘Not indoors.’",
+      "You consider explaining that you are an armed Traveller facing a dangerous foe.<br>Grandma places three warm pastries on your plate.<br>Somehow, the explanation no longer feels urgent.",
+      "Your enemy quietly asks whether there is any jam.<br>There is.<br>There are four kinds: apple, strawberry, gooseberry and pear.",
+      "The Gun remains on the cupboard for the rest of the evening, beside an old vase and a ceramic cat.<br>You are both too full to retrieve it."
+    ],
+    holy:[
+      "You raise the Holy Water Gun and fire.<br>A sacred stream arcs across the table.<br>It misses your enemy completely.<br>Instead, it strikes Grandma’s basil plant.",
+      "The plant immediately doubles in size.<br>Grandma looks impressed.<br>‘Wonderful. The herbs have been looking tired.’",
+      "Soon, you are blessing the entire garden.<br>The tomatoes become enormous. The rosemary begins glowing faintly. A pumpkin achieves what appears to be spiritual enlightenment.",
+      "Your enemy forgets the battle and starts helping you water the strawberries.<br>Grandma sends both of you home with several jars of jam and strict instructions to return the empty containers.",
+      "Divine justice has been postponed until after harvest season."
+    ],
+    heart:[
+      "You lift the Heart Full of Hope.<br>Its steady rhythm fills the cottage.<br>For a moment, nobody speaks.",
+      "Your enemy looks down at their plate.<br>‘I’ve had a difficult week,’ they admit.<br>Grandma nods as though she already knew.<br>Another cup of tea appears in front of them.",
+      "Somehow, the battle turns into a conversation.<br>The conversation turns into oversharing.<br>The oversharing turns into both of you crying over the same plate of cinnamon rolls.",
+      "Grandma says very little.<br>She simply keeps the tea flowing and the pastries coming.",
+      "By nightfall, your enemy no longer seems like an enemy.<br>They leave with leftovers and a slightly healthier understanding of their own emotions.<br>You leave with the uncomfortable knowledge that hope was effective."
+    ],
+    socks:[
+      "You pull on the Warm Fuzzy Socks.<br>Instantly, the cottage becomes even warmer.<br>The chair becomes softer.<br>The fire crackles at precisely the correct volume.",
+      "Your enemy yawns.<br>You yawn.<br>Grandma produces two blankets without being asked.<br>‘You can finish fighting after your nap.’<br>This seems reasonable.",
+      "You wake several hours later with the black cat Fifi curled beside you and your enemy asleep in the armchair, still holding half a pastry.",
+      "Outside, the forest has gone quiet.<br>Grandma has packed snacks for the road.<br>Nobody mentions continuing the battle.",
+      "Some conflicts are defeated by comfort and a deeply irresponsible amount of sleep."
+    ],
+    rose:[
+      "You place the Rose between yourself and your enemy.<br>Its petals catch the firelight.<br>For several seconds, everyone admires it.",
+      "Then Grandma takes it.<br>‘Lovely. The table needed something.’<br>She trims the stem, places it in a small glass vase, and arranges three pastries around it.<br>The effect is unexpectedly elegant.",
+      "Your enemy lowers their weapon.<br>‘Is this dinner or a peace negotiation?’<br>Grandma smiles.<br>‘It’s dessert.’",
+      "The Rose softens the room. Compliments are exchanged. Old grievances become increasingly difficult to defend while eating warm berry cake beneath floral candlelight.",
+      "Your enemy leaves blushing, carrying a flower and a parcel of leftovers.<br>You are unsure whether you achieved peace or accidentally arranged a date.<br>Grandma appears pleased either way."
+    ]
   }
+};
+
+/* Scenario epilogues — played after any outcome of that story */
+const FINALES={
+  grandma:[
+    "Nobody leaves Grandma’s house hungry.<br>Not even enemies.<br>Especially not enemies.",
+    "Many entered her home determined to conquer the world.<br>Most left carrying leftovers.<br>If there is one thing everyone seems to agree on, it’s that being Grandma’s enemy simply seems like a poor life decision.",
+    "Her greatest weapon was a kitchen that somehow always had room for one more chair and more than enough food.<br>Her greatest spell was making everyone feel like they belonged.",
+    "And if you happened to leave a few pounds heavier…<br>Well.<br>That was simply proof you’d been loved."
+  ]
 };
 
 /* DOM & state */
@@ -542,8 +597,8 @@ function clearCupSprites(){
 }
 function resetRound(){
   arsenalSection.style.display='none'; arsenalBlurbs.style.display='none';
-  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); $('#endAnimations').classList.remove('show'); document.body.classList.remove('ending');
-  $('#storySection').style.display=''; say(''); hidePortrait();
+  cupStage.style.display='none'; $('#resultBtns').style.display='none'; $('#backPortfolio').classList.remove('show'); document.body.classList.remove('ending');
+  $('#storySection').style.display=''; say('');
   selectedItem=null; cupPos=[0,1,2]; shuffled=false; busy=false; contentMap.clear(); clearCupSprites();
 }
 function say(line,{compact=false, mansalva=false}={}){
@@ -558,9 +613,8 @@ async function runScenarioIntro(key){
   $('#storySection').style.display='';
   const variant=INTRO_VARIANTS[Math.floor(Math.random()*INTRO_VARIANTS.length)];
 
-  // Grandma greets you; music starts when she is first advanced
-  await playLines([GRANDMA_WELCOME],{
-    portrait:'granny',
+  // Welcome first; start music when the first overlay is advanced by the user
+  await playLines(["Welcome, let’s play, shall we?"],{
     onAdvance:()=>{
       bgm.play().then(()=>{
         applySoundMode();
@@ -570,14 +624,14 @@ async function runScenarioIntro(key){
     }
   });
 
-  // Grandma sets the scene (fixed line + a random flourish)
-  await playLines([INTRO_FIXED, variant], {portrait:'granny'});
+  // Global intro (fixed + random)
+  await playLines([INTRO_FIXED, variant]);
 
-  // The trial itself, fronted by its character
-  await playLines(INTRO_LINES[key], {portrait: CAST[key]});
+  // Scenario-specific intro
+  await playLines(INTRO_LINES[key]);
 
   // Choice prompt + show Arsenal (prompt in Mansalva)
-  say("Traveller, you have a choice to make. Which will you take?", {compact:true, mansalva:true});
+  say("Traveller, you have a choice to make. Which item do you pick?", {compact:true, mansalva:true});
   arsenalSection.style.display='block'; arsenalBlurbs.style.display='block';
 }
 
@@ -665,24 +719,23 @@ async function onPickCup(cupEl){
   const pickedItem = contentMap.get(cupEl);
   const correct = (pickedItem === selectedItem);
   if(correct) await playLines(["Congratulations. You found your item."]);
-  else        await playLines([
-                "Fia yawns—vast, slow, and utterly unimpressed by your choice.",
-                "Uh-oh… your story unfolds in an unexpected way."
-              ], {portrait:'fia'});
+  else        await playLines(["Uh-oh… your story unfolds in an unexpected way."]);
 
   // Run the scenario outcome narrative
   cupStage.style.display='none';
   await tellOutcome(currentScenario, pickedItem);
 
-  // Final life line — grandma sees you off
-  await playLines(["Life always works out, my darling. Even when the story doesn't unfold the way you thought it would."], {portrait:'granny'});
+  // Story-specific epilogue, if this story has one
+  if(FINALES[currentScenario]) await playLines(FINALES[currentScenario]);
+
+  // Final life line (only here at the very end)
+  await playLines(["Life always works out. Even when the situation doesn't unfold the way you thought it would."]);
 
   // End menu
   document.body.classList.add('ending');
   $('#resultBtns').style.display='block';
   $('#backPortfolio').classList.add('show');
-  $('#endAnimations').classList.add('show');
-  $$('#endAnimations video').forEach(v=>{ try{ v.play(); }catch(e){} });
+  $$('#resultBtns video').forEach(v=>{ try{ v.play(); }catch(e){} });
   busy=false;
 }
 
@@ -691,17 +744,18 @@ async function tellOutcome(scenario,itemKey){
   const title=TITLES[scenario]||"A Curious Trial";
   const body=(OUTCOMES[scenario] && OUTCOMES[scenario][itemKey]) || ["A curious hush lingers… but your choice writes the next line."];
   const beats=Array.isArray(body)?body:[body];
-  await playLines([title, ...beats], {portrait: CAST[scenario]});
+  await playLines([title, ...beats]);
 }
 
 /* End-page buttons */
 $('#toKitchen').onclick = async ()=>{ resetRound(); await runScenarioIntro('kitchen'); };
 $('#toDragon').onclick  = async ()=>{ resetRound(); await runScenarioIntro('dragon');  };
 $('#toLibrary').onclick = async ()=>{ resetRound(); await runScenarioIntro('library'); };
+$('#toGrandma').onclick = async ()=>{ resetRound(); await runScenarioIntro('grandma'); };
 
 /* Boot — RANDOM starting scenario */
 applySoundMode();
-const startScenarios=['kitchen','dragon','library'];
+const startScenarios=['kitchen','dragon','library','grandma'];
 const startKey=startScenarios[Math.floor(Math.random()*startScenarios.length)];
 runScenarioIntro(startKey);
 </script>

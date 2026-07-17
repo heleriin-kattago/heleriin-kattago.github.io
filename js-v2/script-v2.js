@@ -1,9 +1,11 @@
-// ── Dark-mode toggle (moon button, all sub-pages) ──
-// about / shop / contact ship with class="... dark" as their default.
-// The user's choice (once they click) is remembered across pages.
+// ── Dark-mode toggle (moon button) ──
+// The nav pages (about / shop / contact) ship with class="subpage dark" and no
+// toggle button — they stay dark at all times. Only the pages showing the work
+// carry the toggle, and their choice is remembered across those pages.
 (function () {
   var body = document.body;
-  if (!body) return;
+  var btn = document.getElementById("themeToggle");
+  if (!body || !btn) return; // always-dark pages keep their hardcoded class
 
   var saved = null;
   try { saved = localStorage.getItem("theme"); } catch (e) {}
@@ -11,21 +13,15 @@
   else if (saved === "light") body.classList.remove("dark");
 
   function refreshIcon() {
-    var btn = document.getElementById("themeToggle");
-    if (btn) btn.textContent = body.classList.contains("dark") ? "☀" : "☾";
+    btn.textContent = body.classList.contains("dark") ? "☀" : "☾";
   }
   refreshIcon();
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var btn = document.getElementById("themeToggle");
-    if (!btn) return;
+  btn.addEventListener("click", function () {
+    var nowDark = !body.classList.contains("dark");
+    body.classList.toggle("dark", nowDark);
+    try { localStorage.setItem("theme", nowDark ? "dark" : "light"); } catch (e) {}
     refreshIcon();
-    btn.addEventListener("click", function () {
-      var nowDark = !body.classList.contains("dark");
-      body.classList.toggle("dark", nowDark);
-      try { localStorage.setItem("theme", nowDark ? "dark" : "light"); } catch (e) {}
-      refreshIcon();
-    });
   });
 })();
 
@@ -149,6 +145,45 @@ document.addEventListener("DOMContentLoaded", function () {
         var img = cellElement.querySelector("img");
         if (img) openLightbox(img);
       });
+    });
+  });
+});
+
+// ── Carousel arrows: line them up with the middle of the picture ──
+// Flickity parks its buttons at 50% of the whole carousel, but the cells hold a
+// picture with a caption underneath, so the arrows drift below the picture by a
+// different amount on every carousel. Measure the actual picture instead.
+window.addEventListener("load", function () {
+  if (!window.Flickity) return;
+
+  document.querySelectorAll("[data-flickity]").forEach(function (el) {
+    var flkty = Flickity.data(el);
+    if (!flkty) return;
+
+    function placeArrows() {
+      var cell = flkty.selectedElement || el.querySelector(".carousel-cell");
+      if (!cell) return;
+      var media = cell.querySelector("img, video");
+      if (!media) return;
+
+      var m = media.getBoundingClientRect();
+      if (!m.height) return; // not laid out yet
+      var c = el.getBoundingClientRect();
+      var middle = m.top - c.top + m.height / 2;
+
+      // the buttons keep their translateY(-50%), so `top` becomes their centre
+      el.querySelectorAll(".flickity-button").forEach(function (btn) {
+        btn.style.top = middle + "px";
+      });
+    }
+
+    placeArrows();
+    flkty.on("select", placeArrows);
+    window.addEventListener("resize", placeArrows);
+
+    // pictures that are still loading change height when they arrive
+    el.querySelectorAll("img").forEach(function (img) {
+      if (!img.complete) img.addEventListener("load", placeArrows, { once: true });
     });
   });
 });
