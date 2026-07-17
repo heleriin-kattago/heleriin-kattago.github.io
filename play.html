@@ -33,11 +33,17 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 /* Big overlay narrative */
 #overlay{ position:fixed; inset:0; background:rgba(247,246,241,.96); z-index:50; display:none }
 .overlayLine{
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
   text-align:center; padding:0 16px; font-family:'MedievalSharp',cursive;
-  font-size:clamp(19px,3.4vw,38px); line-height:1.3; max-width:34em; margin:0 auto;
+  font-size:clamp(19px,3.4vw,38px); line-height:1.45; max-width:34em; margin:0 auto;
   opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease;
 }
+/* Each deliberate break in a story beat is rendered as its own paragraph, so a
+   new thought / speaker gets real air, while lines that merely wrap stay tight
+   on the line-height above. That contrast is what makes the beats readable. */
+.overlayLine p{ margin:0 }
+.overlayLine p + p{ margin-top:.62em }
 .overlayLine.show{ opacity:1; transform:translateY(0) }
 .overlayLine.hide{ opacity:0; transform:translateY(-10px) }
 
@@ -74,14 +80,18 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 #board{ position:relative; height:360px; margin-top:6px }
 #cupRow{ position:relative; height:260px; margin-top:10px }
 .cup{
-  position:absolute; width:160px; height:160px; top:60px; border:none; display:flex;
-  align-items:center; justify-content:center; cursor:pointer; transition:left 1s ease, transform .28s ease;
+  position:absolute; width:clamp(96px,30vw,160px); height:clamp(96px,30vw,160px);
+  top:60px; border:none; display:flex;
+  align-items:center; justify-content:center; cursor:pointer;
+  transform:translateX(-50%);
+  transition:left 1s ease, transform .28s ease;
 }
-.cup img{ width:160px; height:160px; object-fit:contain; border:none; display:block }
-/* Visual positions */
-[data-pos="0"]{ left:80px }
-[data-pos="1"]{ left:calc(50% - 80px) }
-[data-pos="2"]{ left:calc(100% - 240px) }
+.cup img{ width:100%; height:100%; object-fit:contain; border:none; display:block }
+/* Visual positions: each cup sits on the centre of its third, so the row stays
+   evenly spread and centred at any width instead of breaking at one size */
+[data-pos="0"]{ left:16.667% }
+[data-pos="1"]{ left:50% }
+[data-pos="2"]{ left:83.333% }
 
 /* Flying chosen item (drops into its cup) */
 #flyingItem{
@@ -152,24 +162,17 @@ body.ending #backPortfolio:hover{ background:rgba(255,255,255,.3); border-color:
 #backPortfolio:hover{ background:var(--mid); color:#fff; border-color:var(--mid) }
 #backPortfolio:active{ background:rgba(26,53,34,.8); color:#fff }
 
-/* iPhone spacing */
+/* iPhone spacing — the cups size and place themselves fluidly now, so only the
+   flying item and the pop sprites need adjusting down here */
 @media (max-width: 430px){
   #board{ height: 360px; }
   #cupRow{ height: 260px; }
-  .cup{ width:130px; height:130px; top:70px; }
-  .cup img{ width:130px; height:130px; }
-  [data-pos="0"]{ left:12px }
-  [data-pos="1"]{ left:calc(50% - 65px) }
-  [data-pos="2"]{ left:calc(100% - 142px) }
+  .cup{ top:70px; }
   #flyingItem{ width:100px; height:100px; top:185px; left:calc(50% - 50px); }
   .popItem{ width:100px; height:100px; }
 }
 @media (max-width: 360px){
-  .cup{ width:110px; height:110px; top:74px }
-  .cup img{ width:110px; height:110px }
-  [data-pos="0"]{ left:8px }
-  [data-pos="1"]{ left:calc(50% - 55px) }
-  [data-pos="2"]{ left:calc(100% - 118px) }
+  .cup{ top:74px }
   #flyingItem{ width:90px; height:90px; top:190px; left:calc(50% - 45px) }
   .popItem{ width:90px; height:90px; }
 }
@@ -251,12 +254,12 @@ body.is-loading{ overflow:hidden; }
     <button class="asset" data-item="rose" aria-label="The Rose"><img class="thumb" src="play/rose.PNG" alt=""></button>
   </div>
   <div id="arsenalBlurbs">
-    <div class="blurb"><b>The Sword</b> Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.</div>
-    <div class="blurb"><b>The Gun</b> Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.</div>
-    <div class="blurb"><b>The Water Gun (filled with holy water)</b> Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures-hydration has never been so holy.</div>
-    <div class="blurb"><b>The Heart Full of Hope</b> It beats with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet-just the outrageous audacity to keep going.</div>
-    <div class="blurb"><b>The Warm Fuzzy Socks</b> Soft and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle. They’re not enchanted—they’re just that cozy.</div>
-    <div class="blurb"><b>The Rose</b> Delicate petals, sneaky thorns. A mix of beauty and warning: admiration at a glance, pain at a squeeze. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.</div>
+    <div class="blurb"><b>The Sword - </b> Sharp, shiny, and comfortingly obvious. It slices, it dices, it solves problems in a very… direct way. A classic choice for those who like their solutions pointy.</div>
+    <div class="blurb"><b>The Gun - </b> Heavy, loud, and a tad overdramatic. When you absolutely must make an impact—and possibly a mess—nothing shouts ‘problem solved’ quite like this.</div>
+    <div class="blurb"><b>The Water Gun (filled with holy water) - </b> Plastic in shape, divine in payload. What looks like a child’s toy becomes a sacred sprinkler system of justice. Beware, foul creatures-hydration has never been so holy.</div>
+    <div class="blurb"><b>The Heart Full of Hope - </b> It beats with a rhythm stronger than fear. Not made of flesh, but of belief. No blade, no bullet-just the outrageous audacity to keep going.</div>
+    <div class="blurb"><b>The Warm Fuzzy Socks - </b> Soft and absurdly powerful. Slip them on, and suddenly the abyss feels like a couch and doom feels like a nap you can handle.</div>
+    <div class="blurb"><b>The Rose - </b> Delicate petals, sneaky thorns. Wielded wisely, it may charm, distract, or at least smell nice while you’re in danger.</div>
   </div>
 </section>
 
@@ -318,7 +321,10 @@ let overlayAdvances=0, overlayActive=false; const isMobile=()=>window.matchMedia
 async function playLines(lines,{onAdvance=null}={}){
   overlay.innerHTML=''; overlay.style.display='block'; overlayActive=true;
   for(let i=0;i<lines.length;i++){
-    const el=document.createElement('div'); el.className='overlayLine'; el.innerHTML=lines[i]; overlay.appendChild(el);
+    const el=document.createElement('div'); el.className='overlayLine';
+    // every deliberate <br> in the story text becomes its own paragraph
+    el.innerHTML=lines[i].split(/<br\s*\/?>/i).map(s=>'<p>'+s+'</p>').join('');
+    overlay.appendChild(el);
     await wait(30); el.classList.add('show'); await wait(350);
     if(!(isMobile() && overlayAdvances>=2)) tapHint.classList.add('show');
     await new Promise(res=>{
@@ -351,9 +357,14 @@ document.addEventListener('keydown',(e)=>{
 const TITLES={ kitchen:"The Kitchen Crucible", dragon:"The Tale of 57°C", library:"The Flooded Library", grandma:"Grandma’s House" };
 const INTRO_LINES={
   kitchen:[
-    "You find yourself in a kitchen that does not belong to you, and yet it insists you make a five-course dinner for twelve hungry goblins, a tax inspector, and one very impatient housecat in a bowtie.<br>The goblins chant for food, the inspector demands receipts, and the cat… well, the cat stares into your soul with judgement sharper than any blade.",
-    "The oven ticks ominously, the fridge hums with secrets, and somewhere in the distance, a smoke alarm clears its throat.",
-    "Traveller, you cannot do nothing. You must act."
+    "You wanted to visit Grandma, but as it turns out—she isn’t home.<br>Standing proudly atop a wooden stool is Fifi.<br>Tiny vampire teeth. Bright eyes.<br>A tiny white chef’s hat sits proudly between her ears.",
+    "She spots you and immediately lets out an enthusiastic,<br>‘Mrrrp!’<br>Then gestures dramatically toward an open cookbook.<br>With complete confidence, Fifi has assumed the role of Head Chef.",
+    "Whether Grandma actually left her in charge…<br>…or Fifi simply promoted herself the moment the front door closed…<br>remains a mystery.<br>Fifi, however, sees no meaningful distinction.",
+    "While Grandma is away, tonight’s feast is her responsibility.<br>She knows every recipe by heart.<br>She knows exactly how everything should taste.",
+    "Unfortunately…<br>Cats are notoriously bad at explaining recipes.<br>They’re even worse at cooking them.<br>Which leaves Fifi with only one logical solution.<br>You.",
+    "She’ll be the chef.<br>You’ll simply provide the thumbs.",
+    "Think of it as Ratatouille…<br>…except the chef is a black cat, you’re fully aware you’re being supervised, and neither of you speaks the other’s language.",
+    "Fifi confidently points toward the flour.<br>You reach for the sugar.<br>She slowly closes her eyes, then lets out a meow—but this one you understood. She was letting you know you are an idiot sandwich.<br>This may take a while."
   ],
   dragon:[
     "The tale leads you to a coffeehouse called 57°C, perhaps the oldest and most prestigious café in the realm.<br>Its owner firmly believes there is no finer temperature for coffee than 57 degrees Celsius, and after centuries of serving travellers, few have dared argue with him.",
@@ -371,9 +382,9 @@ const INTRO_LINES={
     "You glance down at your Arsenal. Then back at the Dragon.<br>Honestly… there isn’t much you wouldn’t do for free coffee."
   ],
   library:[
-    "An oak door groans open to reveal a grand library—half-submerged. Books whisper, gossip, and shout across rising water.",
-    "‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. A 1,800-page novel merely laughs.",
-    "The flood climbs. Traveller, will you calm the chorus or join it?"
+    "An oak door groans open to reveal a grand library—half-submerged. Books whisper, gossip, and shout across the rising water.",
+    "‘Save me first!’ sobs an encyclopaedia. ‘Burn me!’ shrieks a cookbook. An eighteen-hundred-page novel merely laughs.<br>Nearby, a large orange cat lounges atop a floating atlas, entirely unbothered, gently patting at a fish swimming between the shelves.",
+    "The flood continues to rise. Traveller, will you calm the chorus… or join it?"
   ],
   grandma:[
     "The road has been unkind, Traveller.<br>Your boots are damp, your stomach is empty, and the forest has spent the past hour making noises that forests should not make.",
@@ -396,36 +407,42 @@ const INTRO_VARIANTS=[
 const OUTCOMES={
   kitchen:{
     sword:[
-      "With a dramatic flourish, you brandish the Sword. Steel sings; onions resign themselves to geometry.",
-      "You become a culinary whirlwind—steam hisses, oil applauds, and a goblin tears up at the sight of symmetrical carrot coins.",
-      "The inspector files your knife skills under ‘Impressive, borderline therapeutic’. The cat, unmoved, judges your plating.",
-      "Course five arrives slightly on fire, but the bowtie cat purrs as the smoke alarm harmonises. It is chaos, but it is yours—and everyone leaves full of stories."
+      "Fifi repeatedly points at a gigantic pumpkin.<br>You look at the pumpkin.<br>Then at the Sword.<br>‘…Fair enough.’",
+      "One perfectly clean slice later…<br>The pumpkin falls neatly into two halves.",
+      "Fifi freezes.<br>Looks at the pumpkin.<br>Looks at you.<br>Looks back at the Sword.<br>‘…Mrr.’<br>Professional respect has been earned."
     ],
     gun:[
-      "You draw the Gun, and the kitchen holds its breath.",
-      "BLAM—the oven timer evaporates from the plane of anxiety. A hush, then cheers; nothing is cooked, but everything is suddenly possible.",
-      "The inspector stamps Approved out of existential respect. A goblin asks for your autograph on a ladle.",
-      "The cat blinks slowly, then sits upon your shoe—an honorary acceptance."
+      "You pull out the Revolver.<br>Fifi doesn’t look thrilled.",
+      "She tilts her head for a moment, then quietly pads over to a large pile of firewood waiting to be chopped.<br>She carefully places a walnut on one of the logs.<br>Steps back.",
+      "Looks at you.<br>Then at the walnut.<br>Then back at you.<br>‘…You want me to…’",
+      "You glance at the Revolver.<br>‘…Absolutely not.’<br>You pause.<br>‘…’<br>‘…Unless…’",
+      "BANG!<br>Fifi jumps approximately three feet into the air.",
+      "The walnut cracks open, and inside are perfectly sized, chopped (shot) nuts for garnish.",
+      "Fifi looks at the walnut, then at you.<br>‘…Mrrmeow.’<br>It sounded like she said<br>‘…I cannot believe that worked.’"
     ],
     holy:[
-      "You prime the sacred spritzer. The trigger clicks, and a glittering rain baptises the countertops.",
-      "Goblins squeal; the inspector’s calculator fizzles into repentance. The fridge admits its secrets and stops humming like a liar.",
-      "No feast arrives, yet a gentle fullness settles—like good choir music in the ribcage. The cat smells faintly of lilies and forgiveness."
+      "Fifi keeps meowing at the vegetables.<br>You have absolutely no idea why.<br>Eventually… you spray them with holy water.",
+      "Fifi immediately nods.<br>‘…Mrr.’<br>Turns out the vegetables needed to be blessed, and that was the instruction all along.",
+      "For the first time all afternoon, you successfully understood Cat."
     ],
     heart:[
-      "You lift the Heart. It beats with a rhythm that remembers every breakfast you survived.",
-      "Warmth rolls across the kitchen—goblins soften into lullabies, the inspector remembers painting sunrises on weekends.",
-      "No one eats—and yet the hollowness retreats. The cat curls around your ankle, forgiving you for being mortal."
+      "You place the Heart of Hope on the kitchen table.<br>Its warm glow spreads through the room.<br>Nothing changes.",
+      "Fifi still speaks Cat.<br>You still don’t.<br>The recipe remains just as confusing as before.",
+      "But something else changes.<br>When Fifi’s instructions don’t make sense, you don’t assume she’s impossible to understand.<br>And when you misunderstand her, Fifi doesn’t assume you’re hopeless.",
+      "Instead of growing frustrated… you both keep trying.<br>A point. A nod. A hopeful guess. A gentle correction.",
+      "Slowly, the chaos begins to resemble communication.<br>Not because either of you suddenly learned the other’s language…<br>…but because neither of you gave up when it became difficult.",
+      "By the time Grandma returns, dinner is ready.<br>It might not be seasoned with a perfect pinch (or paw) of salt.<br>But you put your heart and hope into it—a special ingredient you can’t buy.",
+      "Fifi looks at the meal.<br>Then at you.<br>‘Prrp.’<br>The Head Chef seems pleased."
     ],
     socks:[
-      "You don the Socks; doom downgrades to nap-adjacent.",
-      "Goblins yawn themselves into helpfulness, the inspector rubber-stamps with drowsy benevolence.",
-      "Pots simmer at the pace of a cosy afternoon. The cat kneads your lap like a bread deity. The feast becomes a well-timed rest cure."
+      "You pull out the Warm Fuzzy Socks.<br>Fifi stares.<br>‘…Mrr?’<br>You don’t know either.<br>So you put them on.",
+      "The kitchen floor is freezing.<br>Suddenly… you’re no longer distracted by cold feet.<br>You focus.<br>For the first time, you’re actually paying attention.",
+      "Fifi’s instructions begin making…<br>…slightly more sense."
     ],
     rose:[
-      "You present the Rose. Petals flicker; thorns vote for drama.",
-      "Goblins swoon and set the table with frightening precision. The inspector blushes and misplaces his clipboard on purpose.",
-      "The cat steals the stem under the fridge. Dinner never technically happens, but legends do—<i>The Feast That Never Was</i> tours taverns for years."
+      "You offer Fifi the Rose.<br>She sniffs it.<br>Her eyes go wide.<br>‘Mrr!’",
+      "Apparently today’s feast now requires edible flowers.<br>Was that always the recipe?<br>Or did Fifi simply get inspired?<br>No one knows.",
+      "Grandma later describes the result as<br>‘Unexpectedly sophisticated.’"
     ]
   },
   dragon:{
@@ -484,34 +501,34 @@ const OUTCOMES={
   },
   library:{
     sword:[
-      "You wade into the chorus, steel flashing. Verbose volumes are edited mid-sentence.",
-      "Pages scatter like white birds; the flood stills to listen.",
-      "Silence blooms tenderly. Wisdom smells faintly of rain and pulp."
+      "You wade into the chorus, steel flashing—not to wound, but to rescue. With a few careful cuts, tangled shelves become sturdy rafts.",
+      "Books drift safely to higher ground while the orange cat supervises from its floating atlas, fish still firmly in paw.",
+      "The library breathes easier. The flood remains, but no story is left to sink."
     ],
     gun:[
-      "BLAM. Every book freezes mid-syllable. Even the thesaurus runs out of synonyms for ‘stunned’.",
-      "The water, embarrassed by the drama, drains itself with a slurp.",
+      "BLAM. Every book freezes mid-syllable. Even the thesaurus runs out of synonyms for ‘stunned’. The orange cat drops its fish in surprise.",
+      "The water, embarrassed by the drama, drains itself with a slurp. The fish follows the retreating water with an indignant splash.",
       "One pamphlet whispers, ‘Unnecessary, but effective.’ It’s hard to argue."
     ],
     holy:[
-      "You baptise the stacks. Margins sing hymns; footnotes glow.",
+      "You baptise the stacks. Margins sing hymns; footnotes glow. The orange cat carefully lifts its fish above the holy spray.",
       "The flood retreats, sparkling like a well-edited paragraph.",
       "Cookbooks lead a grateful chorus in Béchamel Major."
     ],
     heart:[
-      "The Heart’s rhythm steadies the room. Arguments settle into paragraphs; complaints volunteer for proofreading.",
+      "The Heart’s rhythm steadies the room. Arguments settle into paragraphs; complaints volunteer for proofreading. Even the orange cat nudges the fish gently instead of pouncing.",
       "Books align themselves by genre, then by mood. Even the phone directory feels seen.",
+      "The flood finally begins to feel like an intruder and quietly retreats, hoping to find a place that might appreciate its wetness more.",
       "Peace, dryness, order. A bookmark tucks itself in for a nap."
     ],
     socks:[
-      "The Socks warm the water into a communal bath of comprehension.",
-      "Epics lounge like sea lions; novellas hum cosy jazz.",
-      "You smell like lavender wisdom; the Dewey Decimal System winks."
+      "The Socks soak up far more water than any socks reasonably should.<br>Shelf by shelf, the library begins to dry.",
+      "The orange cat sits proudly atop the increasingly enormous pair of socks.<br>The fish seems mildly impressed."
     ],
     rose:[
-      "You set the Rose upon a floating dictionary. Across the room, the thesaurus sighs.",
-      "The flood blushes and tiptoes out the back door.",
-      "Volume A–B begins a romance with Poets, Selected. They exchange pressed petals."
+      "You set the Rose upon a floating dictionary.<br>The shouting becomes recitation.<br>The gossip becomes poetry.",
+      "Even the orange cat forgets its fish long enough to listen.<br>The flood misses its homewaters and retreats.",
+      "By sunset, every book has pressed a single rose petal between its pages—a gentle reminder that even difficult chapters can end beautifully."
     ]
   },
   grandma:{
@@ -694,8 +711,8 @@ cups.forEach(cupEl => cupEl.addEventListener('click', ()=> onPickCup(cupEl)));
 async function onPickCup(cupEl){
   if(!shuffled || busy) return; busy=true;
 
-  // Small lift feedback
-  cupEl.style.transform="translateY(-6px)"; setTimeout(()=> cupEl.style.transform="", 280);
+  // Small lift feedback (keep the -50% or the cup jumps sideways)
+  cupEl.style.transform="translateX(-50%) translateY(-6px)"; setTimeout(()=> cupEl.style.transform="", 280);
 
   // Reveal: pop all items briefly from their current cup positions
   const sprites=[];
