@@ -78,7 +78,9 @@ section{ margin:30px auto; max-width:910px; padding:0 18px }
 /* Cup shuffle */
 #cupStage{ display:none; margin:26px auto 0; max-width:960px }
 #board{ position:relative; height:360px; margin-top:6px }
-#cupRow{ position:relative; height:260px; margin-top:10px }
+/* the cups position themselves against this row, so capping its width keeps
+   them a tight group in the middle instead of flung to the far edges */
+#cupRow{ position:relative; height:260px; margin:10px auto 0; max-width:640px }
 .cup{
   position:absolute; width:clamp(96px,30vw,160px); height:clamp(96px,30vw,160px);
   top:60px; border:none; display:flex;
@@ -138,18 +140,18 @@ body.ending #backPortfolio:hover{ background:rgba(255,255,255,.3); border-color:
 
 /* End-of-story picks: every story shown with its own animation above it */
 #resultBtns .story-picks{
-  display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
-  max-width:960px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
+  justify-items:center; max-width:1000px; margin:0 auto;
 }
-.story-pick{ display:flex; flex-direction:column; align-items:center; gap:10px }
+.story-pick{ display:flex; flex-direction:column; align-items:center; gap:12px; width:100% }
 .story-pick video{
-  width:100%; max-width:170px; height:auto; display:block; background:transparent;
+  width:100%; max-width:230px; height:auto; display:block; background:transparent;
 }
-.story-pick .btn{ min-width:0; width:100%; font-size:14px; padding:10px 12px }
+.story-pick .btn{ min-width:0; width:100%; max-width:230px; font-size:14px; padding:10px 12px }
 @media (max-width:760px){
-  #resultBtns .story-picks{ grid-template-columns:repeat(2,1fr); gap:14px }
-  .story-pick video{ max-width:40vw }
-  .story-pick .btn{ font-size:13px; padding:9px 8px }
+  #resultBtns .story-picks{ grid-template-columns:repeat(2,1fr); gap:16px }
+  .story-pick video{ max-width:44vw }
+  .story-pick .btn{ max-width:44vw; font-size:13px; padding:9px 8px }
 }
 
 #backPortfolio{
