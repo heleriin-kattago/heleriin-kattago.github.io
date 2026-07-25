@@ -108,7 +108,7 @@ window.I18N = {
     "pk.info.title": "Information design",
     "pk.sol.cap": "Solubility table design, made with Adobe Illustrator.",
     "pk.bro.title": "Brochure about Van der Waals forces and how Geckos Stick to Walls",
-    "pk.bro.cap": "Designed with Adobe InDesign, opens in Google Drive.",
+    "pk.bro.cap": "Designed with Adobe InDesign. Click to open in Google Drive.",
     "package.cards": "Heart of the Lamb deck &mdash; playing cards",
     "package.cardscap": "Artwork on the card box was hand-drawn in Procreate, then assembled and finalised in Adobe Illustrator.",
     "package.xmas": "Holiday gift box &amp; Nut Butter",
@@ -131,7 +131,7 @@ window.I18N = {
     "fun.swordcap": "Gift for a loved one, drew it using Procreate. DTG on 100% cotton.",
     "fun.totes": "Totes",
     "fun.totescap": "Few examples of tote bags I've made.",
-    "fun.hundi": "Hundiripats",
+    "fun.hundi": "Wolf Pendant",
     "fun.hundiside": "The eyes are LED lights that turn on when a magnet is held against the back. Hot glue holds it all together.",
     "fun.hundicap": "I made a wolf-head pendant as a gift for two of the PÖFF film festival organisers. With my teacher's help the proper PÖFF wolf head was modelled in Fusion from a 3D scan of the mascot's head, but the Bambu Lab 3D printer couldn't handle printing the model's teeth, so I used a model found online.",
     "fun.nails": "Look, I painted<br>my nailsss",
@@ -155,14 +155,14 @@ window.I18N = {
     "logos.title": "Logos &amp; Assets",
     "logos.loovkaaren": "Logo and font for Loovkaaren",
     "logos.casa": "Logo for Casa Granado",
-    "logos.casacap": "Logo and the variations for Casa Granado.",
+    "logos.casacap": "Logo and the variations for Casa Granado, a guesthouse and retreat centre in Spain.",
     "logos.loovcap": "<a href=\"https://loovkaaren.eu/\" target=\"_blank\" rel=\"noopener\">Logo and font for Loovkaaren</a>, applied to their rosemary oil and tincture bottles.",
     "logos.rpgcap": "A login screen designed for a Unity RPG, &ldquo;Lovers Quest&rdquo;.",
     "logos.swaphint": "Hover or tap to swap the views &middot; double-tap to enlarge.",
     "logos.loovinside": "Logo &amp; Label for",
     "logos.checkkicker": "app idea &amp; logo",
     "logos.checktitle": "CHECK<br>essentially",
-    "logos.checkbody": "CHECK is a mobile app that brings together discovering cafés, chess, loyalty programmes and community. It helps people find new places and new playing partners, and turns an ordinary café visit into a memorable experience."
+    "logos.checkbody": "is a mobile app that brings together discovering cafés, chess, loyalty programmes and community. It helps people find new places and new playing partners, and turns an ordinary café visit into a memorable experience."
   },
 
   et: {
@@ -271,7 +271,7 @@ window.I18N = {
     "pk.info.title": "Infodisain",
     "pk.sol.cap": "Lahustuvustabeli disain, tehtud Adobe Illustratoris.",
     "pk.bro.title": "Brošüür Van der Waalsi jõududest ja sellest, kuidas gekod seintel püsivad",
-    "pk.bro.cap": "Kujundatud Adobe InDesignis, avaneb Google Drive'is.",
+    "pk.bro.cap": "Kujundatud Adobe InDesignis. Klõpsa, et avada Google Drive'is.",
     "package.cards": "Heart of the Lamb &mdash; mängukaardid",
     "package.cardscap": "Kaardikarbi kunst on käsitsi joonistatud Procreate'is ning kokku pandud ja viimistletud Adobe Illustratoris.",
     "package.xmas": "Pühade kinkekarp &amp; pähklivõi",
@@ -318,13 +318,13 @@ window.I18N = {
     "logos.title": "Logod &amp; assetid",
     "logos.loovkaaren": "Logo ja font Loovkaarenile",
     "logos.casa": "Logo Casa Granadole",
-    "logos.casacap": "Logo ja selle variatsioonid Casa Granadole.",
+    "logos.casacap": "Logo ja selle variatsioonid Casa Granadole, Hispaanias asuvale külalistemajale ja puhkekeskusele.",
     "logos.loovcap": "<a href=\"https://loovkaaren.eu/\" target=\"_blank\" rel=\"noopener\">Logo ja font Loovkaarenile</a>, rakendatud nende rosmariiniõli ja -tinktuuri pudelitele.",
     "logos.rpgcap": "Sisselogimisekraan Unity RPG-le &bdquo;Lovers Quest&ldquo;.",
     "logos.swaphint": "Liigu hiirega üle või koputa, et vaateid vahetada &middot; topeltkoputa suurendamiseks.",
     "logos.loovinside": "Logo &amp; silt &mdash;",
     "logos.checkkicker": "äpi idee &amp; logo",
     "logos.checktitle": "CHECK<br>essentially",
-    "logos.checkbody": "CHECK on mobiilirakendus, mis ühendab kohvikute avastamise, male, lojaalsusprogrammid ja kogukonna. Rakendus aitab inimestel leida uusi kohti, uusi mängukaaslasi ning muuta tavapärase kohvikukülastuse meeldejäävaks kogemuseks."
+    "logos.checkbody": "on mobiilirakendus, mis ühendab kohvikute avastamise, male, lojaalsusprogrammid ja kogukonna. Rakendus aitab inimestel leida uusi kohti, uusi mängukaaslasi ning muuta tavapärase kohvikukülastuse meeldejäävaks kogemuseks."
   }
 };

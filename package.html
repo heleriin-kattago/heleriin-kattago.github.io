@@ -44,11 +44,11 @@
       border-radius: 14px;
     }
 
-    /* ── page title: Sometype Mono, wide spaced ── */
+    /* ── page title: MedievalSharp ── */
     body[data-title-key="title.package"] .page-title {
-      font-family: 'Sometype Mono', monospace;
-      font-size: clamp(22px, 2.6vw, 38px);
-      letter-spacing: 0.28em;
+      font-family: 'MedievalSharp', cursive;
+      font-size: clamp(26px, 3vw, 44px);
+      letter-spacing: 0.1em;
       color: #2C351B;
       margin-top: 9vh;
     }
@@ -133,7 +133,7 @@
       color: rgba(16, 26, 4, 0.65);
     }
 
-    /* pink block tucks 8px under the white one */
+    /* pink block tucks 8px under the white one — square corners (not rounded) */
     .cards-pink {
       flex: 1 1 46%;
       background: #EC9AC6;
@@ -142,6 +142,7 @@
       justify-content: center;
       margin-left: -8px;
       z-index: 1;
+      border-radius: 0;
     }
 
     /* blender render: square corners on a slightly larger black mat */
@@ -443,7 +444,7 @@
       margin: 3rem auto 0;
     }
 
-    .sol-box img { width: 100%; }
+    .sol-box img { width: 100%; border-radius: 0; }
 
     .sol-cap {
       font-family: 'Cormorant Garamond', serif;
@@ -723,7 +724,7 @@
       <div class="bro-row">
         <div class="bro-text">
           <h2 class="bro-title" data-i18n="pk.bro.title">Brochure about Van der Waals forces and how Geckos Stick to Walls</h2>
-          <p class="bro-cap" data-i18n="pk.bro.cap">Designed with Adobe InDesign, opens in Google Drive.</p>
+          <p class="bro-cap" data-i18n="pk.bro.cap">Designed with Adobe InDesign. Click to open in Google Drive.</p>
         </div>
         <a href="https://drive.google.com/drive/folders/17PTZrO3L89jv-c5eiNlVWSX5xjApPBQk?usp=drive_link" target="_blank" rel="noopener noreferrer" class="bro-cover">
           <img src="1/package-page/brochure-eng.png" id="brochureCover" alt="Brochure cover: Van der Waals Forces and How Geckos Stick to Walls">
