@@ -10,6 +10,22 @@ window.I18N = {
     "nav.contact": "contact",
     "nav.home": "home",
     "nav.shop": "shop",
+    "nav.writings": "writings",
+
+    // writings
+    "title.writings": "Heleriin Kattago | Writings",
+    "writings.title": "Writings",
+    "writings.welcome": "Welcome, friends",
+    "writings.portal": "this is a portal to my mind and heart",
+    "writings.hope": "I hope you enjoy",
+    "writings.poems": "Poems",
+    "writings.diary": "Diary",
+    "writings.back": "Back to writings",
+    "title.poems": "Heleriin Kattago | Poems",
+    "poems.title": "Poems",
+    "title.diaryentries": "Heleriin Kattago | Diary",
+    "diaryentries.title": "Diary",
+    "letters.hint": "Hover over a paper to unfold it. On a phone, just tap it.",
 
     // loading
     "loading": "loading",
@@ -173,6 +189,22 @@ window.I18N = {
     "nav.contact": "kontakt",
     "nav.home": "avaleht",
     "nav.shop": "pood",
+    "nav.writings": "kirjutised",
+
+    // writings
+    "title.writings": "Heleriin Kattago | Kirjutised",
+    "writings.title": "Kirjutised",
+    "writings.welcome": "Tere tulemast, sõbrad",
+    "writings.portal": "see on värav minu meelde ja südamesse",
+    "writings.hope": "Loodan, et sulle meeldib",
+    "writings.poems": "Luuletused",
+    "writings.diary": "Päevik",
+    "writings.back": "Tagasi kirjutiste juurde",
+    "title.poems": "Heleriin Kattago | Luuletused",
+    "poems.title": "Luuletused",
+    "title.diaryentries": "Heleriin Kattago | Päevik",
+    "diaryentries.title": "Päevik",
+    "letters.hint": "Liiguta kursor paberile, et see lahti voltida. Telefonis puuduta seda.",
 
     // loading
     "loading": "laen",
