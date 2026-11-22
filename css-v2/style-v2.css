@@ -1076,7 +1076,8 @@ video.main-image {
 
 /* ═══════════════════════════════════════════
    WRITINGS  (writings.html, poems.html, diary-entries.html)
-   Folded, crumpled letters that unfold on hover / tap.
+   A crumpled paper ball per entry. On hover / tap it opens, frame by frame
+   (the stills are in writings-frames/), into a flat sheet with the writing.
    ═══════════════════════════════════════════ */
 
 .page-hint {
@@ -1090,11 +1091,9 @@ video.main-image {
 }
 
 .letters {
-  --flat: polygon(0% 0%, 25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%);
-
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 56px 36px;
+  gap: 36px 30px;
   justify-items: center;
   max-width: 1000px;
   margin: 8vh auto 0;
@@ -1108,211 +1107,256 @@ video.main-image {
 }
 
 .letter {
-  --flat: polygon(0% 0%, 25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%);
-  --crumple: polygon(6% 4%, 24% 9%, 47% 2%, 71% 8%, 94% 3%, 97% 46%, 92% 95%, 74% 90%, 51% 97%, 27% 91%, 4% 96%, 8% 52%);
-  --tilt: -3deg;
-
   position: relative;
   width: 230px;
-  height: 190px;
+  height: 275px;
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.letter:nth-child(3n + 2) {
-  --crumple: polygon(3% 8%, 27% 2%, 52% 7%, 78% 1%, 96% 6%, 91% 48%, 98% 92%, 70% 96%, 49% 90%, 24% 98%, 5% 91%, 9% 47%);
-  --tilt: 2.5deg;
-}
-
-.letter:nth-child(3n) {
-  --crumple: polygon(5% 2%, 22% 7%, 49% 3%, 73% 9%, 97% 5%, 93% 51%, 96% 97%, 77% 91%, 53% 98%, 29% 90%, 3% 94%, 6% 49%);
-  --tilt: -1.5deg;
-}
-
-.letter:hover,
 .letter.open,
 .letter:focus-visible {
   z-index: 30;
 }
 
-/* ── folded paper ── */
+/* ── closed: the paper ball + its title ── */
 
-.fold-shell {
-  position: absolute;
-  inset: 0;
+.ball {
+  width: 220px;
+  height: 210px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-size: 520px 600px;
+  background-position: center;
   filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.55));
-  transform: rotate(var(--tilt));
-  transition: transform 0.45s ease, opacity 0.3s ease;
 }
 
-.letter:hover .fold-shell,
-.letter:focus-visible .fold-shell {
-  transform: rotate(calc(var(--tilt) * -0.5)) scale(1.05);
+.letter:focus-visible .ball {
+  outline: 1px dashed rgba(255, 255, 255, 0.6);
+  outline-offset: 6px;
 }
 
-.letter.open .fold-shell {
+.letter.open .ball {
   opacity: 0;
-  transform: rotate(0deg) scale(1.15);
 }
 
-.fold {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 1.4rem 1.6rem;
-
+.ball-label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
   text-align: center;
-
-  background:
-    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.45), transparent 52%),
-    radial-gradient(circle at 78% 82%, rgba(120, 80, 30, 0.28), transparent 58%),
-    #efe5cf;
-  color: #2b2417;
-  clip-path: var(--crumple);
+  transition: opacity 0.25s ease;
 }
 
-/* creases */
-.fold::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(112deg, transparent 36%, rgba(70, 45, 10, 0.22) 37.5%, rgba(255, 255, 255, 0.4) 39%, transparent 41%),
-    linear-gradient(34deg, transparent 54%, rgba(255, 255, 255, 0.4) 55.5%, rgba(70, 45, 10, 0.2) 57.5%, transparent 60%),
-    linear-gradient(78deg, transparent 18%, rgba(70, 45, 10, 0.18) 20%, transparent 23%),
-    linear-gradient(160deg, transparent 66%, rgba(70, 45, 10, 0.16) 68%, rgba(255, 255, 255, 0.3) 70%, transparent 72%);
+.letter.open .ball-label {
+  opacity: 0;
 }
 
-.fold-title {
-  position: relative;
+.ball-title {
   font-family: 'MedievalSharp', cursive;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: 0.06em;
   line-height: 1.3;
+  color: #f2f2f2;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-.fold-date {
-  position: relative;
+.ball-date {
   font-family: 'Lusitana', serif;
   font-size: 13px;
-  letter-spacing: 0.08em;
   font-style: italic;
-  color: rgba(43, 36, 23, 0.7);
+  letter-spacing: 0.08em;
+  color: rgba(242, 242, 242, 0.65);
 }
 
-/* ── unfolded paper ── */
+/* ── open: frames, then the flat sheet with the writing ──
+   The sheet is centred on the ball, so frame 1 sits exactly on top of it. */
 
 .paper-shell {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 105px;
   width: min(520px, calc(100vw - 24px));
+  height: min(600px, calc(100vh - 24px));
 
-  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.65));
-  transform:
-    translate(-50%, -50%)
-    translate(var(--dx, 0px), var(--dy, 0px))
-    rotate(var(--tilt))
-    scale(0.44);
-  opacity: 0;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
   pointer-events: none;
-  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.55));
+  transition: filter 0.5s ease, transform 0.55s ease;
+}
+
+/* nudged on screen only once the paper is mostly open, so the ball starts
+   exactly where it was sitting */
+.letter.shift .paper-shell {
+  transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px));
 }
 
 .letter.open .paper-shell {
-  transform:
-    translate(-50%, -50%)
-    translate(var(--dx, 0px), var(--dy, 0px))
-    rotate(0deg)
-    scale(1);
+  visibility: visible;
+}
+
+.letter.flat .paper-shell {
+  pointer-events: auto;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.65));
+}
+
+.frame-stack {
+  position: absolute;
+  inset: 0;
+}
+
+.frame-stack .frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  visibility: hidden;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.frame-stack .frame.on {
+  visibility: visible;
+}
+
+.paper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2.2rem 2.6rem;
+
+  /* the last unfold frame underneath is the paper texture; this only warms it */
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.28), transparent 55%),
+    radial-gradient(circle at 88% 94%, rgba(150, 100, 40, 0.10), transparent 60%);
+  color: #2b2417;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.letter.flat .paper {
   opacity: 1;
   pointer-events: auto;
 }
 
-.paper {
-  max-height: min(80vh, 720px);
-  overflow-y: auto;
-  padding: 2.2rem 2.4rem 2.4rem;
-
-  background:
-    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.5), transparent 55%),
-    radial-gradient(circle at 85% 90%, rgba(120, 80, 30, 0.22), transparent 60%),
-    #f1e8d4;
-  color: #2b2417;
-  clip-path: var(--crumple);
-  transition: clip-path 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
-
-  scrollbar-width: thin;
-  scrollbar-color: rgba(43, 36, 23, 0.4) transparent;
-}
-
-.letter.open .paper {
-  clip-path: var(--flat);
+.paper-head {
+  flex: none;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(43, 36, 23, 0.14);
 }
 
 .paper-title {
   font-family: 'MedievalSharp', cursive;
   font-weight: normal;
-  font-size: clamp(22px, 2.4vw, 30px);
+  font-size: clamp(20px, 2vw, 26px);
   letter-spacing: 0.06em;
   line-height: 1.3;
 }
 
 .paper-date {
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   font-family: 'Lusitana', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-style: italic;
   letter-spacing: 0.08em;
   color: rgba(43, 36, 23, 0.65);
 }
 
+.paper-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem 0.6rem 1.2rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 36, 23, 0.35) transparent;
+}
+
+.paper-scroll::-webkit-scrollbar { width: 5px; }
+.paper-scroll::-webkit-scrollbar-thumb { background: rgba(43, 36, 23, 0.3); border-radius: 3px; }
+
+/* the writing fades out at the bottom while there is more to read,
+   and at the top once you have scrolled down */
+.paper.more .paper-scroll {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 4.5rem), transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 4.5rem), transparent 100%);
+}
+.paper.more.scrolled .paper-scroll {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1.6rem, #000 calc(100% - 4.5rem), transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 1.6rem, #000 calc(100% - 4.5rem), transparent 100%);
+}
+.paper.scrolled:not(.more) .paper-scroll {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1.6rem);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 1.6rem);
+}
+
 .paper-text {
-  margin-top: 1.4rem;
   font-family: 'Lusitana', serif;
-  font-size: clamp(16px, 1.3vw, 18px);
-  line-height: 1.9;
-  letter-spacing: 0.02em;
+  font-size: clamp(14px, 1.05vw, 15.5px);
+  line-height: 1.75;
+  letter-spacing: 0.015em;
   white-space: pre-wrap;
+}
+
+.scroll-cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: 'Lusitana', serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(43, 36, 23, 0.6);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.scroll-cue i {
+  width: 9px;
+  height: 9px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  animation: cue-bob 1.6s ease-in-out infinite;
+}
+.paper.more:not(.scrolled) .scroll-cue { opacity: 1; }
+.paper.more.scrolled .scroll-cue { opacity: 0.55; }
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(-2px) rotate(45deg); }
+  50%      { transform: translateY(3px) rotate(45deg); }
 }
 
 @media (max-width: 760px) {
   .letters {
-    gap: 40px 20px;
+    gap: 28px 16px;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
   .paper {
-    padding: 1.8rem 1.5rem 2rem;
+    padding: 1.6rem 1.4rem 2.6rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fold-shell,
   .paper-shell,
-  .paper {
+  .paper,
+  .ball-label {
     transition: none;
   }
-}
-
-/* ══════════ "writings" link in the nav ══════════
-   The nav gets a sixth box on phones, so it wraps to two rows of three:
-   about / contact / writings on top, home / shop below. */
-@media (max-width: 900px) {
-  .top-nav:has(.nav-writings) .nav-box {
-    flex: 0 1 27%;
-    font-size: 11px;
-  }
-  .top-nav:has(.nav-writings) > :nth-child(4) { order: 1; } /* about    */
-  .top-nav:has(.nav-writings) > :nth-child(5) { order: 2; } /* contact  */
-  .top-nav:has(.nav-writings) > :nth-child(6) { order: 3; } /* writings */
-  .top-nav:has(.nav-writings) > :nth-child(2) { order: 4; } /* home     */
-  .top-nav:has(.nav-writings) > :nth-child(1) { order: 5; } /* shop     */
+  .scroll-cue i { animation: none; }
 }
 
 /* small print under a statement was dark-on-dark on the dark pages */
@@ -1538,3 +1582,231 @@ body.subpage:not(.dark) .page-button:hover {
 .button-row {
   gap: 16px;
 }
+
+
+/* ═══════════════════════════════════════════
+   HOME-PAGE BUTTONS: dark green text
+   White text was hard to read over the bright collage, so the six big
+   buttons get a milkier glass and dark green text. Change the colour in
+   one place: the two "#101A04" values below.
+   ═══════════════════════════════════════════ */
+
+.project-button,
+.project-button:hover,
+.project-button:visited {
+  color: #101A04;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+}
+
+.project-button {
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.52) 0%,
+      rgba(255, 255, 255, 0.30) 50%,
+      rgba(255, 255, 255, 0.42) 100%);
+}
+
+.project-button:hover {
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.66) 0%,
+      rgba(255, 255, 255, 0.42) 50%,
+      rgba(255, 255, 255, 0.54) 100%);
+}
+
+/* pressed: deep green glass, so the text turns light again */
+.project-button:active,
+.project-button:focus {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* nav boxes on the landing page only (the other pages have a dark strip, so they keep white text) */
+.home-page .nav-box,
+.home-page .nav-box:hover,
+.home-page .nav-box:visited {
+  color: #101A04;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+}
+
+.home-page .nav-box {
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.52) 0%,
+      rgba(255, 255, 255, 0.30) 50%,
+      rgba(255, 255, 255, 0.42) 100%);
+}
+
+.home-page .nav-box:hover {
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.66) 0%,
+      rgba(255, 255, 255, 0.42) 50%,
+      rgba(255, 255, 255, 0.54) 100%);
+}
+
+.home-page .nav-box:active {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════ PORTALS ═══════════ */
+html.portal-arriving body { visibility: hidden; }
+html.portal-arriving { background: #02100a; }
+.portal-gl { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; pointer-events: all; visibility: visible; }
+.orb-art { display: block; width: var(--s); height: var(--s); position: relative; }
+.orb-art .portal { transition: none; }
+
+.portal-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(40px, 9vw, 130px);
+  margin-top: 6vh;
+  flex-wrap: wrap;
+}
+
+.portal-orb {
+  --s: clamp(150px, 17vw, 210px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  text-decoration: none;
+  color: #f2f2f2;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.portal-orb .orb-art { transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
+.portal-orb:hover .orb-art,
+.portal-orb:focus-visible .orb-art { transform: scale(1.1); }
+.portal-orb:hover .p-spiral,
+.portal-orb:focus-visible .p-spiral { animation-duration: 2s; }
+.portal-label {
+  font-family: 'MedievalSharp', cursive;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 14px rgba(255, 240, 210, 0.45);
+}
+
+.portal {
+  --s: 200px;
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  flex: none;
+}
+.portal i { position: absolute; inset: 0; border-radius: 50%; display: block; }
+
+.p-glow {
+  inset: -12%;
+  background: radial-gradient(circle, rgba(120, 255, 200, 0) 50%, rgba(120, 255, 200, 0.38) 62%, rgba(60, 200, 150, 0.14) 74%, transparent 82%);
+  filter: blur(8px);
+  animation: p-pulse 3.2s ease-in-out infinite;
+}
+.p-core {
+  inset: 8%;
+  background: radial-gradient(circle at 50% 50%, #010a06 0%, #04170f 38%, #0b3b2b 66%, rgba(40, 150, 110, 0.55) 86%, transparent 100%);
+  animation: p-pulse 4s ease-in-out infinite reverse;
+}
+.p-spiral {
+  position: absolute;
+  inset: 6%;
+  width: 88%;
+  height: 88%;
+  overflow: visible;
+  filter: blur(1.2px) drop-shadow(0 0 4px rgba(150, 255, 210, 0.7));
+  animation: p-spin 5s linear infinite;
+}
+.p-spiral.b {
+  inset: 14%;
+  width: 72%;
+  height: 72%;
+  opacity: 0.8;
+  animation: p-spin 3.2s linear infinite reverse;
+}
+.p-ring {
+  inset: 4%;
+  background: conic-gradient(from 0deg, rgba(200, 255, 230, 0.05), #c8ffe6 12%, rgba(255, 240, 180, 0.85) 26%, rgba(200, 255, 230, 0.05) 45%, #8cf0cc 70%, rgba(200, 255, 230, 0.05));
+  -webkit-mask-image: radial-gradient(circle, transparent 60%, #000 66%, #000 73%, transparent 79%);
+          mask-image: radial-gradient(circle, transparent 60%, #000 66%, #000 73%, transparent 79%);
+  filter: blur(0.8px) drop-shadow(0 0 6px rgba(150, 255, 210, 0.9));
+  animation: p-spin 6s linear infinite;
+}
+.p-ring.b {
+  inset: 1%;
+  opacity: 0.55;
+  filter: blur(2px);
+  animation: p-spin 9s linear infinite reverse;
+}
+.p-orbit { animation: p-spin 5s linear infinite; }
+.p-orbit b {
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background: #f6ffe9;
+  box-shadow: 0 0 8px 2px rgba(170, 255, 215, 0.9);
+}
+.p-orbit.o2 { inset: 5%; animation-duration: 7s; animation-direction: reverse; }
+.p-orbit.o2 b { width: 5px; height: 5px; background: #ffe9a8; box-shadow: 0 0 7px 2px rgba(255, 230, 150, 0.8); }
+.p-orbit.o3 { inset: -3%; animation-duration: 11s; }
+.p-orbit.o3 b { width: 4px; height: 4px; }
+
+@keyframes p-spin  { to { transform: rotate(360deg); } }
+@keyframes p-pulse { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.06); opacity: 1; } }
+
+/* the full-screen transition */
+.portal-fx {
+  visibility: visible;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: all;
+}
+.portal-veil { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #04170f, #010603 80%); }
+.portal-fx .portal { position: absolute; transform: translate(-50%, -50%); }
+
+/* reading view (opens through a portal when you click a paper) */
+.reader {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3vh 12px;
+  background: radial-gradient(circle at 50% 40%, rgba(10, 50, 36, 0.92), rgba(1, 8, 5, 0.97));
+}
+.reader-sheet {
+  position: relative;
+  width: min(680px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 2.6rem 1.6rem;
+  border-radius: 4px;
+  background: #f5eedc url("../writings-frames/p1-9.webp") center / cover;
+  box-shadow: 0 0 60px rgba(120, 255, 200, 0.22), 0 24px 60px rgba(0, 0, 0, 0.6);
+  color: #2b2417;
+}
+.reader-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 28px;
+  line-height: 1;
+  background: none;
+  border: 0;
+  color: rgba(43, 36, 23, 0.6);
+  cursor: pointer;
+}
+.reader-close:hover { color: #2b2417; }
+.reader .paper-scroll { flex: 1; min-height: 0; }
+.reader .paper-text { font-size: clamp(15px, 1.2vw, 17px); }
+.reader .paper-head { padding-right: 1.5rem; }
+@media (max-width: 760px) { .reader-sheet { padding: 1.6rem 1.3rem 1.2rem; } }

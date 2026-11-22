@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Heleriin Kattago | Writings</title>
 
   <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
@@ -12,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css-v2/style-v2.css">
+  <script>try{if(sessionStorage.getItem("portalArrive")==="1")document.documentElement.classList.add("portal-arriving")}catch(e){}</script>
 </head>
 
 <body class="subpage dark" data-title-key="title.writings">
@@ -24,7 +26,6 @@
     <a href="index-v2.html" class="name-link"><img src="1/landing%20and%20loading%20page/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
     <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
     <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
-    <a href="writings.html" class="nav-box nav-writings" data-i18n="nav.writings">writings</a>
   </nav>
 
   <main>
@@ -33,13 +34,13 @@
     <p class="statement" style="margin-top: 8vh;">
       <span data-i18n="writings.welcome">Hi, friend</span>
       <br><br>
-      <span data-i18n="writings.portal">this is a very secret portal to my mind and heart</span>
+      <span data-i18n="writings.portal">this is a very secret portal to my life, mind and heart</span>
       <span class="small" data-i18n="writings.hope">I'd like to say choose wisely just to be cool, but there's no need - enjoy</span>
     </p>
 
-    <div class="button-row">
-      <a href="poems.html" class="page-button" data-i18n="writings.poems">Poems</a>
-      <a href="diary-entries.html" class="page-button" data-i18n="writings.diary">Diary</a>
+    <div class="portal-row">
+      <a href="poems.html" class="portal-orb" data-portal data-portal-orb><span class="portal-label" data-i18n="writings.poems">Poems</span></a>
+      <a href="diary-entries.html" class="portal-orb" data-portal data-portal-orb><span class="portal-label" data-i18n="writings.diary">Diary</span></a>
     </div>
 
     <div class="button-row" style="margin-top: 3vh;">
@@ -49,5 +50,6 @@
 
   <script src="js-v2/translations.js"></script>
   <script src="js-v2/script-v2.js"></script>
+  <script src="js-v2/portal.js"></script>
 </body>
 </html>
