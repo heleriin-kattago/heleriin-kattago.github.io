@@ -16,6 +16,32 @@
   var list = (window.WRITINGS && window.WRITINGS[key]) || [];
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  function docLink(l) {
+    var a = document.createElement("a");
+    a.className = "paper-link"; a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = l.label;
+    a.addEventListener("click", function (ev) { ev.stopPropagation(); });
+    return a;
+  }
+
+  // collectible-card tilt: follows the mouse, foil + glare move with it
+  function tilt(node) {
+    node.addEventListener("pointermove", function (ev) {
+      if (ev.pointerType === "touch") return;
+      var r = node.getBoundingClientRect();
+      var x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
+      node.classList.add("live");
+      node.style.setProperty("--ry", ((x - 0.5) * 22).toFixed(2) + "deg");
+      node.style.setProperty("--rx", ((0.5 - y) * 18).toFixed(2) + "deg");
+      node.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
+      node.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+    });
+    node.addEventListener("pointerleave", function () {
+      node.classList.remove("live");
+      node.style.setProperty("--rx", "0deg"); node.style.setProperty("--ry", "0deg");
+    });
+  }
+
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -116,10 +142,12 @@
       if (e.date) head.appendChild(el("p", "paper-date", e.date));
       var sc = el("div", "paper-scroll");
       sc.appendChild(el("div", "paper-text", e.text));
+      if (e.link) sc.appendChild(docLink(e.link));
       var cue = el("div", "scroll-cue"); cue.innerHTML = "<span>scroll</span><i></i>";
       paper.appendChild(head); paper.appendChild(sc); paper.appendChild(cue);
       cue.style.bottom = "0.2rem";
       sheet.appendChild(close); sheet.appendChild(paper); reader.appendChild(sheet);
+      tilt(sheet);
       document.body.appendChild(reader);
       var upd = function () { scrollState({ scroller: sc, paper: paper }); };
       sc.addEventListener("scroll", upd, { passive: true }); upd();
@@ -185,6 +213,7 @@
     if (entry.date) head.appendChild(el("p", "paper-date", entry.date));
     var scroller = el("div", "paper-scroll");
     scroller.appendChild(el("div", "paper-text", entry.text));
+    if (entry.link) scroller.appendChild(docLink(entry.link));
     var cue = el("div", "scroll-cue");
     cue.setAttribute("aria-hidden", "true");
     cue.innerHTML = "<span>scroll</span><i></i>";
@@ -192,6 +221,7 @@
     paper.appendChild(scroller);
     paper.appendChild(cue);
     shell.appendChild(paper);
+    tilt(shell);
 
     node.appendChild(ball);
     node.appendChild(label);

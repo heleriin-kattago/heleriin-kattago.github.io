@@ -1304,10 +1304,15 @@ video.main-image {
   position: absolute;
   left: 50%;
   top: 105px;
-  width: min(520px, calc(100vw - 24px));
-  height: min(600px, calc(100vh - 24px));
-  border-radius: 64px 64px 12px 12px / 44px 44px 12px 12px;
-  background: #fbeff0 url("../writings-flowers/petal-sheet.webp") center / cover;
+  width: min(430px, calc(100vw - 24px));
+  height: min(620px, calc(100vh - 24px));
+  padding: 13px;
+  box-sizing: border-box;
+  border-radius: 26px;
+  /* the card's gilded holo border */
+  background:
+    linear-gradient(135deg, #f6e7b4 0%, #fff8e0 22%, #d9b867 45%, #fff3c9 62%, #c9a24f 82%, #f6e7b4 100%);
+  --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 30%;
 
   transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
@@ -1319,7 +1324,8 @@ video.main-image {
 }
 
 .letter.flat .paper-shell {
-  transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) scale(1);
+  transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) scale(1)
+             perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -1330,15 +1336,20 @@ video.main-image {
 .paper {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  inset: 13px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  padding: 2.6rem 2.2rem 2.6rem;
+  padding: 1.5rem 1.5rem 1.6rem;
+  overflow: hidden;
 
-  /* the last unfold frame underneath is the paper texture; this only warms it */
+  /* pearly card face with a faint petal grain */
   background:
-    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.28), transparent 55%),
-    radial-gradient(circle at 88% 94%, rgba(150, 100, 40, 0.10), transparent 60%);
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.75), transparent 55%),
+    radial-gradient(circle at 90% 96%, rgba(214, 170, 90, 0.18), transparent 60%),
+    #fdf7f2 url("../writings-flowers/petal-sheet.webp") center / cover;
+  background-blend-mode: normal, normal, soft-light;
+  box-shadow: inset 0 0 0 1px rgba(168, 128, 52, 0.55), inset 0 0 22px rgba(201, 162, 79, 0.25);
   color: #2b2417;
 
   opacity: 0;
@@ -1351,10 +1362,56 @@ video.main-image {
   pointer-events: auto;
 }
 
+/* ── holographic foil + glare (follows the pointer; idles gently on touch) ── */
+.paper-shell::before,
+.reader-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(115deg,
+      rgba(255, 120, 200, 0.55) 0%, rgba(255, 220, 120, 0.5) 9%, rgba(120, 255, 200, 0.5) 18%,
+      rgba(120, 190, 255, 0.55) 27%, rgba(200, 140, 255, 0.55) 36%, rgba(255, 120, 200, 0.55) 45%);
+  background-size: 260% 260%;
+  background-position: var(--mx, 50%) var(--my, 30%);
+  mix-blend-mode: color-dodge;
+  opacity: 0.5;
+  animation: holo-idle 9s ease-in-out infinite alternate;
+}
+.paper-shell::after,
+.reader-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at var(--mx, 50%) var(--my, 30%), rgba(255, 255, 255, 0.55), transparent 42%),
+    radial-gradient(1.5px 1.5px at 22% 30%, #fff, transparent), radial-gradient(1.5px 1.5px at 74% 18%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 60% 72%, #fff, transparent), radial-gradient(1.5px 1.5px at 14% 80%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 88% 55%, #fff, transparent);
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+}
+@keyframes holo-idle {
+  from { background-position: 20% 10%; }
+  to   { background-position: 80% 90%; }
+}
+.paper-shell.live, .reader-sheet.live { animation: none; }
+.paper-shell.live::before, .reader-sheet.live::before { animation: none; }
+.letter.flat .paper-shell.live { transition: opacity 0.5s ease, transform 0.12s linear, visibility 0s 0s; }
+.reader-sheet { transition: transform 0.45s cubic-bezier(.2,.8,.2,1); }
+.reader-sheet.live { transition: transform 0.12s linear; }
+
 .paper-head {
   flex: none;
-  padding-bottom: 0.7rem;
-  border-bottom: 1px solid rgba(43, 36, 23, 0.14);
+  position: relative;
+  padding: 0.3rem 0.4rem 0.7rem;
+  border-bottom: 1px solid rgba(168, 128, 52, 0.35);
 }
 
 .paper-title {
@@ -1862,10 +1919,22 @@ html.portal-arriving { background: #02100a; }
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2.2rem 2.6rem 1.6rem;
-  border-radius: 56px 56px 10px 10px / 40px 40px 10px 10px;
-  background: #fbeff0 url("../writings-flowers/petal-sheet.webp") center / cover;
-  box-shadow: 0 0 60px rgba(120, 255, 200, 0.22), 0 24px 60px rgba(0, 0, 0, 0.6);
+  padding: 2.4rem 2.2rem 1.6rem;
+  border-radius: 26px;
+  border: 13px solid transparent;
+  background-color: #fdf7f2;
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.75), transparent 55%),
+    url("../writings-flowers/petal-sheet.webp"),
+    linear-gradient(#fdf7f2, #fdf7f2),
+    linear-gradient(135deg, #f6e7b4, #fff8e0 22%, #d9b867 45%, #fff3c9 62%, #c9a24f 82%, #f6e7b4);
+  background-size: auto, cover, auto, auto;
+  background-position: 0 0, center, 0 0, 0 0;
+  background-repeat: no-repeat;
+  background-clip: padding-box, padding-box, padding-box, border-box;
+  background-origin: padding-box, padding-box, padding-box, border-box;
+  box-shadow: 0 0 60px rgba(255, 230, 160, 0.25), 0 24px 60px rgba(0, 0, 0, 0.6);
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   color: #2b2417;
 }
 .reader-close {
@@ -1887,3 +1956,5 @@ html.portal-arriving { background: #02100a; }
 
 /* a 7th project button sits centred on its own row under the six */
 .project-grid .project-button-wide { grid-column: 2; }
+
+.reader-sheet::before, .reader-sheet::after { inset: -13px; }
