@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Marketing</title>
+
+  <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lusitana:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css-v2/style-v2.css?v=20261122b">
+
+  <style>
+    .page-intro,
+    .hint,
+    .caption,
+    .post-copy {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(13px, 1.15vw, 17px);
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+    }
+
+    .mk-block { margin-top: 4.5rem; }
+    .mk-block:first-of-type { margin-top: 3rem; }
+
+    /* the three slides of an Instagram carousel, side by side */
+    .gallery.slides {
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(8px, 1.4vw, 20px);
+      max-width: 900px;
+    }
+
+    /* the caption that went with the post: Estonian | English */
+    .post-copy {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem clamp(18px, 4vw, 56px);
+      max-width: 900px;
+      margin: 1.6rem auto 0;
+      text-align: left;
+      color: #101A04;
+    }
+    .post-copy p { margin: 0 0 0.8em; }
+    .post-copy .tags { opacity: 0.6; font-size: 0.9em; }
+    body.dark .post-copy { color: #f2f2f2; }
+    @media (max-width: 640px) { .post-copy { grid-template-columns: 1fr; } }
+
+    /* portrait videos */
+    .gallery.videos {
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(12px, 2vw, 30px);
+      max-width: 1000px;
+      align-items: start;
+    }
+    .gallery.videos .frame:hover { transform: none; }
+    .gallery.videos video { border-radius: 4px; background: #000; }
+    .video-title {
+      font-family: 'Lusitana', serif;
+      letter-spacing: 0.08em;
+      font-size: clamp(14px, 1.2vw, 18px);
+      margin-top: 0.7rem;
+      color: #101A04;
+    }
+    body.dark .video-title { color: #f2f2f2; }
+    @media (max-width: 760px) { .gallery.videos { grid-template-columns: 1fr; max-width: 360px; } }
+  </style>
+</head>
+
+<body class="subpage" data-title-key="title.marketing">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button>
+
+  <nav class="top-nav">
+    <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
+    <a href="index-v2.html" class="nav-box" data-i18n="nav.home">home</a>
+    <a href="index-v2.html" class="name-link"><img src="1/landing%20and%20loading%20page/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo"></a>
+    <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+    <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
+  </nav>
+
+  <main>
+    <h1 class="page-title" data-i18n="marketing.title">Marketing</h1>
+    <p class="page-intro" data-i18n="marketing.intro">
+      Social media content and short videos I have made &mdash; Instagram carousels,
+      ads and event promos.
+    </p>
+    <p class="hint" data-i18n="clickzoom">Click any picture to see it up close.</p>
+
+    <!-- AME -->
+    <section class="mk-block">
+      <h2 class="section-title">Ame Restaurant</h2>
+      <p class="caption" data-i18n="marketing.carousel">Instagram carousel</p>
+
+      <div class="gallery slides">
+        <div class="frame"><img src="1/marketing-page/ame-1.jpg" loading="lazy" alt="Ame Restaurant carousel, slide 1"></div>
+        <div class="frame"><img src="1/marketing-page/ame-2.jpg" loading="lazy" alt="Ame Restaurant carousel, slide 2"></div>
+        <div class="frame"><img src="1/marketing-page/ame-3.jpg" loading="lazy" alt="Ame Restaurant carousel, slide 3"></div>
+      </div>
+
+      <div class="post-copy">
+        <div lang="et">
+          <p>Küll suvi möödub tuhinaga, kooli algus polegi enam nii kaugel!</p>
+          <p>Ames ootab sind imemaitsev toit ja mõnus atmosfäär. Võta hetkeks aeg maha, haara kaasa sõbrad ja pere ning tule naudi suve viimaseid nädalaid.</p>
+          <p>Kui plaanis on kooli algust tähistada, siis broneeri laud aegsasti.</p>
+          <p>Ootame Sind!</p>
+          <p class="tags">#AmeRestoran #Tallinn #Vanalinn #TallinnaVanalinn #SöögikohtTallinnas #EestiRestoranid #VisitTallinn #Restaurant #NordicCuisine #DineInTallinn #SuviTallinnas</p>
+        </div>
+        <div lang="en">
+          <p>Summer's flying by, and the start of school isn't far off!</p>
+          <p>At Ame, delicious food and a wonderful atmosphere is waiting for you. Take a moment to slow down, gather your friends and family, and come savour the last weeks of summer.</p>
+          <p>Planning a back-to-school celebration? Book your table early.</p>
+          <p>We'll be waiting for you!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUNNE -->
+    <section class="mk-block">
+      <h2 class="section-title">Nunne Boutique Hotel</h2>
+      <p class="caption" data-i18n="marketing.carousel">Instagram carousel</p>
+
+      <div class="gallery slides">
+        <div class="frame"><img src="1/marketing-page/nunne-1.jpg" loading="lazy" alt="Nunne Boutique Hotel carousel, slide 1"></div>
+        <div class="frame"><img src="1/marketing-page/nunne-2.jpg" loading="lazy" alt="Nunne Boutique Hotel carousel, slide 2"></div>
+        <div class="frame"><img src="1/marketing-page/nunne-3.jpg" loading="lazy" alt="Nunne Boutique Hotel carousel, slide 3"></div>
+      </div>
+
+      <div class="post-copy">
+        <div lang="et">
+          <p>Mõnes kohas on nii lihtne hetke nautida, ilu märgata ja elu romantiseerida.</p>
+          <p>Märka pisikesi nüansse, mustrite mängu, atmosfääri, kus vana ja uus harmoneeruvad. Kas tundsid lõhna, mis sind uksel tervitas? Lambid, diivanid, lauad - eesti disain on meil põimitud ka hotelli kõige väiksemasse detaili.</p>
+          <p>Tule külla!</p>
+          <p class="tags">#NunneBoutiqueHotel #Tallinn #VanalinnTallinn #EestiDisain #EstonianDesign #BoutiqueHotel #OldTownTallinn #VisitEstonia</p>
+        </div>
+        <div lang="en">
+          <p>Some places just make romanticizing life so easy.</p>
+          <p>See the beauty in the details - the patterns that form, the way old and new fall into harmony. Notice the scent that greets you, the lamps, the couches, the tables - Estonian design in every detail.</p>
+          <p>Come, visit, and let us take care of you.</p>
+        </div>
+      </div>
+
+      <p class="caption"><a href="1/marketing-page/ame-ja-nunne.pdf" target="_blank" rel="noopener" data-i18n="marketing.pdf">See both carousels with their captions (PDF)</a></p>
+    </section>
+
+    <!-- VIDEOS -->
+    <section class="mk-block">
+      <h2 class="section-title" data-i18n="marketing.videos">Videos</h2>
+
+      <div class="gallery videos">
+        <div class="frame">
+          <video controls playsinline preload="none" poster="1/marketing-page/party-ad.jpg">
+            <source src="1/marketing-page/party-ad.mp4" type="video/mp4">
+          </video>
+          <p class="video-title">Põffi Pidu</p>
+          <p class="hint video-credit" data-i18n="marketing.poffcredit">Original poster design by Sten Pedari &mdash; I turned it into a video.</p>
+        </div>
+        <div class="frame">
+          <video controls playsinline preload="none" poster="1/marketing-page/poff-bar-crawl.jpg">
+            <source src="1/marketing-page/poff-bar-crawl.mp4" type="video/mp4">
+          </video>
+          <p class="video-title">Pöff Bar Crawl</p>
+        </div>
+        <div class="frame">
+          <video controls playsinline preload="none" poster="1/marketing-page/tallinn-design-house.jpg">
+            <source src="1/marketing-page/tallinn-design-house.mp4" type="video/mp4">
+          </video>
+          <p class="video-title">Tallinn Design House</p>
+        </div>
+      </div>
+    </section>
+
+    <p class="hint" data-i18n="marketing.allmine">All the other projects on this page are my own work.</p>
+
+    <div class="button-row">
+      <a href="index-v2.html#projects" class="page-button" data-i18n="back.photo">I wanna go back</a>
+    </div>
+  </main>
+
+  <script src="js-v2/translations.js?v=20261122b"></script>
+  <script src="js-v2/script-v2.js?v=20261122b"></script>
+</body>
+</html>

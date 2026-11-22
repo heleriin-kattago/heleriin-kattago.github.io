@@ -25,7 +25,7 @@ window.I18N = {
     "poems.title": "Poems",
     "title.diaryentries": "Heleriin Kattago | Diary",
     "diaryentries.title": "Diary",
-    "letters.hint": "Hover over a paper to unfold it. On a phone, just tap it.",
+    "letters.hint": "Hover over a flower to unfold it. On a phone, just tap it.",
 
     // loading
     "loading": "loading",
@@ -41,6 +41,7 @@ window.I18N = {
     "btn.play": "Let's Play!",
     "btn.photo": "Photography",
     "btn.info": "Prints on clothing<br>&amp; more fun stuff",
+    "btn.marketing": "Marketing",
 
     // shared
     "back": "Back",
@@ -102,6 +103,12 @@ window.I18N = {
 
     // photography
     "title.photo": "Heleriin Kattago | Photography",
+    "title.marketing": "Heleriin Kattago | Marketing",
+    "marketing.title": "Marketing",
+    "marketing.intro": "Social media content and short videos I have made &mdash; Instagram carousels, ads and event promos.",
+    "marketing.carousel": "Instagram carousel",
+    "marketing.pdf": "See both carousels with their captions (PDF)",
+    "marketing.videos": "Videos",
     "photo.title": "Photography",
     "photo.intro": "Welcome to my mini photowall! All (except the first 2 pictures &mdash; taken by Viktoria Kovalenko) are taken by me. I have edited all the pictures, and I am also the model on these.",
 
@@ -204,7 +211,7 @@ window.I18N = {
     "poems.title": "Luuletused",
     "title.diaryentries": "Heleriin Kattago | Päevik",
     "diaryentries.title": "Päevik",
-    "letters.hint": "Liiguta kursor paberile, et see lahti voltida. Telefonis puuduta seda.",
+    "letters.hint": "Liiguta kursor lillele, et see lahti voltida. Telefonis puuduta seda.",
 
     // loading
     "loading": "laen",
@@ -220,6 +227,7 @@ window.I18N = {
     "btn.play": "Mängime!",
     "btn.photo": "Fotograafia",
     "btn.info": "Trükid riietel<br>&amp; muu lõbus",
+    "btn.marketing": "Turundus",
 
     // shared
     "back": "Tagasi",
@@ -230,7 +238,7 @@ window.I18N = {
     // about
     "title.about": "Heleriin Kattago | Minust",
     "about.title": "Minust",
-    "about.statement": "Maalid, joonistused, logod, pakendid, fotograafia — kui midagi saab teha ilusaks, siis ma tahan seda teha.",
+    "about.statement": "Maalid, joonistused, logod, pakendid, fotograafia - kui midagi saab teha ilusaks, siis ma tahan seda teha.",
     "about.seework": "Vaata mu töid",
     "about.sayhi": "Ütle tere",
     "credit": "Kogu selle lehe kujundasin ja lõin mina ✦ Heleriin Kattago ✦",
@@ -241,7 +249,7 @@ window.I18N = {
     "contact.where": "kust, oh kust võiksid sa mind leida?",
     "contact.search": "Otsi nime Heleriin Kattago või",
     "contact.email": "või saada mulle kiri",
-    "contact.number": "Ma ei saa ju oma numbrit igaühele anda, eks?",
+    "contact.number": "Ma ei saa ju oma numbrit igaühele anda",
     "contact.emailme": "Kirjuta mulle",
 
     // shop
@@ -281,6 +289,12 @@ window.I18N = {
 
     // photography
     "title.photo": "Heleriin Kattago | Fotograafia",
+    "title.marketing": "Heleriin Kattago | Turundus",
+    "marketing.title": "Turundus",
+    "marketing.intro": "Sotsiaalmeedia sisu ja lühivideod, mida olen teinud &mdash; Instagrami karussellid, reklaamid ja ürituste tutvustused.",
+    "marketing.carousel": "Instagrami karussell",
+    "marketing.pdf": "Vaata mõlemat karusselli koos tekstidega (PDF)",
+    "marketing.videos": "Videod",
     "photo.title": "Fotograafia",
     "photo.intro": "Tere tulemast mu väiksele fotoseinale! Kõik pildid (peale kahe esimese, mille tegi Viktoria Kovalenko) olen teinud mina. Olen kõik pildid ise töödelnud ja olen neil ka ise modelliks.",
 
