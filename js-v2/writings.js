@@ -191,6 +191,11 @@
   }
 
   function isOpen(it) { return it.isOpen; }
+  // while a card is open the page behind it stays put (on phones the card is pinned to the screen)
+  function syncLock() {
+    var any = items.some(function (o) { return o.node.classList.contains("flat"); });
+    document.documentElement.classList.toggle("card-open", any);
+  }
 
   function open(it) {
     if (it.isOpen) return;
@@ -203,6 +208,7 @@
     it.timer = setTimeout(function () {
       if (!it.isOpen) return;
       it.node.classList.add("flat");
+      syncLock();
       scrollState(it);
     }, reduceMotion ? 0 : BLOOM_MS);
   }
@@ -212,6 +218,7 @@
     it.isOpen = false;
     clearTimeout(it.timer);
     it.node.classList.remove("flat");
+    syncLock();
     it.scroller.scrollTop = 0;
     it.node.setAttribute("aria-expanded", "false");
     // let the sheet fold away first, then the petals close

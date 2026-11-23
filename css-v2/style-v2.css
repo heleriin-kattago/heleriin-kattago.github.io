@@ -1747,7 +1747,7 @@ body.subpage:not(.dark) .page-button:hover {
 
 
 /* ═══════════════════════════════════════════
-   HOME-PAGE BUTTONS: dark green text
+   HOME-PAGE BUTTONS: white text
    White text was hard to read over the bright collage, so the six big
    buttons get a milkier glass and dark green text. Change the colour in
    one place: the two "#101A04" values below.
@@ -1756,8 +1756,8 @@ body.subpage:not(.dark) .page-button:hover {
 .project-button,
 .project-button:hover,
 .project-button:visited {
-  color: #101A04;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
 .project-button {
@@ -1968,4 +1968,31 @@ html.portal-arriving { background: #02100a; }
 @media (max-width: 760px) {
   .paper { padding: 1.9rem 1.6rem 2rem; }
   .reader-sheet { padding: 2.2rem 1.7rem 1.4rem; }
+}
+
+/* phones: the open card is pinned to the middle of the screen and the page behind does not scroll,
+   so swiping inside the card only ever moves the text */
+@media (max-width: 760px) {
+  .letter.open .paper-shell { position: fixed; top: 50%; left: 50%; z-index: 40; }
+  .letter.flat .paper-shell {
+    transform: translate(-50%, -50%) perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
+    height: min(620px, calc(100dvh - 24px));
+  }
+  html.card-open, html.card-open body { overflow: hidden; overscroll-behavior: none; }
+}
+
+/* ── landing text spacing on tablets ──
+   "Hi! My name is…" sat almost on top of the Portfolio title on iPads and was
+   a little too big and too far left. */
+@media (min-width: 901px) {
+  .hi-text { left: 12.5%; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .hi-text { left: 13%; width: 35%; }
+  .heart-text { width: 35%; right: 7%; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .portfolio-title { width: 72%; }
+  .hi-text { top: 30vh; left: 13%; width: 44%; }
+  .heart-text { top: 35.4vh; right: 5%; width: 42%; }
 }
