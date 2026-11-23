@@ -50,6 +50,7 @@
       if (gyroOn) return; gyroOn = true;
       window.addEventListener("deviceorientation", function (e) {
         if (e.gamma == null && e.beta == null) return;
+        if (touching) return;
         var x = clamp((e.gamma || 0) / 35, -1, 1), y = clamp(((e.beta || 0) - 50) / 35, -1, 1);
         var nodes = document.querySelectorAll(".paper-shell, .reader-sheet");
         for (var i = 0; i < nodes.length; i++) {
@@ -192,10 +193,39 @@
 
   function isOpen(it) { return it.isOpen; }
   // while a card is open the page behind it stays put (on phones the card is pinned to the screen)
+  var locked = false, lockY = 0, touchY = 0, touching = false, touchTimer = null;
   function syncLock() {
     var any = items.some(function (o) { return o.node.classList.contains("flat"); });
     document.documentElement.classList.toggle("card-open", any);
+    var small = window.innerWidth <= 760;
+    if (any && small && !locked) {
+      // iOS ignores "overflow:hidden" for touch scrolling, so pin the page itself
+      locked = true; lockY = window.pageYOffset || 0;
+      var st = document.body.style;
+      st.position = "fixed"; st.top = (-lockY) + "px"; st.left = "0"; st.right = "0"; st.width = "100%";
+    } else if (!any && locked) {
+      locked = false;
+      var st2 = document.body.style;
+      st2.position = ""; st2.top = ""; st2.left = ""; st2.right = ""; st2.width = "";
+      window.scrollTo(0, lockY);
+    }
   }
+  // while a card is open, a swipe may only move the text inside the card, never the page behind it
+  document.addEventListener("touchstart", function (e) {
+    if (!locked) return;
+    touchY = e.touches[0].clientY; touching = true; clearTimeout(touchTimer);
+  }, { passive: true });
+  document.addEventListener("touchend", function () {
+    touchTimer = setTimeout(function () { touching = false; }, 450);
+  }, { passive: true });
+  document.addEventListener("touchmove", function (e) {
+    if (!locked) return;
+    var sc = e.target.closest ? e.target.closest(".paper-scroll") : null;
+    if (!sc) { e.preventDefault(); return; }
+    var dy = e.touches[0].clientY - touchY;
+    var atTop = sc.scrollTop <= 0, atEnd = sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 1;
+    if ((atTop && dy > 0) || (atEnd && dy < 0) || sc.scrollHeight <= sc.clientHeight) e.preventDefault();
+  }, { passive: false });
 
   function open(it) {
     if (it.isOpen) return;
