@@ -1311,7 +1311,9 @@ video.main-image {
   border-radius: 26px;
   /* the card's gilded holo border */
   background:
-    linear-gradient(135deg, #f6e7b4 0%, #fff8e0 22%, #d9b867 45%, #fff3c9 62%, #c9a24f 82%, #f6e7b4 100%);
+    linear-gradient(115deg, #f6e7b4 0%, #ffd6ec 14%, #fff8e0 26%, #bfe6ff 40%, #d9b867 52%, #e3d0ff 66%, #fff3c9 80%, #c9a24f 100%);
+  background-size: 320% 320%;
+  background-position: var(--mx, 50%) var(--my, 30%);
   --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 30%;
 
   transform: translate(-50%, -50%) scale(0.2);
@@ -1340,7 +1342,7 @@ video.main-image {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.5rem 1.6rem;
+  padding: 2.1rem 1.9rem 2.2rem;
   overflow: hidden;
 
   /* pearly card face with a faint petal grain */
@@ -1378,7 +1380,7 @@ video.main-image {
   background-size: 260% 260%;
   background-position: var(--mx, 50%) var(--my, 30%);
   mix-blend-mode: color-dodge;
-  opacity: 0.5;
+  opacity: 0.68;
   animation: holo-idle 9s ease-in-out infinite alternate;
 }
 .paper-shell::after,
@@ -1410,7 +1412,7 @@ video.main-image {
 .paper-head {
   flex: none;
   position: relative;
-  padding: 0.3rem 0.4rem 0.7rem;
+  padding: 0.3rem 0.3rem 0.8rem;
   border-bottom: 1px solid rgba(168, 128, 52, 0.35);
 }
 
@@ -1958,3 +1960,12 @@ html.portal-arriving { background: #02100a; }
 .project-grid .project-button-wide { grid-column: 2; }
 
 .reader-sheet::before, .reader-sheet::after { inset: -13px; }
+
+/* the reading view is the same card, just bigger: no second inner box */
+.reader .paper { box-shadow: none; border-radius: 0; background: none; overflow: visible; }
+.reader-sheet { padding: 2.6rem 2.4rem 1.8rem; }
+.paper-scroll { overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; padding-left: 0.3rem; }
+@media (max-width: 760px) {
+  .paper { padding: 1.9rem 1.6rem 2rem; }
+  .reader-sheet { padding: 2.2rem 1.7rem 1.4rem; }
+}

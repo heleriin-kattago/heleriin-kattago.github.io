@@ -42,6 +42,33 @@
     });
   }
 
+  // phones: the foil and tilt follow how you hold the device (gyroscope)
+  var gyroOn = false;
+  function gyroStart() {
+    if (gyroOn || !window.DeviceOrientationEvent) return;
+    function begin() {
+      if (gyroOn) return; gyroOn = true;
+      window.addEventListener("deviceorientation", function (e) {
+        if (e.gamma == null && e.beta == null) return;
+        var x = clamp((e.gamma || 0) / 35, -1, 1), y = clamp(((e.beta || 0) - 50) / 35, -1, 1);
+        var nodes = document.querySelectorAll(".paper-shell, .reader-sheet");
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          n.classList.add("live");
+          n.style.setProperty("--ry", (x * 12).toFixed(2) + "deg");
+          n.style.setProperty("--rx", (-y * 9).toFixed(2) + "deg");
+          n.style.setProperty("--mx", (50 + x * 50).toFixed(1) + "%");
+          n.style.setProperty("--my", (50 + y * 50).toFixed(1) + "%");
+        }
+      }, true);
+    }
+    try {
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission().then(function (r) { if (r === "granted") begin(); }).catch(function () {});
+      } else begin();
+    } catch (err) {}
+  }
+
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -239,11 +266,16 @@
     node.addEventListener("pointerleave", function (e) {
       if (e.pointerType === "mouse") close(it);
     });
-    node.addEventListener("pointerdown", function (e) { lastPointer = e.pointerType; });
+    node.addEventListener("pointerdown", function (e) {
+      lastPointer = e.pointerType;
+      if (e.pointerType !== "mouse") gyroStart();
+    });
 
     node.addEventListener("click", function (e) {
       // a mouse already opens it on hover; taps and keyboard presses toggle
       if (it.isOpen && it.node.classList.contains("flat")) {
+        // on a phone the card is already the reading view: tapping the text must not jump anywhere
+        if (lastPointer !== "mouse") return;
         openReader(it, e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
         return;
       }
