@@ -1,67 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heleriin Kattago | Portfolio</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg" href="pics/starfav.svg">
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Mansalva&display=swap">
-    <!-- Cursor -->
-    <style>
-        html, body, a, button {
-            cursor: url('pics/cursor.svg'), auto;
-        }
-    </style>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heleriin Kattago | Portfolio</title>
+
+  <link rel="icon" type="image/png" href="1/landing%20and%20loading%20page/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <!-- preload the main background while the loader spins, so the reveal is instant -->
+  <link rel="preload" as="image" href="1/landing%20and%20loading%20page/bg-main.jpg">
+
+  <link rel="stylesheet" href="css-v2/style-v2.css?v=20261123a">
+
 </head>
-<body>
-    <!-- Page 1 - Title -->
-    <section id="title">
-        <h1>Portfolio</h1>
-        <h2>Heleriin Kattago</h2>
+
+<body class="is-loading" data-title-key="title.index">
+
+  <button id="langToggle" class="lang-toggle" data-i18n="lang.switch">EST</button>
+
+  <!-- LOADING PAGE -->
+  <div id="loader">
+    <div class="loader-center">
+      <img src="1/landing%20and%20loading%20page/star.png" alt="" class="loader-star">
+      <p class="loader-text" data-i18n="loading">loading</p>
+    </div>
+  </div>
+
+  <!-- MAIN WEBSITE -->
+  <main id="site">
+
+    <!-- HOME PAGE / FIRST SCROLL -->
+    <section class="home-page" id="home">
+
+      <nav class="top-nav">
+        <a href="shop.html" class="nav-box" data-i18n="nav.shop">shop</a>
+        <a href="#home" class="nav-box" data-i18n="nav.home">home</a>
+
+        <a href="#home" class="name-link">
+          <img src="1/landing%20and%20loading%20page/heleriinkattago.svg" alt="Heleriin Kattago" class="name-logo">
+        </a>
+
+        <a href="about.html" class="nav-box" data-i18n="nav.about">about</a>
+        <a href="contact.html" class="nav-box" data-i18n="nav.contact">contact</a>
+      </nav>
+
+      <img src="1/landing%20and%20loading%20page/portfolio.svg" alt="Portfolio" class="portfolio-title">
+
+      <img src="1/landing%20and%20loading%20page/hi!my%20name.svg" alt="Hi! My name is Heleriin and I have an eye for creative solutions." class="hi-text">
+      <img src="1/landing%20and%20loading%20page/my%20heart.svg" alt="My heart beats for art and everything beautiful in this life. Thank you for being here, take a look around." class="heart-text">
+
     </section>
-    
-    <!-- Page 2 - Intro -->
-    <section id="intro">
-        <p>Hi! My name is Heleriin and I have an eye for creative solutions.</p>
-        <p>My heart beats for art and everything beautiful in this life.</p>
-        <p>Thank you for being here, take a look around.</p>
+
+    <!-- SECOND SCROLL / PROJECTS -->
+    <section class="portfolio-page" id="projects">
+
+      <div class="project-grid">
+        <a href="drawings.html" class="project-button" data-i18n="btn.paintings">Paintings<br>&amp;<br>Illustrations</a>
+        <a href="logos.html" class="project-button" data-i18n="btn.logos">LOGOS<br>&amp;assets </a>
+        <a href="package.html" class="project-button" data-i18n="btn.package">Package &amp;<br>Information Design</a>
+        <a href="play.html" class="project-button" data-i18n="btn.play">Let&apos;s Play!</a>
+        <a href="photography.html" class="project-button" data-i18n="btn.photo">Photography</a>
+        <a href="fun.html" class="project-button" data-i18n="btn.info">Prints on clothing<br>&amp; more fun stuff</a>
+        <a href="marketing.html" class="project-button project-button-wide" data-i18n="btn.marketing">Marketing</a>
+      </div>
+
+      <img src="1/landing%20and%20loading%20page/thank%20you.svg" alt="Thank you again, for checking out my work. I'd give you a hug, but you're too far away and I'm professional anyway." class="thankyou">
+
     </section>
-    
-    <!-- Page 3 - Projects -->
-    <section id="projects">
-        <div class="project-grid">
-            <a href="drawings.html" class="project-card">Paintings & drawings</a>
-            <a href="logos.html" class="project-card">Logos</a>
-            <a href="photography.html" class="project-card">Photography</a>
-            <a href="package.html" class="project-card">Product and packaging design</a>
-            <a href="fun.html" class="project-card">More fun stuff</a> <!-- existing -->
-            <a href="play.html" class="project-card">Let's play baby!</a> <!-- ✅ new card -->
-            <a href="marketing.html" class="project-card">Marketing</a>
-        </div>
-    </section>
-    
-    <!-- Page 4 - Contact -->
-    <section id="contact">
-        <h3>where, oh where could u find me?</h3>
-        <p class="main-text">Search for Heleriin Kattago or <a href="https://www.instagram.com/lehepeal/" target="_blank">lehepeal</a></p>
-        <p class="main-text">or send me an email <a href="mailto:heleriin.kattago@gmail.com">heleriin.kattago@gmail.com</a></p>
-        <p class="small-text">I can't give my number to anyone, ya know?</p>
-    </section>
-    
-    <!-- Page 5 - Footer -->
-    <section id="footer">
-        <p>Thank you again,</p>
-        <p>for checking out my work</p>
-        <p>I'd give you a hug,</p>
-        <p>but you're too far away</p>
-        <p>and I'm a professional anyway.</p>
-    </section>
-    <!-- Credit note -->
-    <footer id="credit">
-        <p class="small-text">This whole site was designed and created by me ✦ Heleriin Kattago ✦</p>
-    </footer>
+
+  </main>
+
+  <script src="js-v2/translations.js?v=20261123a"></script>
+  <script src="js-v2/script-v2.js?v=20261123a"></script>
 </body>
 </html>
