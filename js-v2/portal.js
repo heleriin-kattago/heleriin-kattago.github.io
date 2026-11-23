@@ -33,18 +33,19 @@
     "float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
     "float n2(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);",
     "  return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y); }",
-    "float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 5; i++) { v += a * n2(p); p = p*2.03 + 7.1; a *= 0.5; } return v; }",
+    "float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++) { v += a * n2(p); p = p*2.03 + 7.1; a *= 0.5; } return v; }",
+    "float fbm3(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 3; i++) { v += a * n2(p); p = p*2.03 + 7.1; a *= 0.5; } return v; }",
     "void main(){",
     "  vec2 p = (gl_FragCoord.xy - uC) / uR;",
     "  float d = length(p), ang = atan(p.y, p.x);",
-    "  float edge = 1.0 + 0.006*sin(ang*3.0 + uT*0.5) + 0.010*fbm(vec2(cos(ang), sin(ang))*1.6 + uT*0.15);",
+    "  float edge = 1.0 + 0.006*sin(ang*3.0 + uT*0.5) + 0.010*n2(vec2(cos(ang), sin(ang))*1.6 + uT*0.15);",
     "  float rr = d / edge;",
     "  vec3 col = vec3(0.0); float a = 0.0;",
     "  if (rr < 1.45) {",
     "    float sp = ang + 3.4*log(rr + 0.06) - uT*0.45*uS;",
     "    vec2 dir = vec2(cos(sp), sin(sp));",
     "    vec2 q = dir*2.2 + vec2(rr*2.4, uT*0.12);",
-    "    float n = fbm(q + 0.8*vec2(fbm(q + 3.1), fbm(q + 6.7)));",
+    "    float n = fbm(q + 0.8*vec2(fbm3(q + 3.1), fbm3(q + 6.7)));",
     "    float wob = (n - 0.5) * 1.3;",
     "    float arm1 = pow(0.5 + 0.5*sin(3.0*sp + wob), 3.0);",
     "    float arm2 = pow(0.5 + 0.5*sin(3.0*sp + 2.1 + wob*1.4), 5.0);",
@@ -59,7 +60,7 @@
     "    col *= 0.12 + 0.88*smoothstep(0.0, 0.5, rr);",
     "    col += vec3(1.0, 0.97, 0.9) * exp(-rr*rr*420.0) * 1.7;",
     "    col += gold * exp(-rr*rr*60.0) * 0.18;",
-    "    float en = fbm(vec2(cos(sp), sin(sp))*1.7 + vec2(rr*1.6, uT*0.12));",
+    "    float en = fbm3(vec2(cos(sp), sin(sp))*1.7 + vec2(rr*1.6, uT*0.12));",
     "    float mist = exp(-pow((rr - 0.88)/0.28, 2.0));",
     "    col += mix(pearl, gold, 0.3) * mist * (0.12 + 0.3*en);",
     "    col *= 1.0 + 0.2*uB;",
@@ -67,9 +68,9 @@
     "    a *= a;",
     "  }",
     "  float g = exp(-max(rr - 0.9, 0.0) * 3.2) * 0.12 * (1.0 + 0.5*uB);",
-    "  g *= 0.5 + 0.9*fbm(vec2(cos(ang), sin(ang))*1.8 + uT*0.2);",
+    "  g *= 0.5 + 0.9*n2(vec2(cos(ang), sin(ang))*1.8 + uT*0.2);",
     "  vec3 gc = vec3(0.95, 0.88, 0.72) * g * 0.7;",
-    "  for (int i = 0; i < 14; i++) {",
+    "  if (d < 1.4) for (int i = 0; i < 9; i++) {",
     "    float fi = float(i);",
     "    float s1 = h(vec2(fi, 3.1)), s2 = h(vec2(fi, 9.7));",
     "    float life = fract(uT*(0.10 + 0.12*s2)*uS + s1);",
@@ -115,26 +116,31 @@
 
   // living orbs on the page, all driven by one animation loop
   var orbs = [];
+  var lastOrb = 0;
   function orbLoop(now) {
-    var t = now / 1000;
+    if (orbs.length) requestAnimationFrame(orbLoop);
+    if (document.hidden || now - lastOrb < 33) return;
+    var dt = Math.min((now - (lastOrb || now - 33)) / 1000, 0.06);
+    lastOrb = now;
     orbs.forEach(function (o) {
-      o.b += ((o.hover ? 1 : 0) - o.b) * 0.08;
-      o.s += ((o.hover ? 2.3 : 1) - o.s) * 0.06;
-      o.tt += 0.016 * o.s;
+      if (!o.vis) return;
+      o.b += ((o.hover ? 1 : 0) - o.b) * 0.15;
+      o.s += ((o.hover ? 2.3 : 1) - o.s) * 0.1;
+      o.tt += dt * 0.96 * o.s;
       o.g.draw(o.cv.width / 2, o.cv.height / 2, o.cv.width * 0.3, o.tt, o.b, 1, 1);
     });
-    if (orbs.length) requestAnimationFrame(orbLoop);
   }
   function glOrb(host) {
     var size = host.querySelector(".orb-art").getBoundingClientRect().width || 200;
     var cv = document.createElement("canvas");
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.25) * 0.8;
     var S = Math.round(size * 1.7);
     cv.width = Math.round(S * dpr); cv.height = Math.round(S * dpr);
     cv.style.cssText = "width:" + S + "px;height:" + S + "px;margin:" + (-(S - size) / 2) + "px;display:block;pointer-events:none;position:relative;";
     var g = makeGL(cv);
     if (!g) return false;
-    var o = { cv: cv, g: g, hover: false, b: 0, s: 1, tt: 0 };
+    var o = { cv: cv, g: g, hover: false, b: 0, s: 1, tt: 0, vis: true };
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { o.vis = en[0].isIntersecting; }).observe(host);
     var wrap = host.querySelector(".orb-art");
     wrap.appendChild(cv);
     var a = host;
@@ -147,21 +153,35 @@
     return true;
   }
 
-  // full-screen portal: radius r(t) grows from the click until it swallows the screen
+  // full-screen portal: radius r(t) grows from the click until it swallows the screen.
+  // It is drawn at reduced resolution (the soft look hides it) and the two WebGL contexts are
+  // built once and reused, so opening a portal never has to compile the shader mid-animation.
+  var fsPool = [], fsNext = 0;
+  function fsScale() { return Math.min(window.devicePixelRatio || 1, 1) * 0.5; }
+  function fsGet() {
+    var i = fsNext; fsNext = 1 - fsNext;
+    if (!fsPool[i]) {
+      var cv = document.createElement("canvas");
+      cv.className = "portal-gl";
+      var g = makeGL(cv);
+      if (!g) return null;
+      g.lose = function () {};
+      fsPool[i] = { cv: cv, g: g };
+    }
+    return fsPool[i];
+  }
   function fullscreen(cx, cy, from, to, ms, ease, alphaFrom, alphaTo, done) {
-    var cv = document.createElement("canvas");
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    cv.width = Math.round(window.innerWidth * dpr); cv.height = Math.round(window.innerHeight * dpr);
-    cv.className = "portal-gl";
-    var g = makeGL(cv);
-    if (!g) return null;
+    var e0 = fsGet();
+    if (!e0) return null;
+    var cv = e0.cv, g = e0.g, sc = fsScale();
+    cv.width = Math.max(Math.round(window.innerWidth * sc), 2); cv.height = Math.max(Math.round(window.innerHeight * sc), 2);
     document.body.appendChild(cv);
     var start = performance.now(), T = 0;
     (function frame(now) {
       var k = Math.min((now - start) / ms, 1), e = ease(k);
-      var r = (from + (to - from) * e) * dpr;
+      var r = (from + (to - from) * e) * sc;
       T += 0.016 * (1.5 + 3 * Math.sin(Math.PI * k));
-      g.draw(cx * dpr, (window.innerHeight - cy) * dpr, Math.max(r, 1), T, 0.6 * (1 - k * 0.5), alphaFrom + (alphaTo - alphaFrom) * k, 2.2);
+      g.draw(cx * sc, (window.innerHeight - cy) * sc, Math.max(r, 1), T, 0.6 * (1 - k * 0.5), alphaFrom + (alphaTo - alphaFrom) * k, 2.2);
       if (k < 1) requestAnimationFrame(frame);
       else { done && done(cv, g); }
     })(start);
@@ -242,6 +262,12 @@
   }
 
   window.Portal = { make: make, through: through };
+
+  // build the full-screen portals once the page is idle so the first click is instant
+  window.addEventListener("load", function () {
+    if (reduce) return;
+    setTimeout(function () { fsGet(); fsGet(); }, 900);
+  });
 
   // orbs on the writings page + links that should open a portal
   document.addEventListener("DOMContentLoaded", function () {
